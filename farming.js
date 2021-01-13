@@ -32,9 +32,36 @@ const startFarming = async (username, password) => {
     loginBtn.click();
   });
 
-  await page.waitFor(5000);
+  await page.waitFor(5000); // change later
 
   await page.screenshot({path: '3.png'});
+
+  // go to home screen
+  await page.evaluate( () => {
+    const playNowBtn = document.getElementById('play_now').firstElementChild.querySelector('button');
+    playNowBtn.click();
+  });
+
+  await page.waitFor(3000); // change later
+  await page.screenshot({path: '4.png'});
+
+  // click on battle
+  await page.click('#battle_category_btn');
+
+  await page.waitFor(3000); // change later
+  await page.screenshot({path: '5.png'});
+
+  // accept the battle with the create team button
+  await page.waitForSelector('.btn.btn--create-team');
+
+  await page.screenshot({path: '6.png'});
+
+  await page.click('.btn.btn--create-team');
+
+  await page.waitFor(1000);
+  await page.screenshot({path: '7.png'});
+  
+  // choose a summoner
 
 }
 
