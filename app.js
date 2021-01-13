@@ -1,7 +1,10 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 
 const express = require('express');
 const bodyparser = require('body-parser');
+
+const startFarming = require('./farming');
+const { start } = require('repl');
 
 const app = express();
 
@@ -14,15 +17,20 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.post('/start-farming', (request, response) => {
+app.post('/start-farming', async (request, response) => {
+
   // get credentials
-  fs.readFile('credentials.txt', 'utf8', function(err,data) {
+  const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
     if (err) throw err;
-    credentials = data.split(',');
-    const userName = credentials[0];
-    const password = credentials[1];
+    return data
   });
-  response.json({'match history': 'testing'});
+  const credentials = fileData.split(',');
+  const username = credentials[0];
+  const password = credentials[1];
+
+  const result = await startFarming(username, password)
+
+  response.json({ 'match history': `${username} + ${password}` });
 });
 
 app.listen(3000);
