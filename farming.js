@@ -72,7 +72,7 @@ const startFarming = async (username, password) => {
   await page.waitFor(1000);
   await page.screenshot({ path: './screenshots/8.png' });
 
-  // pick cards
+  // pick cards and battle
 
   await page.evaluate( () => {
     const manaCap = parseInt(document.querySelector('.mana-cap').textContent.trim());
@@ -81,8 +81,32 @@ const startFarming = async (username, password) => {
     card1.click();
     battleBtn.click();
   });
-  await page.waitFor(1000); // instead wait for the match to actually load
+
+  await page.waitForSelector('#btnRumble', {timeout: 250000}); // instead wait for the match to actually load
+  await page.waitFor(10000);
   await page.screenshot({path: './screenshots/9.png'});
+
+  // click on rumble button
+  await page.click('#btnRumble');
+  await page.screenshot({path: './screenshots/10.png'});
+
+  await page.waitFor(5000); // wait for the skip button to be availiable
+  // there is some animation to comes so wait for more time
+
+  // click on the skip button
+  await page.click('#btnSkip');
+  await page.screenshot({path: './screenshots/11.png'});
+
+  // click on close button
+  await page.waitForSelector('.btn--done') // wait for the close button to be availiable
+  // TODO : wait for 5 seconds or something to close
+  await page.click('.btn--done');
+  await page.screenshot({path: './screenshots/12.png'});
+
+  // return to menu
+  await page.waitFor(1000);
+  await page.screenshot({path: './screenshots/12.png'});
+
 
 }
 
