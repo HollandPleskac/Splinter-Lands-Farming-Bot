@@ -94,6 +94,15 @@ const pickCards = async (page) => {
     const creepingOoze = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[12].querySelector('img');
     creepingOoze.click();
     totalMana -= 1;
+
+    if (totalMana < 5) {
+      return;
+    }
+
+    const fireElemental = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[9].querySelector('img');
+    fireElemental.click();
+    totalMana -= 5;
+
     // when you click a card, the reference to it changes or something so the click event doesn't work if you store all of the div's in a list (get a new reference after each click works)
   });
 }
@@ -106,7 +115,7 @@ const battle = async (page) => {
   await page.screenshot({ path: './screenshots/5.png' });
 
   // accept the battle with the create team button
-  await page.waitForSelector('.btn.btn--create-team');
+  await page.waitForSelector('.btn.btn--create-team', { timeout: 250000 });
 
   await page.screenshot({ path: './screenshots/6.png' });
 
@@ -143,16 +152,13 @@ const battle = async (page) => {
   await page.click('#btnRumble');
   await page.screenshot({ path: './screenshots/10.png' });
 
-  await page.waitForTimeout(8000); // wait for the skip button to be availiable
-  // there is some animation to comes so wait for more time
-  // maybe wait for it to be visible instead of wating 8 seconds
-
   // click on the skip button
+  await page.waitForTimeout(15000); // wiat for the skip button to be availiable
   await page.click('#btnSkip');
   await page.screenshot({ path: './screenshots/11.png' });
 
   // click on close button
-  await page.waitForSelector('.btn.btn--done');
+  await page.waitForSelector('.btn.btn--done', {timeout: 250000});
   await page.waitForTimeout(2000);
   await page.click('.btn.btn--done');
   await page.screenshot({ path: './screenshots/12.png' });
