@@ -33,4 +33,8 @@ app.post('/start-farming', async (request, response) => {
   response.json({ 'match history': `${username} + ${password}` });
 });
 
+app.post('/stop-farming', async (request, response) => {
+  response.json({'response': 'stop farming'});
+})
+
 app.listen(3000);

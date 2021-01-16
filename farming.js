@@ -45,6 +45,13 @@ const startFarming = async (username, password) => {
   await page.waitForTimeout(3000); // change later
   await page.screenshot({ path: './screenshots/4.png' });
 
+  while (true) {
+    await battle(page);
+  }
+  
+}
+
+const battle = async (page) => {
   // click on battle
   await page.click('#battle_category_btn');
 
@@ -90,7 +97,7 @@ const startFarming = async (username, password) => {
   await page.click('#btnRumble');
   await page.screenshot({path: './screenshots/10.png'});
 
-  await page.waitForTimeout(5000); // wait for the skip button to be availiable
+  await page.waitForTimeout(6000); // wait for the skip button to be availiable
   // there is some animation to comes so wait for more time
 
   // click on the skip button
@@ -103,6 +110,7 @@ const startFarming = async (username, password) => {
   await page.click('.btn.btn--done');
   await page.screenshot({path: './screenshots/12.png'});
 
+  await page.waitForTimeout(2000);
 }
 
 module.exports = startFarming;
