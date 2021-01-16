@@ -32,7 +32,7 @@ const startFarming = async (username, password) => {
     loginBtn.click();
   });
 
-  await page.waitFor(5000); // change later
+  await page.waitForTimeout(5000); // change later
 
   await page.screenshot({ path: './screenshots/3.png' });
 
@@ -42,13 +42,13 @@ const startFarming = async (username, password) => {
     playNowBtn.click();
   });
 
-  await page.waitFor(3000); // change later
+  await page.waitForTimeout(3000); // change later
   await page.screenshot({ path: './screenshots/4.png' });
 
   // click on battle
   await page.click('#battle_category_btn');
 
-  await page.waitFor(3000); // change later
+  await page.waitForTimeout(3000); // change later
   await page.screenshot({ path: './screenshots/5.png' });
 
   // accept the battle with the create team button
@@ -58,7 +58,7 @@ const startFarming = async (username, password) => {
 
   await page.click('.btn.btn--create-team');
 
-  await page.waitFor(1000);
+  await page.waitForTimeout(1000);
   await page.screenshot({ path: './screenshots/7.png' });
 
   // choose a summoner
@@ -69,7 +69,7 @@ const startFarming = async (username, password) => {
     const pyreClickable = pyreDiv.querySelector('img');
     pyreClickable.click();
   });
-  await page.waitFor(1000);
+  await page.waitForTimeout(1000);
   await page.screenshot({ path: './screenshots/8.png' });
 
   // pick cards and battle
@@ -83,14 +83,14 @@ const startFarming = async (username, password) => {
   });
 
   await page.waitForSelector('#btnRumble', {timeout: 250000}); // instead wait for the match to actually load
-  await page.waitFor(10000);
+  await page.waitForTimeout(10000);
   await page.screenshot({path: './screenshots/9.png'});
 
   // click on rumble button
   await page.click('#btnRumble');
   await page.screenshot({path: './screenshots/10.png'});
 
-  await page.waitFor(5000); // wait for the skip button to be availiable
+  await page.waitForTimeout(5000); // wait for the skip button to be availiable
   // there is some animation to comes so wait for more time
 
   // click on the skip button
@@ -98,15 +98,10 @@ const startFarming = async (username, password) => {
   await page.screenshot({path: './screenshots/11.png'});
 
   // click on close button
-  await page.waitForSelector('.btn--done') // wait for the close button to be availiable
-  // TODO : wait for 5 seconds or something to close
-  await page.click('.btn--done');
+  await page.waitForSelector('.btn.btn--done');
+  await page.waitForTimeout(2000);
+  await page.click('.btn.btn--done');
   await page.screenshot({path: './screenshots/12.png'});
-
-  // return to menu
-  await page.waitFor(1000);
-  await page.screenshot({path: './screenshots/12.png'});
-
 
 }
 
