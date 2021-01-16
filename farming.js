@@ -33,6 +33,11 @@ const startFarming = async (username, password) => {
   });
 
   await page.waitForTimeout(5000); // change later
+  await page.evaluate(() => {
+    const closePopup = document.querySelector('.close');
+    closePopup.click();
+  })
+  await page.waitForTimeout(1000);
 
   await page.screenshot({ path: './screenshots/3.png' });
 
