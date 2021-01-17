@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
+const pickCards = require('./pickcards');
 
-const startFarming = async (username, password) => {
+async function startFarming(username, password) {
 
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
@@ -56,58 +57,9 @@ const startFarming = async (username, password) => {
 
 }
 
-const pickCards = async (page) => {
-  await page.evaluate(() => {
 
-    let totalMana = parseInt(document.querySelector('.mana-cap').textContent.trim());
+async function battle(page) {
 
-    totalMana -= 10; // account for the pick of the summoner and living lava
-
-
-    const chickenCard = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[19].querySelector('img');
-    chickenCard.click();
-
-    const livingLavaCard = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[10].querySelector('img');
-    livingLavaCard.click();
-
-
-    if (totalMana < 3) {
-      return;
-    }
-
-    const serpentineSpy = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[2].querySelector('img');
-    serpentineSpy.click();
-    totalMana -= 3;
-
-    if (totalMana < 4) {
-      return;
-    }
-
-    const sparkPixies = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[11].querySelector('img');
-    sparkPixies.click();
-    totalMana -= 4;
-
-    if (totalMana < 1) {
-      return;
-    }
-
-    const creepingOoze = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[12].querySelector('img');
-    creepingOoze.click();
-    totalMana -= 1;
-
-    if (totalMana < 5) {
-      return;
-    }
-
-    const fireElemental = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[9].querySelector('img');
-    fireElemental.click();
-    totalMana -= 5;
-
-    // when you click a card, the reference to it changes or something so the click event doesn't work if you store all of the div's in a list (get a new reference after each click works)
-  });
-}
-
-const battle = async (page) => {
   // click on battle
   await page.click('#battle_category_btn');
 
@@ -116,8 +68,13 @@ const battle = async (page) => {
 
   // accept the battle with the create team button
   await page.waitForSelector('.btn.btn--create-team', { timeout: 250000 });
-
   await page.screenshot({ path: './screenshots/6.png' });
+
+  // get battle rules
+  await page.evaluate(() => {
+    const rule = document.querySelector('.combat__conflict').querySelector('img').src;
+    console.log(rule);
+  });
 
   await page.click('.btn.btn--create-team');
 
@@ -145,7 +102,7 @@ const battle = async (page) => {
   });
 
   await page.waitForSelector('#btnRumble', { timeout: 250000 }); // instead wait for the match to actually load
-  await page.waitForTimeout(10000);
+  await page.waitForTimeout(12000);
   await page.screenshot({ path: './screenshots/9.png' });
 
   // click on rumble button
@@ -158,14 +115,12 @@ const battle = async (page) => {
   await page.screenshot({ path: './screenshots/11.png' });
 
   // click on close button
-  await page.waitForSelector('.btn.btn--done', {timeout: 250000});
+  await page.waitForSelector('.btn.btn--done', { timeout: 250000 });
   await page.waitForTimeout(2000);
   await page.click('.btn.btn--done');
   await page.screenshot({ path: './screenshots/12.png' });
 
   await page.waitForTimeout(2000);
-
-
 
 }
 
