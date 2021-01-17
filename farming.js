@@ -33,7 +33,7 @@ async function startFarming(username, password) {
     loginBtn.click();
   });
 
-  await page.waitForTimeout(5000); // change later
+  await page.waitForTimeout(3000); // change later
   await page.evaluate(() => {
     const closePopup = document.querySelector('.close');
     closePopup.click();
@@ -111,7 +111,7 @@ async function battle(page) {
   await page.screenshot({ path: './screenshots/10.png' });
 
   // click on the skip button
-  await page.waitForTimeout(15000); // wiat for the skip button to be availiable
+  await page.waitForTimeout(15000); // wait for the skip button to be availiable
   await page.click('#btnSkip');
   await page.screenshot({ path: './screenshots/11.png' });
 
