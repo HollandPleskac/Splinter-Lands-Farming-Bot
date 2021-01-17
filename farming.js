@@ -60,6 +60,8 @@ async function startFarming(username, password) {
 
 async function battle(page) {
 
+  let rule;
+
   // click on battle
   await page.click('#battle_category_btn');
 
@@ -72,7 +74,7 @@ async function battle(page) {
 
   // get battle rules
   await page.evaluate(() => {
-    const rule = document.querySelector('.combat__conflict').querySelector('img').src;
+    rule = document.querySelector('.combat__conflict').querySelector('img').src;
     console.log(rule);
   });
 
@@ -94,7 +96,7 @@ async function battle(page) {
 
   // pick cards and battle
 
-  await pickCards(page);
+  await pickCards(page, rule);
   // based on the different rules a different pickCards function should be used
 
   await page.evaluate(() => {
