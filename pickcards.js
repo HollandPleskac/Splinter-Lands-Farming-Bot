@@ -75,13 +75,13 @@ async function pickCards(page) {
 
     const cards = getAvailiableCards();
     let availiableMana = getAvailiableMana();
+    
     const tank = getTank(cards);
-    const archers = getArchers(availiableMana, cards);
-
     const tankElement = getCardElementByName(tank.name, cards);
     tankElement.click();
     availiableMana -= tank.mana;
 
+    const archers = getArchers(availiableMana, cards);
     archers.forEach(archer => {
       const archerElement = getCardElementByName(archer.name, cards);
       archerElement.click();
