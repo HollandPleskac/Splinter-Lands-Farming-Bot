@@ -62,7 +62,7 @@ async function pickCards(page) {
           archers.push(rangedCard);
           totalMana -= rangedCard.mana;
         }
-        
+
       }
 
       return archers;
@@ -78,12 +78,12 @@ async function pickCards(page) {
     let availiableMana = getAvailiableMana();
 
     try {
-      const chickenElement = getCardElementByName('Furious Chicken');
+      const chickenElement = getCardElementByName('Furious Chicken', cards);
       chickenElement.click();
     } catch(e) {
-      console.log('Chicken not availiable');
+      console.log('chicken is not availiable');
     }
-
+    
     const tank = getTank(cards);
     const tankElement = getCardElementByName(tank.name, cards);
     tankElement.click();

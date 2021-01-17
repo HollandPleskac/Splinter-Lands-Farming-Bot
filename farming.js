@@ -87,9 +87,9 @@ async function battle(page) {
 
   await page.evaluate(() => {
     const summoners = document.querySelector('.deck-builder-page2__cards');
-    const pyreDiv = summoners.querySelectorAll('div')[0];
-    const pyreClickable = pyreDiv.querySelector('img');
-    pyreClickable.click();
+    const summonerDiv = summoners.querySelectorAll('div')[0];
+    const summonerElement = summonerDiv.querySelector('img');
+    summonerElement.click();
   });
   await page.waitForTimeout(1000);
   await page.screenshot({ path: './screenshots/8.png' });
