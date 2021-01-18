@@ -1,6 +1,19 @@
 async function pickCards(page) {
   await page.evaluate(() => {
 
+    function getAbilities(cardElement) {
+      const abilityImgElements = cardElement.querySelector('.abilities').querySelectorAll('img');
+      let abilities = [];
+
+      if (abilityImgElements.length > 0) {
+        abilityImgElements.forEach(abilityImg => {
+          abilities.push(abilityImg.title.toString());
+        });
+      }
+
+      return abilities;
+    }
+
     function getAvailiableCards() {
       const cards = [];
       const cardDivs = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta');
@@ -11,6 +24,8 @@ async function pickCards(page) {
         const isMelee = cardDivs[i].querySelector('.stat-attack');
         const isRanged = cardDivs[i].querySelector('.stat-ranged');
         const isMagic = cardDivs[i].querySelector('.stat-magic');
+        const abilities = getAbilities(cardDivs[i]);
+
         let attackType;
         if (isMelee !== null) {
           attackType = 'melee';
@@ -27,6 +42,7 @@ async function pickCards(page) {
           mana: mana,
           attackType: attackType,
           position: i,
+          abilities: abilities,
         });
       };
       return cards;
@@ -51,10 +67,13 @@ async function pickCards(page) {
 
       return highestManaCard;
     };
+    // get second place (opportunity or reacch)
+    // get cleanup crew (anything that fits in the mana after all archers taken)
+    // filter archers better (with opportunity etc)
 
     function getArchers(totalMana, cards) {
       let archers = [];
-      let rangedCards = cards.filter(card => card.attackType === 'ranged');
+      let rangedCards = cards.filter(card => card.attackType === 'ranged'); // filter for cards with abilities that let them attack in the back row
 
       for (i = 0; i < rangedCards.length; i++) {
         const rangedCard = rangedCards[i];
@@ -80,10 +99,10 @@ async function pickCards(page) {
     try {
       const chickenElement = getCardElementByName('Furious Chicken', cards);
       chickenElement.click();
-    } catch(e) {
+    } catch (e) {
       console.log('chicken is not availiable');
     }
-    
+
     const tank = getTank(cards);
     const tankElement = getCardElementByName(tank.name, cards);
     tankElement.click();
