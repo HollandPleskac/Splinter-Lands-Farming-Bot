@@ -97,7 +97,6 @@ async function battle(page) {
   // pick cards and battle
 
   await pickCards(page, rule);
-  // based on the different rules a different pickCards function should be used
 
   await page.evaluate(() => {
     const startBattleBtn = document.querySelector('.btn-green');

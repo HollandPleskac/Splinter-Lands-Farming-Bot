@@ -83,14 +83,13 @@ async function pickCards(page) {
       return cardElement;
     }
 
-    function getTank(cards) {
+    function getTank(cards, availiableMana) {
       let highestManaCard = cards[0];
 
 
       for (i = 0; i < cards.length; i++) {
         const card = cards[i];
-        const rangedAbilities = getSecondPosAbilities(card.abilities);
-        if (card.mana > highestManaCard.mana) {
+        if (card.mana > highestManaCard.mana && card.mana <= availiableMana) {
           highestManaCard = card;
         }
       }
@@ -98,9 +97,9 @@ async function pickCards(page) {
       return highestManaCard;
     };
 
-    function getSecondPositionCard(cards) {
+    function getSecondPositionCard(cards, availiableMana) {
       let secondPositionCards = cards.filter(card => {
-        return card.attackType === 'melee' && card.abilities.includes('Opportunity') || card.abilities.includes('Reach')
+        return card.mana <= availiableMana && card.attackType === 'melee' && (card.abilities.includes('Opportunity') || card.abilities.includes('Reach'));
       });
 
       return secondPositionCards[0];
@@ -134,13 +133,14 @@ async function pickCards(page) {
       console.log('chicken is not availiable');
     }
 
-    const tank = getTank(cards);
+    const tank = getTank(cards, availiableMana);
     const tankElement = getCardElementByName(tank.name, cards);
     tankElement.click();
     availiableMana -= tank.mana;
 
+    let secondPositionCard;
     try {
-      const secondPositionCard = getSecondPositionCard(cards);
+      secondPositionCard = getSecondPositionCard(cards, availiableMana);
       const secondPositionElement = getCardElementByName(secondPositionCard.name, cards);
       secondPositionElement.click();
       availiableMana -= secondPositionCard.mana;
