@@ -108,8 +108,8 @@ async function pickCards(page) {
     function getArchers(totalMana, secondPosCard, cards) {
       let archers = [];
 
-      if (secondPosCard.name === undefined) {
-        secondPosCard.name = ""; // if no second pos card was picked, the name will be undefined
+      if (secondPosCard === undefined) {
+        secondPosCard = { name: "" }; // dummy value of name so that secondPosCard.name will still work
       }
 
       let rangedCards = cards.filter(card =>
