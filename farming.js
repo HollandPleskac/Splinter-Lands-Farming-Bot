@@ -104,7 +104,7 @@ async function battle(page) {
   });
 
   await page.waitForSelector('#btnRumble', { timeout: 250000 }); // instead wait for the match to actually load
-  await page.waitForTimeout(12000);
+  await page.waitForTimeout(13000);
   await page.screenshot({ path: './screenshots/9.png' });
 
   // click on rumble button

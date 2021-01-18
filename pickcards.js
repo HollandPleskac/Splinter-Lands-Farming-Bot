@@ -98,17 +98,22 @@ async function pickCards(page) {
     };
 
     function getSecondPositionCard(cards, availiableMana) {
-      let secondPositionCards = cards.filter(card => {
-        return card.mana <= availiableMana && card.attackType === 'melee' && (card.abilities.includes('Opportunity') || card.abilities.includes('Reach'));
-      });
+      let secondPositionCards = cards.filter(
+        card => card.mana <= availiableMana && card.attackType === 'melee' && (card.abilities.includes('Opportunity') || card.abilities.includes('Reach'))
+      );
 
       return secondPositionCards[0];
     }
 
     function getArchers(totalMana, secondPosCard, cards) {
       let archers = [];
+
+      if (secondPosCard.name === undefined) {
+        secondPosCard.name = ""; // if no second pos card was picked, the name will be undefined
+      }
+
       let rangedCards = cards.filter(card =>
-        card.attackType === 'ranged' || getRangedAbilities(card.abilities).length !== 0 && card.name !== secondPosCard.name
+        card.attackType === 'ranged' || (getRangedAbilities(card.abilities).length !== 0 && card.name !== secondPosCard.name)
       );
 
       for (i = 0; i < rangedCards.length; i++) {
