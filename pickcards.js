@@ -1,8 +1,8 @@
 async function pickCards(page) {
   await page.evaluate(() => {
 
-    function getAbilities(cardElement) {
-      const abilityImgElements = cardElement.querySelector('.abilities').querySelectorAll('img');
+    function getAbilities(cardDivElement) {
+      const abilityImgElements = cardDivElement.querySelector('.abilities').querySelectorAll('img');
       let abilities = [];
 
       if (abilityImgElements.length > 0) {
@@ -14,6 +14,28 @@ async function pickCards(page) {
       return abilities;
     }
 
+    function getAttackType(cardDivElement, abilities) {
+      const isMelee = cardDivElement.querySelector('.stat-attack');
+      const isRanged = cardDivElement.querySelector('.stat-ranged');
+      const isMagic = cardDivElement.querySelector('.stat-magic');
+      const rangedAbilities = abilities.filter(ability => {
+        return ability === 'Opportunity' || ability === 'Sneak';
+      });
+
+      let attackType;
+        if (isMelee !== null && rangedAbilities.length === 0) {
+          attackType = 'melee';
+        } else if (isRanged !== null || rangedAbilities.length !== 0) {
+          attackType = 'ranged';
+        } else if (isMagic !== null) {
+          attackType = 'magic';
+        } else {
+          attackType = 'none';
+        }
+
+        return attackType;
+    }
+
     function getAvailiableCards() {
       const cards = [];
       const cardDivs = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta');
@@ -21,21 +43,9 @@ async function pickCards(page) {
       for (i = 0; i < cardDivs.length; i++) {
         const mana = parseInt(cardDivs[i].querySelector('.stat-mana').textContent.trim());
         const name = cardDivs[i].querySelector('.card-name-name').textContent;
-        const isMelee = cardDivs[i].querySelector('.stat-attack');
-        const isRanged = cardDivs[i].querySelector('.stat-ranged');
-        const isMagic = cardDivs[i].querySelector('.stat-magic');
+        
         const abilities = getAbilities(cardDivs[i]);
-
-        let attackType;
-        if (isMelee !== null) {
-          attackType = 'melee';
-        } else if (isRanged !== null) {
-          attackType = 'ranged';
-        } else if (isMagic !== null) {
-          attackType = 'magic';
-        } else {
-          attackType = 'none';
-        }
+        const attackType = getAttackType(cardDivs[i], abilities);
 
         cards.push({
           name: name,
