@@ -60,6 +60,16 @@ async function startFarming(username, password) {
 
 async function battle(page) {
 
+  async function clickRumbleButton(page) {
+    try {
+      await page.waitForTimeout(3000);
+      await page.click('#btnRumble');
+    } catch (e) {
+      console.log('rumble not availiable yet, trying again');
+      clickRumbleButton(page);
+    }
+  }
+
   let rule;
 
   // click on battle
@@ -97,18 +107,18 @@ async function battle(page) {
   // pick cards and battle
 
   await pickCards(page, rule);
+  await page.screenshot({path : './screenshots/cards.png'});
 
   await page.evaluate(() => {
     const startBattleBtn = document.querySelector('.btn-green');
     startBattleBtn.click();
   });
 
-  await page.waitForSelector('#btnRumble', { timeout: 250000 }); // instead wait for the match to actually load
-  await page.waitForTimeout(13000);
+  await page.waitForSelector('#btnRumble', { timeout: 280000 }); // instead wait for the match to actually load (this takes you to the animation)
   await page.screenshot({ path: './screenshots/9.png' });
 
   // click on rumble button
-  await page.click('#btnRumble');
+  await clickRumbleButton(page);
   await page.screenshot({ path: './screenshots/10.png' });
 
   // click on the skip button
