@@ -30,15 +30,16 @@ app.use(function (req, res, next) {
 
   const page = await farming.startFarming(username, password);
 
-  async.forever(async function () {
-    if (shouldBattle) {
-      await farming.battle(page);
-    }
-  });
+  async.forever(
+    async function () {
+      if (shouldBattle) {
+        await farming.battle(page);
+      }
+    });
+    // runs the code indefinitly without blocking the event loop like a while loop does
 })();
 
 app.post('/start-farming', async (request, response) => {
-
 
   shouldBattle = true;
 
@@ -46,7 +47,6 @@ app.post('/start-farming', async (request, response) => {
 });
 
 app.post('/stop-farming', async (request, response) => {
-
 
   shouldBattle = false;
 

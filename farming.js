@@ -50,10 +50,6 @@ async function startFarming(username, password) {
   await page.waitForTimeout(3000); // change later
   await page.screenshot({ path: './screenshots/4.png' });
 
-  // while(true) {
-  //   await battle(page);
-  // }
-
   return page;
 
 }
@@ -70,6 +66,16 @@ async function battle(page) {
     } catch (e) {
       console.log('rumble not availiable yet, trying again');
       clickRumbleButton(page);
+    }
+  }
+
+  async function clickCloseBattleButton(page) {
+    try {
+      await page.waitForTimeout(2000);
+      await page.click('.btn.btn--done');
+    }catch(e) {
+      console.log('done button not availiable yet, trying again');
+      clickCloseBattleButton(page);
     }
   }
 
@@ -132,8 +138,7 @@ async function battle(page) {
 
   // click on close button
   await page.waitForSelector('.btn.btn--done', { timeout: 250000 });
-  await page.waitForTimeout(2000);
-  await page.click('.btn.btn--done');
+  await clickCloseBattleButton(page);
   await page.screenshot({ path: './screenshots/12.png' });
 
   await page.waitForTimeout(2000);
