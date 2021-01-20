@@ -59,7 +59,7 @@ async function pickCards(page) {
       const cards = [];
       const cardDivs = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta');
 
-      for (i = 0; i < cardDivs.length; i++) {
+      for (let i = 0; i < cardDivs.length; i++) {
         const mana = parseInt(cardDivs[i].querySelector('.stat-mana').textContent.trim());
         const name = cardDivs[i].querySelector('.card-name-name').textContent;
 
@@ -87,7 +87,7 @@ async function pickCards(page) {
       let highestManaCard = cards[0];
 
 
-      for (i = 0; i < cards.length; i++) {
+      for (let i = 0; i < cards.length; i++) {
         const card = cards[i];
         if (card.mana > highestManaCard.mana && card.mana <= availiableMana) {
           highestManaCard = card;
@@ -116,7 +116,7 @@ async function pickCards(page) {
         card.attackType === 'ranged' || (getRangedAbilities(card.abilities).length !== 0 && card.name !== secondPosCard.name)
       );
 
-      for (i = 0; i < rangedCards.length; i++) {
+      for (let i = 0; i < rangedCards.length; i++) {
         const rangedCard = rangedCards[i];
         if (rangedCard.mana < totalMana) {
           archers.push(rangedCard);
@@ -197,7 +197,7 @@ async function pickStandard(page) {
       const cards = [];
       const cardDivs = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta');
 
-      for (i = 0; i < cardDivs.length; i++) {
+      for (let i = 0; i < cardDivs.length; i++) {
         const mana = parseInt(cardDivs[i].querySelector('.stat-mana').textContent.trim());
         const name = cardDivs[i].querySelector('.card-name-name').textContent;
         const isMelee = cardDivs[i].querySelector('.stat-attack');
@@ -285,7 +285,7 @@ async function pickEvenStevens(page) {
       const cards = [];
       const cardDivs = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta');
 
-      for (i = 0; i < cardDivs.length; i++) {
+      for (let i = 0; i < cardDivs.length; i++) {
         const mana = parseInt(cardDivs[i].querySelector('.stat-mana').textContent.trim());
         const name = cardDivs[i].querySelector('.card-name-name').textContent;
         const isMelee = cardDivs[i].querySelector('.stat-attack');

@@ -2,7 +2,6 @@ const puppeteer = require('puppeteer');
 const pickCards = require('./pickcards');
 
 async function startFarming(username, password) {
-
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
 
@@ -51,11 +50,15 @@ async function startFarming(username, password) {
   await page.waitForTimeout(3000); // change later
   await page.screenshot({ path: './screenshots/4.png' });
 
-  while (true) {
-    await battle(page);
-  }
+  // while(true) {
+  //   await battle(page);
+  // }
+
+  return page;
 
 }
+
+
 
 
 async function battle(page) {
@@ -124,6 +127,7 @@ async function battle(page) {
   // click on the skip button
   await page.waitForTimeout(15000); // wait for the skip button to be availiable
   await page.click('#btnSkip');
+  // put the click skip button in a try catch block too
   await page.screenshot({ path: './screenshots/11.png' });
 
   // click on close button
@@ -136,4 +140,4 @@ async function battle(page) {
 
 }
 
-module.exports = startFarming;
+module.exports = {startFarming, battle};
