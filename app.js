@@ -8,7 +8,8 @@ const farming = require('./farming');
 
 const app = express();
 
-let shouldBattle = false;
+let page;
+let battleSwitch = false;
 
 app.use(bodyparser.json());
 
@@ -28,29 +29,31 @@ app.use(function (req, res, next) {
   const username = credentials[0];
   const password = credentials[1];
 
-  const page = await farming.startFarming(username, password);
-
-  async.forever(
-    async function () {
-      if (shouldBattle) {
-        await farming.battle(page);
-      }
-    });
-    // runs the code indefinitly without blocking the event loop like a while loop does
+  page = await farming.startFarming(username, password);
+  
 })();
 
+app.post('/battle', async(request, response) => {
+  function shouldBattle() {
+    return battleSwitch;
+  }
+  while (shouldBattle()) {
+    await farming.battle(page);
+  }
+
+  response.json({result: 'stopped battling'});
+})
+
 app.post('/start-farming', async (request, response) => {
+  battleSwitch = true;
+  response.json({switch: 'true'});
 
-  shouldBattle = true;
-
-  response.json({ result: 'started farming' });
 });
 
-app.post('/stop-farming', async (request, response) => {
-
-  shouldBattle = false;
-
-  response.json({ result: 'stopped farming' });
+app.post('/stop-farming', async(request, response) => {
+  battleSwitch = false;
+  response.json({switch: 'false'});
+  // write to firestore to stop the battle
 });
 
 app.listen(3000);
