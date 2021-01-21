@@ -33,6 +33,35 @@ async function pickCards(page) {
       return attackType;
     }
 
+    function getSplinter(cardDivElement) {
+      const isNeutral = cardDivElement.querySelector('.card-name.gray');
+      const isFire = cardDivElement.querySelector('.card-name.red');
+      const isWater = cardDivElement.querySelector('.card-name.blue');
+      const isEarth = cardDivElement.querySelector('.card-name.green');
+      const isDark = cardDivElement.querySelector('.card-name.black');
+      const isLight = cardDivElement.querySelector('.card-name.white');
+
+      let splinter;
+      if (isNeutral != null) {
+        splinter = 'neutral';
+      } else if (isFire != null) {
+        splinter = 'fire';
+      } else if (isWater != null) {
+        splinter = 'water';
+      } else if (isEarth != null) {
+        splinter = 'earth';
+      } else if (isDark != null) {
+        splinter = 'dark';
+      } else if (isLight != null) {
+        splinter = 'light';
+      } else {
+        splinter = 'unknown';
+      }
+
+      return splinter;
+
+    }
+
     function getSecondPosAbilities(abilities) {
       const secondPosAbilities = abilities.filter(ability => {
         return ability === 'Opportunity' || ability === 'Reach';
@@ -65,12 +94,15 @@ async function pickCards(page) {
 
         const abilities = getAbilities(cardDivs[i]);
         const attackType = getAttackType(cardDivs[i], abilities);
+        const splinter = getSplinter(cardDivs[i]);
+
 
         cards.push({
           name: name,
           mana: mana,
           attackType: attackType,
           abilities: abilities,
+          splinter: splinter,
           position: i,
         });
       };
@@ -89,7 +121,7 @@ async function pickCards(page) {
 
       for (let i = 0; i < cards.length; i++) {
         const card = cards[i];
-        if (card.mana > highestManaCard.mana && card.mana <= availiableMana) {
+        if (card.mana > highestManaCard.mana && card.mana <= availiableMana && card.splinter != 'neutral') {
           highestManaCard = card;
         }
       }

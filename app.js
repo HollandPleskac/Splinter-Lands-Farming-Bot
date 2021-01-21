@@ -1,5 +1,4 @@
 const fs = require('fs').promises;
-const async = require('async');
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -42,18 +41,16 @@ app.post('/battle', async(request, response) => {
   }
 
   response.json({result: 'stopped battling'});
-})
+});
 
 app.post('/start-farming', async (request, response) => {
   battleSwitch = true;
   response.json({switch: 'true'});
-
 });
 
 app.post('/stop-farming', async(request, response) => {
   battleSwitch = false;
   response.json({switch: 'false'});
-  // write to firestore to stop the battle
 });
 
 app.listen(3000);
