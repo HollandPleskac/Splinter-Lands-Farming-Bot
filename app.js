@@ -3,9 +3,17 @@ const fs = require('fs').promises;
 const express = require('express');
 const bodyparser = require('body-parser');
 
-const farming = require('./farming');
+const admin = require('firebase-admin');
+const serviceAccount = require('./serviceAccountKey.json');
 
+const farming = require('./farming');
 const app = express();
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+const db = admin.firestore();
 
 let page;
 let battleSwitch = false;
