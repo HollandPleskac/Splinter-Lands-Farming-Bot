@@ -46,8 +46,7 @@ app.post('/battle', async (request, response) => {
     return battleSwitch;
   }
   while (shouldBattle()) {
-    await farming.battle(page);
-    const battleResults = { opponent: 'default', team1: [], team2: [], result: 'undefermined' };
+    const battleResults = await farming.battle(page);
     await firestore.logBattle(db, battleResults);
   }
 

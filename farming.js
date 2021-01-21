@@ -78,34 +78,68 @@ async function battle(page) {
   }
 
   async function getBattleResults(page) {
-    await page.evaluate(() => {
+    let resultsData = await page.evaluate(() => {
 
       const players = [...document.querySelectorAll('.player')].map(playerEl => playerEl.querySelector('.bio__name__display').textContent);
       // [...document.querySelectorAll('div')] will convert StaticNodeList to Array of items - allows you to use .map()
-      const opponent = players.filter(player => player !== 'HVCMINER')[0];
+      const opponent = players.filter(player => player !== 'hcvminer')[0];
       const winner = document.querySelector('.player.winner').querySelector('.bio__name__display').textContent;
 
       return {
         opponent: opponent,
         isWinner: winner === 'HVCMINER' ? true : false,
       }
-
     });
+
+    return resultsData;
   }
 
   async function getCardsUsed(page) {
-    await page.evaluate(() => {
 
-    // const teams = ;
-    let team1Cards = document.querySelectorAll('.cardContainer.team1');
-    cards = [...team1Cards].map((card) => card.querySelector('img').src);
-      // split the img.src string to get rid of the path then each word is separated by a %20 instead of a space
-      // get rid of https://d36mxiodymuqjm.cloudfront.net/cards_battle_beta/ and the .png at the end
-      // then get rid of any %20 and replace those with spaces
-    let team2Cards = document.querySelectorAll('.cardContainer.team2');
-     let yourName = document.querySelectorAll('.bio__name__display')[2];
+    let cardData = await page.evaluate(async () => {
+      function getCardNamesFromDOM(team) {
+        let teamCards = document.querySelectorAll(`.cardContainer.${team}`);
+        teamCards = [...teamCards].map((card) => {
+          let cardName = card.querySelector('img').src;
+          cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_beta/', '');
+          cardName = cardName.replace('%20', ' ');
+          cardName = cardName.replace('.png', '');
+          return cardName;
+        });
+        return teamCards;
+      }
 
+      function getMyTeam() {
+        const team1Player = document.getElementById('t1_portrait').querySelector('.bio__name__display').textContent;
+        const team2Player = document.getElementById('t2_portrait').querySelector('.bio__name__display').textContent;
+        let hvcMinerTeam;
+        if (team1Player === 'hvcminer') {
+          hvcMinerTeam = 'team1';
+        } else {
+          hvcMinerTeam = 'team2';
+        }
+        return hvcMinerTeam;
+      }
+
+      const team1 = getCardNamesFromDOM('team1');
+      const team2 = getCardNamesFromDOM('team2');
+      let hvcMinerTeam;
+      let opponentTeam;
+      if (getMyTeam() === 'team1') {
+        hvcMinerTeam = team1;
+        opponentTeam = team2;
+      } else {
+        hvcMinerTeam = team2;
+        opponentTeam = team1;
+      }
+
+      return {
+        hvcvminerTeam: hvcMinerTeam,
+        opponentTeam: opponentTeam
+      }
     });
+
+    return cardData;
   }
 
   let rule;
@@ -161,16 +195,34 @@ async function battle(page) {
 
   // click on the skip button
   await page.waitForTimeout(15000); // wait for the skip button to be availiable
+
+  const cardsFromBattle = await getCardsUsed(page);
+
   await page.click('#btnSkip');
   // put the click skip button in a try catch block too
   await page.screenshot({ path: './screenshots/11.png' });
 
   // click on close button
   await page.waitForSelector('.btn.btn--done', { timeout: 250000 });
+
+  const battleResults = await getBattleResults(page);
+
   await clickCloseBattleButton(page);
   await page.screenshot({ path: './screenshots/12.png' });
 
   await page.waitForTimeout(2000);
+
+  console.log('Battle results : ', battleResults);
+  console.log('Cards from the battle : ', cardsFromBattle);
+  console.log('all together : ', {
+    ...cardsFromBattle,
+    ...battleResults
+  });
+
+  return {
+    ...cardsFromBattle,
+    ...battleResults
+  }
 
 }
 
