@@ -121,7 +121,7 @@ async function pickCards(page) {
 
       for (let i = 0; i < cards.length; i++) {
         const card = cards[i];
-        if (card.mana > highestManaCard.mana && card.mana <= availiableMana && card.splinter != 'neutral') {
+        if (card.mana > highestManaCard.mana && card.mana <= availiableMana && card.splinter !== 'neutral' && card.attackType !== 'ranged') {
           highestManaCard = card;
         }
       }

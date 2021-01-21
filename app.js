@@ -7,6 +7,7 @@ const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
 
 const farming = require('./farming');
+const firestore = require('./firestore');
 const app = express();
 
 admin.initializeApp({
@@ -37,28 +38,30 @@ app.use(function (req, res, next) {
   const password = credentials[1];
 
   page = await farming.startFarming(username, password);
-  
+
 })();
 
-app.post('/battle', async(request, response) => {
+app.post('/battle', async (request, response) => {
   function shouldBattle() {
     return battleSwitch;
   }
   while (shouldBattle()) {
     await farming.battle(page);
+    const battleResults = { opponent: 'default', team1: [], team2: [], result: 'undefermined' };
+    await firestore.logBattle(db, battleResults);
   }
 
-  response.json({result: 'stopped battling'});
+  response.json({ result: 'stopped battling' });
 });
 
 app.post('/start-farming', async (request, response) => {
   battleSwitch = true;
-  response.json({switch: 'true'});
+  response.json({ switch: 'true' });
 });
 
-app.post('/stop-farming', async(request, response) => {
+app.post('/stop-farming', async (request, response) => {
   battleSwitch = false;
-  response.json({switch: 'false'});
+  response.json({ switch: 'false' });
 });
 
 app.listen(3000);

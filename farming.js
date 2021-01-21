@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const pickCards = require('./pickcards');
 
+
 async function startFarming(username, password) {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
@@ -54,9 +55,6 @@ async function startFarming(username, password) {
 
 }
 
-
-
-
 async function battle(page) {
 
   async function clickRumbleButton(page) {
@@ -73,10 +71,41 @@ async function battle(page) {
     try {
       await page.waitForTimeout(2000);
       await page.click('.btn.btn--done');
-    }catch(e) {
+    } catch (e) {
       console.log('done button not availiable yet, trying again');
       clickCloseBattleButton(page);
     }
+  }
+
+  async function getBattleResults(page) {
+    await page.evaluate(() => {
+
+      const players = [...document.querySelectorAll('.player')].map(playerEl => playerEl.querySelector('.bio__name__display').textContent);
+      // [...document.querySelectorAll('div')] will convert StaticNodeList to Array of items - allows you to use .map()
+      const opponent = players.filter(player => player !== 'HVCMINER')[0];
+      const winner = document.querySelector('.player.winner').querySelector('.bio__name__display').textContent;
+
+      return {
+        opponent: opponent,
+        isWinner: winner === 'HVCMINER' ? true : false,
+      }
+
+    });
+  }
+
+  async function getCardsUsed(page) {
+    await page.evaluate(() => {
+
+    // const teams = ;
+    let team1Cards = document.querySelectorAll('.cardContainer.team1');
+    cards = [...team1Cards].map((card) => card.querySelector('img').src);
+      // split the img.src string to get rid of the path then each word is separated by a %20 instead of a space
+      // get rid of https://d36mxiodymuqjm.cloudfront.net/cards_battle_beta/ and the .png at the end
+      // then get rid of any %20 and replace those with spaces
+    let team2Cards = document.querySelectorAll('.cardContainer.team2');
+     let yourName = document.querySelectorAll('.bio__name__display')[2];
+
+    });
   }
 
   let rule;
@@ -116,7 +145,7 @@ async function battle(page) {
   // pick cards and battle
 
   await pickCards(page, rule);
-  await page.screenshot({path : './screenshots/cards.png'});
+  await page.screenshot({ path: './screenshots/cards.png' });
 
   await page.evaluate(() => {
     const startBattleBtn = document.querySelector('.btn-green');
@@ -145,4 +174,4 @@ async function battle(page) {
 
 }
 
-module.exports = {startFarming, battle};
+module.exports = { startFarming, battle };
