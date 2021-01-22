@@ -18,6 +18,7 @@ const db = admin.firestore();
 
 let page;
 let battleSwitch = false;
+let isInMatch = false;
 
 app.use(bodyparser.json());
 
@@ -45,11 +46,18 @@ app.post('/battle', async (request, response) => {
   function shouldBattle() {
     return battleSwitch;
   }
+  isInMatch = true;
   while (shouldBattle()) {
-    const battleResults = await farming.battle(page);
-    await firestore.logBattle(db, battleResults);
+    try {
+      const battleResults = await farming.battle(page);
+      await firestore.logBattle(db, battleResults);
+    } catch(e) {
+      console.log(`error battling ${e}`);
+      // should contain logic to get back to the button to battle (maybe open tab or something??)
+      battleSwitch = false;
+    }
   }
-
+  isInMatch = false;
   response.json({ result: 'stopped battling' });
 });
 
@@ -65,6 +73,10 @@ app.post('/stop-farming', async (request, response) => {
 
 app.get('/get-farming-status', (request,response) => {
   response.json({'status': battleSwitch});
+});
+
+app.get('/get-isInMatch', (request, response) => {
+  response.json({'isInMatch': isInMatch});
 })
 
 app.listen(3000);
