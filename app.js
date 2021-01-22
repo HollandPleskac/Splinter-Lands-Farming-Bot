@@ -63,5 +63,9 @@ app.post('/stop-farming', async (request, response) => {
   response.json({ switch: 'false' });
 });
 
+app.get('/get-farming-status', (request,response) => {
+  response.json({'status': battleSwitch});
+})
+
 app.listen(3000);
 
