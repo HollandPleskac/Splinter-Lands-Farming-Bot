@@ -77,6 +77,27 @@ async function battle(page) {
     }
   }
 
+  async function getEnemyPreviousMatchData(page) {
+    let previousMatchData = await page.evaluate(() => {
+      function getMonsterNameFromLi(unformattedName) {
+        let name = unformattedName.split('	')[0];
+        name.slice(0,-1); // keeps 0 index to the end index -1, effectivly removing the last letter
+        return unformattedName.split('	')[0];
+      }
+
+      const previousTeamsDivs = document.querySelector('.recently-played-splinters__list').querySelectorAll('.recent-team');
+
+      const data = [...previousTeamsDivs].map((teamDiv) => {
+        const img = teamDiv.querySelector('img');
+        const monsters = [...teamDiv.querySelector('ul').querySelectorAll('li')].map(monsterLi => getMonsterNameFromLi(monsterLi.textContent.trim()));
+        return {
+          splinter: img,
+          monsters: monsters
+        }
+      });
+    });
+  }
+
   async function getBattleResults(page) {
     let resultsData = await page.evaluate(() => {
 
