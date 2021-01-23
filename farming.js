@@ -83,7 +83,7 @@ async function battle(page) {
       const players = [...document.querySelectorAll('.player')].map(playerEl => playerEl.querySelector('.bio__name__display').textContent.trim());
       // [...document.querySelectorAll('div')] will convert StaticNodeList to Array of items - allows you to use .map()
       const opponent = players.filter(player => player !== 'hvcminer')[0];
-      
+
       // if result is a draw the winner won't be declared
       let winner;
       let dec = 0;
@@ -93,7 +93,7 @@ async function battle(page) {
         if (winner === 'hvcminer') {
           dec = parseFloat(document.querySelector('.player.winner').querySelector('.dec-reward').querySelector('span').textContent.trim());
         }
-      } catch(e) {
+      } catch (e) {
         winner = 'unknown'
       }
 
@@ -102,7 +102,7 @@ async function battle(page) {
         isWinner: winner === 'hvcminer' ? true : false,
         dec: dec
       });
-      
+
       return {
         opponent: opponent,
         isWinner: winner === 'hvcminer' ? true : false,
@@ -123,7 +123,7 @@ async function battle(page) {
         teamCards = [...teamCards].map((card) => {
           let cardName = card.querySelector('img').src;
           cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_beta/', '');
-          cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_untamed/','');
+          cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_untamed/', '');
           cardName = cardName.replace('%20', ' ');
           cardName = cardName.replace('.png', '');
           return cardName;
@@ -162,6 +162,58 @@ async function battle(page) {
     });
 
     return cardData;
+  }
+
+  async function getSplinters(page) {
+
+    const splinters = await page.evaluate(async () => {
+      function getMyTeam() {
+        const team1Player = document.getElementById('t1_portrait').querySelector('.bio__name__display').textContent;
+        const team2Player = document.getElementById('t2_portrait').querySelector('.bio__name__display').textContent;
+        let hvcMinerTeam;
+        if (team1Player === 'hvcminer') {
+          hvcMinerTeam = 'team1';
+        } else {
+          hvcMinerTeam = 'team2';
+        }
+        return hvcMinerTeam;
+      }
+
+      function getSplinter(position) {
+        // 0 for team 1, 1 for team 2
+        const color = document.querySelectorAll('canvas')[position].style.boxShadow.split(" ")[0];
+        if (color === 'red') {
+          return 'fire';
+        } else if (color === 'blue') {
+          return 'water';
+        } else if (color === 'green') {
+          return 'earth';
+        } else if (color === 'purple') {
+          return 'death';
+        } else if (color === 'rgb(187,') {
+          return 'light';
+        } else {
+          return 'dragon';
+        }
+      }
+
+      let hvcMinerSplinter;
+      let opponenentSplinter;
+      if (getMyTeam() === 'team1') {
+        hvcMinerSplinter = getSplinter(0);
+        opponenentSplinter = getSplinter(1);
+      } else {
+        hvcMinerSplinter = getSplinter(1);
+        opponenentSplinter = getSplinter(0);
+      }
+
+      return ({
+        hvcminerSplinter: hvcMinerSplinter,
+        opponenentSplinter: opponenentSplinter
+      });
+
+    });
+    return splinters;
   }
 
   let rule;
@@ -219,6 +271,7 @@ async function battle(page) {
   await page.waitForTimeout(15000); // wait for the skip button to be availiable
 
   const cardsFromBattle = await getCardsUsed(page);
+  const splinters = await getSplinters(page);
 
   await page.click('#btnSkip');
   // put the click skip button in a try catch block too
@@ -237,7 +290,8 @@ async function battle(page) {
 
   return {
     ...cardsFromBattle,
-    ...battleResults
+    ...battleResults,
+    ...splinters
   }
 
 }
