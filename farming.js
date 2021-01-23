@@ -82,14 +82,14 @@ async function battle(page) {
 
       function getMonsterNameFromLi(unformattedName) {
         let name = unformattedName.split('	')[0];
-        name.slice(0,-1); // remove last letter
+        name.slice(0, -1); // remove last letter
         return name;
       }
 
       function getSplinterFromUrl(imgText) {
-        let splinter = imgText.replace('https://d36mxiodymuqjm.cloudfront.net/website/icons/','');
-        splinter = splinter.replace('.svg','');
-        splinter = splinter.replace('icon-element-','');
+        let splinter = imgText.replace('https://d36mxiodymuqjm.cloudfront.net/website/icons/', '');
+        splinter = splinter.replace('.svg', '');
+        splinter = splinter.replace('icon-element-', '');
         return splinter;
       }
 
@@ -246,7 +246,15 @@ async function battle(page) {
     return splinters;
   }
 
-  let rule;
+  async function getBattleRule(page) {
+    return await page.evaluate(() => {
+      let rule = document.querySelector('.combat__conflict').querySelector('img').src;
+      rule = rule.replace('https://d36mxiodymuqjm.cloudfront.net/website/icons/rulesets/new/img_combat-rule_','');
+      rule = rule.replace('_150.png','');
+      rule = rule.replace('-', ' ');
+      return rule;
+    });
+  }
 
   // click on battle
   await page.click('#battle_category_btn');
@@ -258,12 +266,8 @@ async function battle(page) {
   await page.waitForSelector('.btn.btn--create-team', { timeout: 250000 });
   await page.screenshot({ path: './screenshots/6.png' });
 
-  // get battle rules
-  await page.evaluate(() => {
-    rule = document.querySelector('.combat__conflict').querySelector('img').src;
-    console.log(rule);
-  });
 
+  const battleRule = await getBattleRule(page);
   const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
 
   await page.click('.btn.btn--create-team');
@@ -284,7 +288,7 @@ async function battle(page) {
 
   // pick cards and battle
 
-  await pickCards(page, rule);
+  await pickCards(page);
   await page.screenshot({ path: './screenshots/cards.png' });
 
   await page.evaluate(() => {
@@ -324,7 +328,8 @@ async function battle(page) {
     ...cardsFromBattle,
     ...battleResults,
     ...splinters,
-    previousOpponentMatches: enemyPreviousMatchData
+    previousOpponentMatches: enemyPreviousMatchData,
+    rule: battleRule
   }
 
 }
