@@ -80,16 +80,37 @@ async function battle(page) {
   async function getBattleResults(page) {
     let resultsData = await page.evaluate(() => {
 
-      const players = [...document.querySelectorAll('.player')].map(playerEl => playerEl.querySelector('.bio__name__display').textContent);
+      const players = [...document.querySelectorAll('.player')].map(playerEl => playerEl.querySelector('.bio__name__display').textContent.trim());
       // [...document.querySelectorAll('div')] will convert StaticNodeList to Array of items - allows you to use .map()
-      const opponent = players.filter(player => player !== 'hcvminer')[0];
-      const winner = document.querySelector('.player.winner').querySelector('.bio__name__display').textContent;
+      const opponent = players.filter(player => player !== 'hvcminer')[0];
+      
+      // if result is a draw the winner won't be declared
+      let winner;
+      let dec = 0;
+      try {
+        winner = document.querySelector('.player.winner').querySelector('.bio__name__display').textContent.trim();
+        console.log(winner);
+        if (winner === 'hvcminer') {
+          dec = parseFloat(document.querySelector('.player.winner').querySelector('.dec-reward').querySelector('span').textContent.trim());
+        }
+      } catch(e) {
+        winner = 'unknown'
+      }
 
+      console.log('results from inside inner function', {
+        opponent: opponent,
+        isWinner: winner === 'hvcminer' ? true : false,
+        dec: dec
+      });
+      
       return {
         opponent: opponent,
-        isWinner: winner === 'HVCMINER' ? true : false,
+        isWinner: winner === 'hvcminer' ? true : false,
+        dec: dec
       }
     });
+
+    console.log('results from inside outer function', resultsData);
 
     return resultsData;
   }
@@ -102,6 +123,7 @@ async function battle(page) {
         teamCards = [...teamCards].map((card) => {
           let cardName = card.querySelector('img').src;
           cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_beta/', '');
+          cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_untamed/','');
           cardName = cardName.replace('%20', ' ');
           cardName = cardName.replace('.png', '');
           return cardName;
@@ -207,6 +229,8 @@ async function battle(page) {
 
   const battleResults = await getBattleResults(page);
 
+  await page.waitForTimeout(2000);
+  // probably click close battle button should be try catch
   await clickCloseBattleButton(page);
   await page.screenshot({ path: './screenshots/12.png' });
 
