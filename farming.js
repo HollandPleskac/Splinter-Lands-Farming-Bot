@@ -78,23 +78,32 @@ async function battle(page) {
   }
 
   async function getEnemyPreviousMatchData(page) {
-    let previousMatchData = await page.evaluate(() => {
+    return await page.evaluate(() => {
+
       function getMonsterNameFromLi(unformattedName) {
         let name = unformattedName.split('	')[0];
-        name.slice(0,-1); // keeps 0 index to the end index -1, effectivly removing the last letter
-        return unformattedName.split('	')[0];
+        name.slice(0,-1); // remove last letter
+        return name;
+      }
+
+      function getSplinterFromUrl(imgText) {
+        let splinter = imgText.replace('https://d36mxiodymuqjm.cloudfront.net/website/icons/','');
+        splinter = splinter.replace('.svg','');
+        splinter = splinter.replace('icon-element-','');
+        return splinter;
       }
 
       const previousTeamsDivs = document.querySelector('.recently-played-splinters__list').querySelectorAll('.recent-team');
 
       const data = [...previousTeamsDivs].map((teamDiv) => {
-        const img = teamDiv.querySelector('img');
+        const splinter = getSplinterFromUrl(teamDiv.querySelector('img').src);
         const monsters = [...teamDiv.querySelector('ul').querySelectorAll('li')].map(monsterLi => getMonsterNameFromLi(monsterLi.textContent.trim()));
         return {
-          splinter: img,
+          splinter: splinter,
           monsters: monsters
         }
       });
+      return data;
     });
   }
 
@@ -255,6 +264,8 @@ async function battle(page) {
     console.log(rule);
   });
 
+  const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
+
   await page.click('.btn.btn--create-team');
 
   await page.waitForTimeout(1000);
@@ -312,7 +323,8 @@ async function battle(page) {
   return {
     ...cardsFromBattle,
     ...battleResults,
-    ...splinters
+    ...splinters,
+    previousOpponentMatches: enemyPreviousMatchData
   }
 
 }
