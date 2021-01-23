@@ -256,6 +256,12 @@ async function battle(page) {
     });
   }
 
+  async function getManaCap(page) {
+    return await page.evaluate(() => {
+      return parseInt(document.querySelector('.mana-cap__icon').querySelector('div').firstElementChild.textContent.trim());
+    });
+  }
+
   // click on battle
   await page.click('#battle_category_btn');
 
@@ -268,6 +274,7 @@ async function battle(page) {
 
 
   const battleRule = await getBattleRule(page);
+  const manaCap = await getManaCap(page);
   const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
 
   await page.click('.btn.btn--create-team');
@@ -329,7 +336,8 @@ async function battle(page) {
     ...battleResults,
     ...splinters,
     previousOpponentMatches: enemyPreviousMatchData,
-    rule: battleRule
+    rule: battleRule,
+    manaCap: manaCap
   }
 
 }
