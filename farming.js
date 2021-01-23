@@ -69,7 +69,7 @@ async function battle(page) {
 
   async function clickCloseBattleButton(page) {
     try {
-      await page.waitForTimeout(2000);
+      await page.waitForTimeout(3000);
       await page.click('.btn.btn--done');
     } catch (e) {
       console.log('done button not availiable yet, trying again');
@@ -230,18 +230,10 @@ async function battle(page) {
   const battleResults = await getBattleResults(page);
 
   await page.waitForTimeout(2000);
-  // probably click close battle button should be try catch
   await clickCloseBattleButton(page);
   await page.screenshot({ path: './screenshots/12.png' });
 
   await page.waitForTimeout(2000);
-
-  console.log('Battle results : ', battleResults);
-  console.log('Cards from the battle : ', cardsFromBattle);
-  console.log('all together : ', {
-    ...cardsFromBattle,
-    ...battleResults
-  });
 
   return {
     ...cardsFromBattle,
