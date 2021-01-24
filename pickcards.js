@@ -160,6 +160,10 @@ async function pickCards(page) {
       return archers;
     }
 
+    function getLeftOvers(totalMana) {
+
+    }
+
     const cards = getAvailiableCards();
     let availiableMana = getAvailiableMana();
 
@@ -187,9 +191,14 @@ async function pickCards(page) {
 
     const archers = getArchers(availiableMana, secondPositionCard, cards);
     archers.forEach(archer => {
-      const archerElement = getCardElementByName(archer.name, cards);
-      archerElement.click();
+      if (archer.mana <= totalMana) {
+        const archerElement = getCardElementByName(archer.name, cards);
+        archerElement.click();
+        totalMana -= archer.mana;
+      }
     });
+
+    console.log('total mana after picking cards :', totalMana);
 
 
   });
