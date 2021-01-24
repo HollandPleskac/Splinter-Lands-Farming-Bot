@@ -160,8 +160,26 @@ async function pickCards(page) {
       return archers;
     }
 
-    function getLeftOvers(totalMana) {
+    function getLeftOvers(totalMana, tank, secondPosCard, chosenArchers, cards) {
 
+      let leftOverCards = [];
+
+      const archerNamesList = chosenArchers.map(archer => archer.name);
+
+      if (secondPosCard === undefined) {
+        secondPosCard = { name: "" }; // dummy value of name so that secondPosCard.name will still work
+      }
+
+      const possibleLeftOvers = cards.filter(card => card.mana <= totalMana && card.name !== tank.name && card.name !== secondPosCard.name && archerNamesList.includes(card.name) === false && card.name !== 'Furious Chicken');
+    
+      possibleLeftOvers.forEach(leftOver => {
+        if (leftOver.mana <= totalMana) {
+          leftOverCards.push(leftOver);
+          totalMana -= leftOver.mana;
+        }
+      })
+
+      return leftOverCards;
     }
 
     const cards = getAvailiableCards();
@@ -189,16 +207,29 @@ async function pickCards(page) {
       console.log('second position cards not availiable');
     }
 
+    let chosenArchers = [];
     const archers = getArchers(availiableMana, secondPositionCard, cards);
     archers.forEach(archer => {
-      if (archer.mana <= totalMana) {
+      if (archer.mana <= availiableMana) {
         const archerElement = getCardElementByName(archer.name, cards);
         archerElement.click();
-        totalMana -= archer.mana;
+        availiableMana -= archer.mana;
+        chosenArchers.push(archer);
       }
     });
 
-    console.log('total mana after picking cards :', totalMana);
+    try {
+      const leftovers = getLeftOvers(availiableMana, tank, secondPositionCard, chosenArchers, cards);
+      leftovers.forEach(leftOverCard => {
+        if (leftOverCard.mana <= availiableMana) {
+          const leftOverCardElement = getCardElementByName(leftOverCard.name, cards);
+          leftOverCardElement.click();
+          availiableMana -= leftOverCard.mana;
+        }
+      });
+    } catch (e) {
+      console.log('could not get leftover cards',e);
+    }
 
 
   });
