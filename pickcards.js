@@ -154,7 +154,6 @@ async function pickCards(page) {
           archers.push(rangedCard);
           totalMana -= rangedCard.mana;
         }
-
       }
 
       return archers;

@@ -51,7 +51,7 @@ async function startFarming(username, password) {
   await page.waitForTimeout(3000); // change later
   await page.screenshot({ path: './screenshots/4.png' });
 
-  return page;
+  return { page: page, browser: browser };
 
 }
 
@@ -249,8 +249,8 @@ async function battle(page) {
   async function getBattleRule(page) {
     return await page.evaluate(() => {
       let rule = document.querySelector('.combat__conflict').querySelector('img').src;
-      rule = rule.replace('https://d36mxiodymuqjm.cloudfront.net/website/icons/rulesets/new/img_combat-rule_','');
-      rule = rule.replace('_150.png','');
+      rule = rule.replace('https://d36mxiodymuqjm.cloudfront.net/website/icons/rulesets/new/img_combat-rule_', '');
+      rule = rule.replace('_150.png', '');
       rule = rule.replace('-', ' ');
       return rule;
     });
@@ -261,6 +261,8 @@ async function battle(page) {
       return parseInt(document.querySelector('.mana-cap__icon').querySelector('div').firstElementChild.textContent.trim());
     });
   }
+
+  throw 'test error';
 
   // click on battle
   await page.click('#battle_category_btn');

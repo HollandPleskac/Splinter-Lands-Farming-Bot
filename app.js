@@ -17,6 +17,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 let page;
+let browser;
 let battleSwitch = false;
 let isInMatch = false;
 
@@ -29,7 +30,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-(async function () {
+async function openSplinterLands() {
   const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
     if (err) throw err;
     return data
@@ -38,26 +39,40 @@ app.use(function (req, res, next) {
   const username = credentials[0];
   const password = credentials[1];
 
-  page = await farming.startFarming(username, password);
+  const setUpData = await farming.startFarming(username, password);
+  page = setUpData.page;
+  browser = setUpData.page;
+  // browser here
+};
 
+(async function () {
+  await openSplinterLands();
 })();
 
 app.post('/battle', async (request, response) => {
   function shouldBattle() {
     return battleSwitch;
   }
-  isInMatch = true;
-  while (shouldBattle()) {
-    try {
-      const battleResults = await farming.battle(page);
-      await firestore.logBattle(db, battleResults);
-    } catch(e) {
-      console.log(`error battling ${e}`);
-      // should contain logic to get back to the button to battle (maybe open tab or something??)
-      battleSwitch = false;
+
+  async function executeBattleLoop() {
+    while (shouldBattle()) {
+      try {
+        const battleResults = await farming.battle(page);
+        await firestore.logBattle(db, battleResults);
+      } catch (err) {
+        console.log(`error battling ${err}`);
+      
+        await browser.close();
+        await openSplinterLands();
+        await executeBattleLoop();
+      }
     }
   }
+
+  isInMatch = true;
+  await executeBattleLoop();
   isInMatch = false;
+  
   response.json({ result: 'stopped battling' });
 });
 
@@ -71,12 +86,12 @@ app.post('/stop-farming', async (request, response) => {
   response.json({ switch: 'false' });
 });
 
-app.get('/get-farming-status', (request,response) => {
-  response.json({'status': battleSwitch});
+app.get('/get-farming-status', (request, response) => {
+  response.json({ 'status': battleSwitch });
 });
 
 app.get('/get-isInMatch', (request, response) => {
-  response.json({'isInMatch': isInMatch});
+  response.json({ 'isInMatch': isInMatch });
 })
 
 app.listen(3000);
