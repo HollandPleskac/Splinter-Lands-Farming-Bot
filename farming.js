@@ -273,6 +273,7 @@ async function battle(page) {
   await page.screenshot({ path: './screenshots/6.png' });
 
 
+  // try here
   const battleRule = await getBattleRule(page);
   const manaCap = await getManaCap(page);
   const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
@@ -305,6 +306,9 @@ async function battle(page) {
 
   await page.waitForSelector('#btnRumble', { timeout: 280000 }); // instead wait for the match to actually load (this takes you to the animation)
   await page.screenshot({ path: './screenshots/9.png' });
+
+  // catch here (if the opponent surrenders it will happen between this interval)
+  // navigate the user back to the home screen
 
   // click on rumble button
   await clickRumbleButton(page);
