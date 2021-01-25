@@ -17,7 +17,6 @@ admin.initializeApp({
 const db = admin.firestore();
 
 let page;
-let browser;
 let battleSwitch = false;
 let isInMatch = false;
 
@@ -30,7 +29,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-async function openSplinterLands() {
+(async function openSplinterLands() {
   const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
     if (err) throw err;
     return data
@@ -38,15 +37,7 @@ async function openSplinterLands() {
   const credentials = fileData.split(',');
   const username = credentials[0];
   const password = credentials[1];
-
-  const setUpData = await farming.startFarming(username, password);
-  page = setUpData.page;
-  browser = setUpData.page;
-  // browser here
-};
-
-(async function () {
-  await openSplinterLands();
+  page = await farming.startFarming(username, password);
 })();
 
 app.post('/battle', async (request, response) => {
@@ -54,25 +45,17 @@ app.post('/battle', async (request, response) => {
     return battleSwitch;
   }
 
-  async function executeBattleLoop() {
-    while (shouldBattle()) {
-      try {
-        const battleResults = await farming.battle(page);
-        await firestore.logBattle(db, battleResults);
-      } catch (err) {
-        console.log(`error battling ${err}`);
-      
-        await browser.close();
-        await openSplinterLands();
-        await executeBattleLoop();
-      }
+  isInMatch = true;
+  while (shouldBattle()) {
+    try {
+      const battleResults = await farming.battle(page);
+      await firestore.logBattle(db, battleResults);
+    } catch (err) {
+      console.log(`error battling ${err}`);
     }
   }
-
-  isInMatch = true;
-  await executeBattleLoop();
   isInMatch = false;
-  
+
   response.json({ result: 'stopped battling' });
 });
 
@@ -96,3 +79,6 @@ app.get('/get-isInMatch', (request, response) => {
 
 app.listen(3000);
 
+// cancel match
+// before cards
+// after cards

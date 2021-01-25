@@ -51,7 +51,7 @@ async function startFarming(username, password) {
   await page.waitForTimeout(3000); // change later
   await page.screenshot({ path: './screenshots/4.png' });
 
-  return { page: page, browser: browser };
+  return page;
 
 }
 
@@ -261,8 +261,6 @@ async function battle(page) {
       return parseInt(document.querySelector('.mana-cap__icon').querySelector('div').firstElementChild.textContent.trim());
     });
   }
-
-  throw 'test error';
 
   // click on battle
   await page.click('#battle_category_btn');
