@@ -262,60 +262,84 @@ async function battle(page) {
     });
   }
 
-  // start the function for click battle
-  // click on battle
-  await page.click('#battle_category_btn');
+  async function loadBattle(page) {
+    // start the function for click battle
+    // click on battle
+    try {
+      await page.click('#battle_category_btn');
 
-  await page.waitForTimeout(3000); // change later
-  await page.screenshot({ path: './screenshots/5.png' });
+      await page.waitForTimeout(3000); // change later
+      await page.screenshot({ path: './screenshots/5.png' });
 
-  // accept the battle with the create team button
-  await page.waitForSelector('.btn.btn--create-team', { timeout: 250000 });
-  await page.screenshot({ path: './screenshots/6.png' });
+      // accept the battle with the create team button
+      await page.waitForSelector('.btn.btn--create-team', { timeout: 250000 });
+      await page.screenshot({ path: './screenshots/6.png' });
 
 
-  // try here
-  const battleRule = await getBattleRule(page);
-  const manaCap = await getManaCap(page);
-  const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
+      // try here
+      const battleRule = await getBattleRule(page);
+      const manaCap = await getManaCap(page);
+      const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
 
-  await page.click('.btn.btn--create-team');
+      await page.click('.btn.btn--create-team');
 
-  await page.waitForTimeout(1000);
-  await page.screenshot({ path: './screenshots/7.png' });
+      await page.waitForTimeout(1000);
+      await page.screenshot({ path: './screenshots/7.png' });
 
-  // choose a summoner
+      // choose a summoner
 
-  await page.evaluate(() => {
-    const summoners = document.querySelector('.deck-builder-page2__cards');
-    const summonerDiv = summoners.querySelectorAll('div')[0];
-    const summonerElement = summonerDiv.querySelector('img');
-    summonerElement.click();
-  });
-  await page.waitForTimeout(1000);
-  await page.screenshot({ path: './screenshots/8.png' });
+      await page.evaluate(() => {
+        const summoners = document.querySelector('.deck-builder-page2__cards');
+        const summonerDiv = summoners.querySelectorAll('div')[0];
+        const summonerElement = summonerDiv.querySelector('img');
+        summonerElement.click();
+      });
+      await page.waitForTimeout(1000);
+      await page.screenshot({ path: './screenshots/8.png' });
 
-  // pick cards and battle
+      // pick cards and battle
 
-  await pickCards(page);
-  await page.screenshot({ path: './screenshots/cards.png' });
+      await pickCards(page);
+      await page.screenshot({ path: './screenshots/cards.png' });
 
-  await page.evaluate(() => {
-    const startBattleBtn = document.querySelector('.btn-green');
-    startBattleBtn.click();
-  });
+      await page.evaluate(() => {
+        const startBattleBtn = document.querySelector('.btn-green');
+        startBattleBtn.click();
+      });
 
-  await page.waitForSelector('#btnRumble', { timeout: 280000 }); // instead wait for the match to actually load (this takes you to the animation)
-  await page.screenshot({ path: './screenshots/9.png' });
+      await page.waitForSelector('#btnRumble', { timeout: 280000 }); // instead wait for the match to actually load (this takes you to the animation)
+      await page.screenshot({ path: './screenshots/9.png' });
 
-  // catch here (if the opponent surrenders it will happen between this interval)
-  // end the recursive click battle function
-  // will always navigate to this point until success
-  // navigate the user back to the home screen
-  // trying and catching the code here allways you to navigate to the home screen without being in a battle (makes sure opponent surrenders)
+      // catch here (if the opponent surrenders it will happen between this interval)
+      // end the recursive click battle function
+      // will always navigate to this point until success
+      // navigate the user back to the home screen
+      // trying and catching the code here allways you to navigate to the home screen without being in a battle (makes sure opponent surrenders)
 
-  // then this code will execute and one battle will complete
-  // click on rumble button
+      // then this code will execute and one battle will complete
+      // click on rumble button
+
+      return {
+        battleRule: battleRule,
+        manaCap: manaCap,
+        enemyPreviousMatchData: enemyPreviousMatchData,
+      }
+    } catch (e) {
+      console.log('an error occurred while loading the battle, trying to load another battle', e);
+      await page.goto('https://splinterlands.com/?p=battle_history');
+      await page.waitForTimeout(1000000); // set a super long timeout here to see what is actually going on here.
+      // stop the function here
+      // await loadBattle(page);
+    }
+
+  }
+
+  const data = await loadBattle(page);
+  const battleRule = data.battleRule;
+  const manaCap = data.manaCap;
+  const enemyPreviousMatchData = data.enemyPreviousMatchData;
+
+
   await clickRumbleButton(page);
   await page.screenshot({ path: './screenshots/10.png' });
 
