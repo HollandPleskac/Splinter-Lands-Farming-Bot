@@ -262,6 +262,7 @@ async function battle(page) {
     });
   }
 
+  // start the function for click battle
   // click on battle
   await page.click('#battle_category_btn');
 
@@ -308,8 +309,12 @@ async function battle(page) {
   await page.screenshot({ path: './screenshots/9.png' });
 
   // catch here (if the opponent surrenders it will happen between this interval)
+  // end the recursive click battle function
+  // will always navigate to this point until success
   // navigate the user back to the home screen
+  // trying and catching the code here allways you to navigate to the home screen without being in a battle (makes sure opponent surrenders)
 
+  // then this code will execute and one battle will complete
   // click on rumble button
   await clickRumbleButton(page);
   await page.screenshot({ path: './screenshots/10.png' });
