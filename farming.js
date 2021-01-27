@@ -262,9 +262,13 @@ async function battle(page) {
     });
   }
 
-  async function loadBattle(page) {
+  async function loadBattle(page, failedCount) {
     // start the function for click battle
     // click on battle
+    let battleRule;
+    let manaCap;
+    let enemyPreviousMatchData;
+    let success;
     try {
       throw 'test err';
       await page.click('#battle_category_btn');
@@ -278,9 +282,9 @@ async function battle(page) {
 
 
       // try here
-      const battleRule = await getBattleRule(page);
-      const manaCap = await getManaCap(page);
-      const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
+      battleRule = await getBattleRule(page);
+      manaCap = await getManaCap(page);
+      enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
 
       await page.click('.btn.btn--create-team');
 
@@ -311,36 +315,51 @@ async function battle(page) {
       await page.waitForSelector('#btnRumble', { timeout: 280000 }); // instead wait for the match to actually load (this takes you to the animation)
       await page.screenshot({ path: './screenshots/9.png' });
 
-      // catch here (if the opponent surrenders it will happen between this interval)
-      // end the recursive click battle function
-      // will always navigate to this point until success
-      // navigate the user back to the home screen
-      // trying and catching the code here allways you to navigate to the home screen without being in a battle (makes sure opponent surrenders)
-
-      // then this code will execute and one battle will complete
-      // click on rumble button
-
-      return {
-        battleRule: battleRule,
-        manaCap: manaCap,
-        enemyPreviousMatchData: enemyPreviousMatchData,
-      }
+      success = true;
+      
     } catch (e) {
       console.log('an error occurred while loading the battle, trying to load another battle', e);
       await page.goto('https://splinterlands.com/?p=battle_history');
       await page.waitForTimeout(5000);
-      await page.evaluate(() => {
-        document.querySelector('.modal-close-new').click();
-      });
+      try {
+        await page.evaluate(() => {
+          document.querySelector('.modal-close-new').click();
+        });
+      } catch(e) {
+        console.log('no need to close modal');
+      }
+      
+      await page.waitForTimeout(1000);
+      console.log(failedCount);
+      if (failedCount >= 3) {
+        success = false;
+      } else {
+        await loadBattle(page, failedCount + 1);
+      }
+      
+    }
+
+    return {
+      battleRule: battleRule,
+      manaCap: manaCap,
+      enemyPreviousMatchData: enemyPreviousMatchData,
+      success: success,
     }
 
   }
 
-  const data = await loadBattle(page);
+  const data = await loadBattle(page, 0);
+  console.log('data from load battle()',data); // data is undefined
+
+  if (!data.success) {
+    console.log('data.success', data.success);
+    console.log('returning false??');
+    return { success: false };
+  }
+
   const battleRule = data.battleRule;
   const manaCap = data.manaCap;
   const enemyPreviousMatchData = data.enemyPreviousMatchData;
-
 
   await clickRumbleButton(page);
   await page.screenshot({ path: './screenshots/10.png' });
@@ -372,7 +391,8 @@ async function battle(page) {
     ...splinters,
     previousOpponentMatches: enemyPreviousMatchData,
     rule: battleRule,
-    manaCap: manaCap
+    manaCap: manaCap,
+    success: true
   }
 
 }

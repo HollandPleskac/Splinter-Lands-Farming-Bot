@@ -41,6 +41,7 @@ app.use(function (req, res, next) {
 })();
 
 app.post('/battle', async (request, response) => {
+  let battleResponse = 'stopped battling - success';
   function shouldBattle() {
     return battleSwitch;
   }
@@ -49,14 +50,20 @@ app.post('/battle', async (request, response) => {
   while (shouldBattle()) {
     try {
       const battleResults = await farming.battle(page);
-      await firestore.logBattle(db, battleResults);
+      console.log('success from battle results: ',battleResults.success);
+      if (battleResults.success === true) {
+        await firestore.logBattle(db, battleResults);
+      } else {
+        battleSwitch = false;
+        battleResponse = 'an error occurred, 3 failed battle limit reached';
+      }
     } catch (err) {
       console.log(`error battling ${err}`);
     }
   }
   isInMatch = false;
 
-  response.json({ result: 'stopped battling' });
+  response.json({ result: battleResponse });
 });
 
 app.post('/start-farming', async (request, response) => {
