@@ -63,7 +63,7 @@ async function battle(page) {
       await page.click('#btnRumble');
     } catch (e) {
       console.log('rumble not availiable yet, trying again');
-      clickRumbleButton(page);
+      await clickRumbleButton(page);
     }
   }
 
@@ -270,7 +270,7 @@ async function battle(page) {
     let enemyPreviousMatchData;
     let success;
     try {
-      throw 'test err';
+
       await page.click('#battle_category_btn');
 
       await page.waitForTimeout(3000); // change later
@@ -349,7 +349,7 @@ async function battle(page) {
   }
 
   const data = await loadBattle(page, 0);
-  console.log('data from load battle()',data); // data is undefined
+  console.log('data from load battle()',data);
 
   if (!data.success) {
     console.log('data.success', data.success);

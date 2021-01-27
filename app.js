@@ -59,6 +59,7 @@ app.post('/battle', async (request, response) => {
       }
     } catch (err) {
       console.log(`error battling ${err}`);
+      await page.screenshot('./screenshots/battle-err.png');
     }
   }
   isInMatch = false;
