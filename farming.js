@@ -266,6 +266,7 @@ async function battle(page) {
     // start the function for click battle
     // click on battle
     try {
+      throw 'test err';
       await page.click('#battle_category_btn');
 
       await page.waitForTimeout(3000); // change later
@@ -327,9 +328,10 @@ async function battle(page) {
     } catch (e) {
       console.log('an error occurred while loading the battle, trying to load another battle', e);
       await page.goto('https://splinterlands.com/?p=battle_history');
-      await page.waitForTimeout(1000000); // set a super long timeout here to see what is actually going on here.
-      // stop the function here
-      // await loadBattle(page);
+      await page.waitForTimeout(5000);
+      await page.evaluate(() => {
+        document.querySelector('.modal-close-new').click();
+      });
     }
 
   }
