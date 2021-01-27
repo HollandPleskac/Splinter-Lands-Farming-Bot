@@ -311,7 +311,7 @@ async function battle(page) {
         const startBattleBtn = document.querySelector('.btn-green');
         startBattleBtn.click();
       });
-
+      
       await page.waitForSelector('#btnRumble', { timeout: 280000 }); // instead wait for the match to actually load (this takes you to the animation)
       await page.screenshot({ path: './screenshots/9.png' });
 
