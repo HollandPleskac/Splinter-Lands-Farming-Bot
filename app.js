@@ -41,24 +41,36 @@ app.use(function (req, res, next) {
 })();
 
 app.post('/battle', async (request, response) => {
+
   let battleResponse = 'stopped battling - success';
+  let restartFailedCount = 0;
+
   function shouldBattle() {
     return battleSwitch;
   }
 
   isInMatch = true;
   while (shouldBattle()) {
+
     try {
       const battleResults = await farming.battle(page);
       await firestore.logBattle(db, battleResults);
+      battleResponse = 'stopped battling - success';
     } catch (err) {
       console.log(`error battling ${err}`);
-      await page.screenshot('./screenshots/battle-err.png');
+      await farming.performRestart(page);
+      restartFailedCount++;
+      if (restartFailedCount >= 3) {
+        battleResponse = 'failed while battling - manual restart required';
+        battleSwitch = false;
+      }
     }
+
   }
   isInMatch = false;
 
   response.json({ result: battleResponse });
+
 });
 
 app.post('/start-farming', async (request, response) => {

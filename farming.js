@@ -117,6 +117,8 @@ async function battle(page) {
     });
   }
 
+
+
   async function getBattleResults(page) {
     let resultsData = await page.evaluate(() => {
 
@@ -272,21 +274,6 @@ async function battle(page) {
     });
   }
 
-  async function performRestart(page) {
-    await page.evaluate(() => {
-      await page.goto('https://splinterlands.com/?p=battle_history');
-      await page.waitForTimeout(5000);
-      try {
-        await page.evaluate(() => {
-          document.querySelector('.modal-close-new').click();
-        });
-      } catch (e) {
-        console.log('no need to close modal');
-      }
-    });
-
-  }
-
   async function playBattle(page) {
 
     await page.click('#battle_category_btn');
@@ -365,9 +352,21 @@ async function battle(page) {
 
   }
 
-  
   return await playBattle(page);
 
 }
 
-module.exports = { startFarming, battle };
+async function performRestart(page) {
+  await page.goto('https://splinterlands.com/?p=battle_history');
+  await page.waitForTimeout(5000);
+  await page.evaluate(async () => {
+    try {
+        document.querySelector('.modal-close-new').click();
+    } catch (e) {
+      console.log('no need to close modal');
+    }
+  });
+}
+
+
+module.exports = { startFarming, battle, performRestart };
