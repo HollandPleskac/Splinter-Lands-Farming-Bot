@@ -59,7 +59,7 @@ async function battle(page) {
 
   async function clickRumbleButton(page) {
     try {
-      await page.waitForTimeout(3000);
+      await page.waitForTimeout(4000);
       await page.click('#btnRumble');
     } catch (e) {
       console.log('rumble not availiable yet, trying again');
@@ -312,7 +312,7 @@ async function battle(page) {
         startBattleBtn.click();
       });
       
-      await page.waitForSelector('#btnRumble', { timeout: 280000 }); // instead wait for the match to actually load (this takes you to the animation)
+      await page.waitForSelector('#btnRumble', { timeout: 300000 }); // instead wait for the match to actually load (this takes you to the animation)
       await page.screenshot({ path: './screenshots/9.png' });
 
       success = true;
@@ -331,7 +331,7 @@ async function battle(page) {
       
       await page.waitForTimeout(1000);
       console.log(failedCount);
-      if (failedCount >= 3) {
+      if (failedCount >= 2) {
         success = false;
       } else {
         await loadBattle(page, failedCount + 1);

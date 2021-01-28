@@ -55,7 +55,7 @@ app.post('/battle', async (request, response) => {
         await firestore.logBattle(db, battleResults);
       } else {
         battleSwitch = false;
-        battleResponse = 'an error occurred, 3 failed battle limit reached';
+        battleResponse = 'an error occurred, 2 failed battle limit reached';
       }
     } catch (err) {
       console.log(`error battling ${err}`);
