@@ -50,13 +50,7 @@ app.post('/battle', async (request, response) => {
   while (shouldBattle()) {
     try {
       const battleResults = await farming.battle(page);
-      console.log('success from battle results: ',battleResults.success);
-      if (battleResults.success === true) {
-        await firestore.logBattle(db, battleResults);
-      } else {
-        battleSwitch = false;
-        battleResponse = 'an error occurred, 2 failed battle limit reached';
-      }
+      await firestore.logBattle(db, battleResults);
     } catch (err) {
       console.log(`error battling ${err}`);
       await page.screenshot('./screenshots/battle-err.png');

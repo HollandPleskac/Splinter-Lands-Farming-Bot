@@ -73,7 +73,17 @@ async function battle(page) {
       await page.click('.btn.btn--done');
     } catch (e) {
       console.log('done button not availiable yet, trying again');
-      clickCloseBattleButton(page);
+      await clickCloseBattleButton(page);
+    }
+  }
+
+  async function clickSkipButton(page) {
+    try {
+      await page.waitForTimeout(3000);
+      await page.click('#btnSkip');
+    } catch (e) {
+      console.log('skip button not availiable yet, trying again');
+      await clickSkipButton(page);
     }
   }
 
@@ -262,138 +272,101 @@ async function battle(page) {
     });
   }
 
-  async function loadBattle(page, failedCount) {
-    // start the function for click battle
-    // click on battle
-    let battleRule;
-    let manaCap;
-    let enemyPreviousMatchData;
-    let success;
-    try {
-
-      await page.click('#battle_category_btn');
-
-      await page.waitForTimeout(3000); // change later
-      await page.screenshot({ path: './screenshots/5.png' });
-
-      // accept the battle with the create team button
-      await page.waitForSelector('.btn.btn--create-team', { timeout: 250000 });
-      await page.screenshot({ path: './screenshots/6.png' });
-
-
-      // try here
-      battleRule = await getBattleRule(page);
-      manaCap = await getManaCap(page);
-      enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
-
-      await page.click('.btn.btn--create-team');
-
-      await page.waitForTimeout(1000);
-      await page.screenshot({ path: './screenshots/7.png' });
-
-      // choose a summoner
-
-      await page.evaluate(() => {
-        const summoners = document.querySelector('.deck-builder-page2__cards');
-        const summonerDiv = summoners.querySelectorAll('div')[0];
-        const summonerElement = summonerDiv.querySelector('img');
-        summonerElement.click();
-      });
-      await page.waitForTimeout(1000);
-      await page.screenshot({ path: './screenshots/8.png' });
-
-      // pick cards and battle
-
-      await pickCards(page);
-      await page.screenshot({ path: './screenshots/cards.png' });
-
-      await page.evaluate(() => {
-        const startBattleBtn = document.querySelector('.btn-green');
-        startBattleBtn.click();
-      });
-      
-      await page.waitForSelector('#btnRumble', { timeout: 300000 }); // instead wait for the match to actually load (this takes you to the animation)
-      await page.screenshot({ path: './screenshots/9.png' });
-
-      success = true;
-      
-    } catch (e) {
-      console.log('an error occurred while loading the battle, trying to load another battle', e);
+  async function performRestart(page) {
+    await page.evaluate(() => {
       await page.goto('https://splinterlands.com/?p=battle_history');
       await page.waitForTimeout(5000);
       try {
         await page.evaluate(() => {
           document.querySelector('.modal-close-new').click();
         });
-      } catch(e) {
+      } catch (e) {
         console.log('no need to close modal');
       }
-      
-      await page.waitForTimeout(1000);
-      console.log(failedCount);
-      if (failedCount >= 2) {
-        success = false;
-      } else {
-        await loadBattle(page, failedCount + 1);
-      }
-      
-    }
+    });
+
+  }
+
+  async function playBattle(page) {
+
+    await page.click('#battle_category_btn');
+
+    await page.waitForTimeout(3000); // change later
+    await page.screenshot({ path: './screenshots/5.png' });
+
+    // accept the battle with the create team button
+    await page.waitForSelector('.btn.btn--create-team', { timeout: 250000 });
+    await page.screenshot({ path: './screenshots/6.png' });
+
+
+    const battleRule = await getBattleRule(page);
+    const manaCap = await getManaCap(page);
+    const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
+
+    await page.click('.btn.btn--create-team');
+
+    await page.waitForTimeout(1000);
+    await page.screenshot({ path: './screenshots/7.png' });
+
+    // choose a summoner
+
+    await page.evaluate(() => {
+      const summoners = document.querySelector('.deck-builder-page2__cards');
+      const summonerDiv = summoners.querySelectorAll('div')[0];
+      const summonerElement = summonerDiv.querySelector('img');
+      summonerElement.click();
+    });
+    await page.waitForTimeout(1000);
+    await page.screenshot({ path: './screenshots/8.png' });
+
+    // pick cards
+
+    await pickCards(page);
+    await page.screenshot({ path: './screenshots/cards.png' });
+
+    // click battle
+
+    await page.evaluate(() => {
+      const startBattleBtn = document.querySelector('.btn-green');
+      startBattleBtn.click();
+    });
+
+    await page.waitForSelector('#btnRumble', { timeout: 300000 }); // instead wait for the match to actually load (this takes you to the animation)
+    await page.screenshot({ path: './screenshots/9.png' });
+
+    await clickRumbleButton(page);
+    await page.screenshot({ path: './screenshots/10.png' });
+
+    const cardsFromBattle = await getCardsUsed(page);
+    const splinters = await getSplinters(page);
+
+    await clickSkipButton(page);
+    await page.screenshot({ path: './screenshots/11.png' });
+
+    // click on close button
+    await page.waitForSelector('.btn.btn--done', { timeout: 250000 });
+
+    const battleResults = await getBattleResults(page);
+
+    await page.waitForTimeout(2000);
+    await clickCloseBattleButton(page);
+    await page.screenshot({ path: './screenshots/12.png' });
+
+    await page.waitForTimeout(2000);
 
     return {
-      battleRule: battleRule,
+      ...cardsFromBattle,
+      ...battleResults,
+      ...splinters,
+      previousOpponentMatches: enemyPreviousMatchData,
+      rule: battleRule,
       manaCap: manaCap,
-      enemyPreviousMatchData: enemyPreviousMatchData,
-      success: success,
     }
 
   }
 
-  const data = await loadBattle(page, 0);
-  console.log('data from load battle()',data);
-
-  if (!data.success) {
-    console.log('data.success', data.success);
-    console.log('returning false??');
-    return { success: false };
-  }
-
-  const battleRule = data.battleRule;
-  const manaCap = data.manaCap;
-  const enemyPreviousMatchData = data.enemyPreviousMatchData;
-
-  await clickRumbleButton(page);
-  await page.screenshot({ path: './screenshots/10.png' });
-
-  // click on the skip button
-  await page.waitForTimeout(15000); // wait for the skip button to be availiable
-
-  const cardsFromBattle = await getCardsUsed(page);
-  const splinters = await getSplinters(page);
-
-  await page.click('#btnSkip');
-  // put the click skip button in a try catch block too
-  await page.screenshot({ path: './screenshots/11.png' });
-
-  // click on close button
-  await page.waitForSelector('.btn.btn--done', { timeout: 250000 });
-
-  const battleResults = await getBattleResults(page);
-
-  await page.waitForTimeout(2000);
-  await clickCloseBattleButton(page);
-  await page.screenshot({ path: './screenshots/12.png' });
-
-  await page.waitForTimeout(2000);
-
-  return {
-    ...cardsFromBattle,
-    ...battleResults,
-    ...splinters,
-    previousOpponentMatches: enemyPreviousMatchData,
-    rule: battleRule,
-    manaCap: manaCap,
-    success: true
-  }
+  
+  return await playBattle(page);
 
 }
 
