@@ -57,7 +57,7 @@ app.post('/battle', async (request, response) => {
       await firestore.logBattle(db, battleResults);
       battleResponse = 'stopped battling - success';
     } catch (err) {
-      console.log(`error battling ${err}`);
+      console.log(`error battling ${err}, failed count ${restartFailedCount}`);
       await farming.performRestart(page);
       restartFailedCount++;
       if (restartFailedCount >= 3) {
