@@ -308,7 +308,7 @@ async function battle(page) {
 
     // pick cards
 
-    await pickCards(page);
+    const manaRemaining = await pickCards(page);
     await page.screenshot({ path: './screenshots/cards.png' });
 
     // click battle
@@ -348,6 +348,8 @@ async function battle(page) {
       previousOpponentMatches: enemyPreviousMatchData,
       rule: battleRule,
       manaCap: manaCap,
+      manaRemaining: manaRemaining,
+      timestamp: Date.now()
     }
 
   }

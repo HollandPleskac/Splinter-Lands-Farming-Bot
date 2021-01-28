@@ -1,5 +1,5 @@
 async function pickCards(page) {
-  await page.evaluate(() => {
+  return await page.evaluate(() => {
 
     function getAbilities(cardDivElement) {
       const abilityImgElements = cardDivElement.querySelector('.abilities').querySelectorAll('img');
@@ -230,7 +230,7 @@ async function pickCards(page) {
       console.log('could not get leftover cards',e);
     }
 
-
+    return availiableMana;
   });
 }
 
