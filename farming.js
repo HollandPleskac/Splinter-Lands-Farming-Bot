@@ -359,6 +359,8 @@ async function battle(page) {
 }
 
 async function performRestart(page) {
+  // first take a screenshot
+  await page.screenshot({ path: './screenshots/battle-err.png' });
   await page.goto('https://splinterlands.com/?p=battle_history');
   await page.waitForTimeout(5000);
   await page.evaluate(async () => {
