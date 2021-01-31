@@ -1,6 +1,5 @@
-async function pickCards(page) {
-  return await page.evaluate(() => {
-
+async function pickCards(page, summonerMana) {
+  return await page.evaluate((summonerMana) => {
     function getAbilities(cardDivElement) {
       const abilityImgElements = cardDivElement.querySelector('.abilities').querySelectorAll('img');
       let abilities = [];
@@ -78,9 +77,9 @@ async function pickCards(page) {
       return rangedAbilities;
     }
 
-    function getAvailiableMana() {
+    function getAvailiableMana(summonerMana) {
       let totalMana = parseInt(document.querySelector('.mana-cap').textContent.trim());
-      totalMana -= 3; // summoner 3 mana
+      totalMana -= summonerMana; // summoner 3 mana
       return totalMana;
     }
 
@@ -182,7 +181,7 @@ async function pickCards(page) {
     }
 
     const cards = getAvailiableCards();
-    let availiableMana = getAvailiableMana();
+    let availiableMana = getAvailiableMana(summonerMana);
 
     try {
       const chickenElement = getCardElementByName('Furious Chicken', cards);
@@ -231,7 +230,7 @@ async function pickCards(page) {
     }
 
     return availiableMana;
-  });
+  }, summonerMana);
 }
 
 module.exports = pickCards;

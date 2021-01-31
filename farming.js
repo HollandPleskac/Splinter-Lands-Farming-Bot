@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const pickCards = require('./pickcards');
+const pickSummoner = require('./picksummoner');
 
 
 async function startFarming(username, password) {
@@ -297,18 +298,14 @@ async function battle(page) {
 
     // choose a summoner
 
-    await page.evaluate(() => {
-      const summoners = document.querySelector('.deck-builder-page2__cards');
-      const summonerDiv = summoners.querySelectorAll('div')[0];
-      const summonerElement = summonerDiv.querySelector('img');
-      summonerElement.click();
-    });
+    const summoner = await pickSummoner(page);
+    console.log('chosen summoner : ' + summoner.mana);
     await page.waitForTimeout(1000);
     await page.screenshot({ path: './screenshots/8.png' });
 
     // pick cards
 
-    const manaRemaining = await pickCards(page);
+    const manaRemaining = await pickCards(page, summoner.mana);
     await page.screenshot({ path: './screenshots/cards.png' });
 
     // click battle
@@ -349,6 +346,7 @@ async function battle(page) {
       rule: battleRule,
       manaCap: manaCap,
       manaRemaining: manaRemaining,
+      hvcMinerSummoner: summoner,
       timestamp: Date.now()
     }
 
