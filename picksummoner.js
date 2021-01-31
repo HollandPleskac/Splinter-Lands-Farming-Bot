@@ -1,16 +1,36 @@
-async function pickSummoner(page) {
-  return await page.evaluate(() => {
+async function pickSummoner(page, splinter) {
+  return await page.evaluate((splinter) => {
 
     function getAvailiableSummoners() {
+
+      function getSplinter(name) {
+        if (name === 'Pyre') {
+          return 'fire';
+        } else if (name === 'Bortus') {
+          return 'water';
+        } else if (name === 'Wizard of Eastwood') {
+          return 'earth';
+        } else if (name === 'Mother Khala') {
+          return 'light';
+        } else if (name === 'Contessa L\'ament' || name === 'Mimosa Nightshade') {
+          return 'death';
+        } else if (name === 'Drake of Arnak') {
+          return 'dragon';
+        } else {
+          throw 'error picking splinter';
+        }
+      }
+
       const summoners = [];
 
       const summonerDivs = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta');
       for (let i = 0; i < summonerDivs.length; i++) {
-        const name = summonerDivs[0].querySelector('.card-name-name').textContent.trim();
-        const mana = parseInt(summonerDivs[0].querySelector('.stat-text-mana').textContent.trim());
+        const name = summonerDivs[i].querySelector('.card-name-name').textContent.trim();
+        const mana = parseInt(summonerDivs[i].querySelector('.stat-text-mana').textContent.trim());
         summoners.push({
           name: name,
           mana: mana,
+          splinter: getSplinter(name),
           position: i
         });
       }
@@ -18,21 +38,26 @@ async function pickSummoner(page) {
       return summoners;
     }
 
-    function getElementByName(summonerName, summoners) {
+    function getSummonerElementByName(summonerName, summoners) {
       const position = summoners.filter(summoner => summoner.name === summonerName)[0].position;
       const summonerElement = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[position].querySelector('img');
       return summonerElement;
     }
 
+    function getSummonerBySplinter(splinter, summoners) {
+      const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
+      return summonerChoices[0];
+    }
+
     const summoners = getAvailiableSummoners();
 
-    const chosenSummoner = summoners[0];
+    const chosenSummoner = getSummonerBySplinter(splinter, summoners);
 
-    const summonerElement = getElementByName(chosenSummoner.name, summoners);
+    const summonerElement = getSummonerElementByName(chosenSummoner.name, summoners);
     summonerElement.click();
 
     return chosenSummoner;
-  });
+  }, splinter);
 }
 
 module.exports = pickSummoner;

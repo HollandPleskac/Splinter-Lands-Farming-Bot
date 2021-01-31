@@ -298,8 +298,8 @@ async function battle(page) {
 
     // choose a summoner
 
-    const summoner = await pickSummoner(page);
-    console.log('chosen summoner : ' + summoner.mana);
+    const summoner = await pickSummoner(page, 'death');
+    console.log('chosen summoner : ' + summoner.name);
     await page.waitForTimeout(1000);
     await page.screenshot({ path: './screenshots/8.png' });
 
@@ -363,7 +363,7 @@ async function performRestart(page) {
   await page.waitForTimeout(5000);
   await page.evaluate(async () => {
     try {
-        document.querySelector('.modal-close-new').click();
+      document.querySelector('.modal-close-new').click();
     } catch (e) {
       console.log('no need to close modal');
     }
