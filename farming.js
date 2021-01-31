@@ -222,7 +222,7 @@ async function battle(page) {
         return hvcMinerTeam;
       }
 
-      function getSplinter(position) {
+      function getSplinterOfTeam(position) {
         // 0 for team 1, 1 for team 2
         const color = document.querySelectorAll('canvas')[position].style.boxShadow.split(" ")[0];
         if (color === 'red') {
@@ -243,11 +243,11 @@ async function battle(page) {
       let hvcMinerSplinter;
       let opponenentSplinter;
       if (getMyTeam() === 'team1') {
-        hvcMinerSplinter = getSplinter(0);
-        opponenentSplinter = getSplinter(1);
+        hvcMinerSplinter = getSplinterOfTeam(0);
+        opponenentSplinter = getSplinterOfTeam(1);
       } else {
-        hvcMinerSplinter = getSplinter(1);
-        opponenentSplinter = getSplinter(0);
+        hvcMinerSplinter = getSplinterOfTeam(1);
+        opponenentSplinter = getSplinterOfTeam(0);
       }
 
       return ({
@@ -298,7 +298,7 @@ async function battle(page) {
 
     // choose a summoner
 
-    const summoner = await pickSummoner(page, 'death');
+    const summoner = await pickSummoner(page, 'fire');
     console.log('chosen summoner : ' + summoner.name);
     await page.waitForTimeout(1000);
     await page.screenshot({ path: './screenshots/8.png' });

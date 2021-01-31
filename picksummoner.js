@@ -46,7 +46,13 @@ async function pickSummoner(page, splinter) {
 
     function getSummonerBySplinter(splinter, summoners) {
       const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
-      return summonerChoices[0];
+      if (summonerChoices.length === 0) {
+        console.log(`splinter type ${splinter} not availiable`);
+        return summoners[0];
+      } else {
+        return summonerChoices[0];
+      }
+      
     }
 
     const summoners = getAvailiableSummoners();
