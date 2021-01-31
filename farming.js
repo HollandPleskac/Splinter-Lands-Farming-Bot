@@ -56,7 +56,7 @@ async function startFarming(username, password) {
 
 }
 
-async function battle(page) {
+async function battle(page, splinterChoice) {
 
   async function clickRumbleButton(page) {
     try {
@@ -117,8 +117,6 @@ async function battle(page) {
       return data;
     });
   }
-
-
 
   async function getBattleResults(page) {
     let resultsData = await page.evaluate(() => {
@@ -275,7 +273,7 @@ async function battle(page) {
     });
   }
 
-  async function playBattle(page) {
+  async function playBattle(page, splinterChoice) {
 
     await page.click('#battle_category_btn');
 
@@ -298,7 +296,7 @@ async function battle(page) {
 
     // choose a summoner
 
-    const summoner = await pickSummoner(page, 'fire');
+    const summoner = await pickSummoner(page, splinterChoice);
     console.log('chosen summoner : ' + summoner.name);
     await page.waitForTimeout(1000);
     await page.screenshot({ path: './screenshots/8.png' });
@@ -352,7 +350,7 @@ async function battle(page) {
 
   }
 
-  return await playBattle(page);
+  return await playBattle(page, splinterChoice);
 
 }
 

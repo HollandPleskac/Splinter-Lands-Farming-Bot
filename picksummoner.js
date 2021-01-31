@@ -1,8 +1,7 @@
 async function pickSummoner(page, splinter) {
   return await page.evaluate((splinter) => {
-
+    
     function getAvailiableSummoners() {
-
       function getSplinter(name) {
         if (name === 'Pyre') {
           return 'fire';

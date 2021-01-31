@@ -19,6 +19,7 @@ const db = admin.firestore();
 let page;
 let battleSwitch = false;
 let isInMatch = false;
+let splinterChoice = 'fire';
 
 app.use(bodyparser.json());
 
@@ -51,9 +52,8 @@ app.post('/battle', async (request, response) => {
 
   isInMatch = true;
   while (shouldBattle()) {
-
     try {
-      const battleResults = await farming.battle(page);
+      const battleResults = await farming.battle(page, splinterChoice);
       await firestore.logBattle(db, battleResults);
       battleResponse = 'stopped battling - success';
     } catch (err) {
@@ -83,13 +83,25 @@ app.post('/stop-farming', async (request, response) => {
   response.json({ switch: 'false' });
 });
 
+app.post('/change-splinter-choice', (request, response) => {
+  console.log('request body', request.body);
+  splinterChoice = request.body.newSplinterChoice;
+  response.json({'splinterChoice': splinterChoice});
+});
+
 app.get('/get-farming-status', (request, response) => {
   response.json({ 'status': battleSwitch });
 });
 
 app.get('/get-isInMatch', (request, response) => {
   response.json({ 'isInMatch': isInMatch });
-})
+});
+
+app.get('/get-splinter-choice', (request, response) => {
+  response.json({ 'splinterChoice': splinterChoice });
+});
+
+
 
 app.listen(3000);
 
