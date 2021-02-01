@@ -101,10 +101,10 @@ app.get('/get-splinter-choice', (request, response) => {
   response.json({ 'splinterChoice': splinterChoice });
 });
 
+app.get('/', (request, response) => {
+  response.json({'homepage': 'homepage'});
+});
 
 
-app.listen(3000);
 
-// cancel match
-// before cards
-// after cards
+app.listen(8080);
