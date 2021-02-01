@@ -1,6 +1,6 @@
 async function pickSummoner(page, splinter) {
   return await page.evaluate((splinter) => {
-    
+
     function getAvailiableSummoners() {
       function getSplinter(name) {
         if (name === 'Pyre') {
@@ -10,7 +10,7 @@ async function pickSummoner(page, splinter) {
         } else if (name === 'Wizard of Eastwood') {
           return 'earth';
         } else if (name === 'Mother Khala') {
-          return 'light';
+          return 'life';
         } else if (name === 'Contessa L\'ament' || name === 'Mimosa Nightshade') {
           return 'death';
         } else if (name === 'Drake of Arnak') {
