@@ -14,17 +14,15 @@ async function startFarming(username, password) {
   const page = await browser.newPage();
 
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
-  await page.setViewport({ height: 800, width: 800 }); // make sure this works, login btn not defined for tiny viewport error cause
 
   await page.goto('https://splinterlands.com/');
 
-  await page.waitForTimeout(4000);
-
-  await page.evaluate(() => {
-    const loginDialogBtn = document.getElementById('log_in_button').firstElementChild;
-    loginDialogBtn.click();
+  await page.waitForTimeout(3000);
+  await page.evaluate(() => { // login button seems not to be definined
+    document.querySelector('.new-button').click();
   });
 
+  await page.waitForTimeout(3000);
   await page.waitForSelector('#login_dialog_v2');
   await page.waitForSelector('#email');
 
@@ -285,11 +283,12 @@ async function battle(page, splinterChoice) {
 
     await page.click('#battle_category_btn');
 
-    await page.waitForTimeout(3000); // change later
+    await page.waitForTimeout(3000);
     // await page.screenshot({ path: './screenshots/5.png' });
 
     // accept the battle with the create team button
     await page.waitForSelector('.btn.btn--create-team', { timeout: 250000 });
+    await page.waitForTimeout(3000);
     // await page.screenshot({ path: './screenshots/6.png' });
 
 

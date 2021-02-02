@@ -61,7 +61,7 @@ app.post('/battle', async (request, response) => {
   }
 
   isInMatch = true;
-  // while (shouldBattle()) {
+  while (shouldBattle()) {
     try {
       const battleResults = await farming.battle(page, splinterChoice);
       await firestore.logBattle(db, battleResults);
@@ -76,7 +76,7 @@ app.post('/battle', async (request, response) => {
       }
     }
 
-  // }
+  }
   isInMatch = false;
 
   response.json({ result: battleResponse });
