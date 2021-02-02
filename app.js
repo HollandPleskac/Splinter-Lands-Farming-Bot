@@ -33,22 +33,22 @@ app.use(function (req, res, next) {
 
 // (async function openSplinterLands() {})();
 
-app.post('/open-splinterlands', async (request,response) => {
-    const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
-      if (err) throw err;
-      return data
-    });
-    const credentials = fileData.split(',');
-    const username = credentials[0];
-    const password = credentials[1];
-    let returnResult = "success";
-    try {
-      page = await farming.startFarming(username, password);
-    } catch(e) {
-      returnResult = `failure : ${e}`
-    }
-    
-    response.json({'data':returnResult});
+app.post('/open-splinterlands', async (request, response) => {
+  const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
+    if (err) throw err;
+    return data
+  });
+  const credentials = fileData.split(',');
+  const username = credentials[0];
+  const password = credentials[1];
+  let returnResult = "success";
+  try {
+    page = await farming.startFarming(username, password);
+  } catch (e) {
+    returnResult = `failure : ${e}`
+  }
+
+  response.json({ 'data': returnResult });
 });
 
 app.post('/battle', async (request, response) => {
@@ -96,7 +96,7 @@ app.post('/stop-farming', async (request, response) => {
 app.post('/change-splinter-choice', (request, response) => {
   console.log('request body', request.body);
   splinterChoice = request.body.newSplinterChoice;
-  response.json({'splinterChoice': splinterChoice});
+  response.json({ 'splinterChoice': splinterChoice });
 });
 
 app.get('/get-farming-status', (request, response) => {
@@ -112,7 +112,7 @@ app.get('/get-splinter-choice', (request, response) => {
 });
 
 app.get('/', (request, response) => {
-  response.json({'homepage': 'homepage'});
+  response.json({ 'homepage': 'homepage' });
 });
 
 
@@ -126,3 +126,10 @@ app.listen(8080);
   https://stackoverflow.com/questions/62891633/puppeteer-error-navigation-failed-because-browser-has-disconnected
   problem is with app engines memory capacity.
   */
+
+  // browser failed to launch can't start X process
+
+/*
+https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+bug with nodejs 14 set the engine in package.json to "node": "14.x.x"
+*/
