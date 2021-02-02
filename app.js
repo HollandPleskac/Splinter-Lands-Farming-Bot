@@ -43,20 +43,9 @@ app.post('/open-splinterlands', async (request,response) => {
     const password = credentials[1];
     let returnResult = "success";
     try {
-      const browser = await puppeteer.launch({
-        headless: true,
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-        ],
-      });
-      page = await browser.newPage();
-
-      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
-
-      await page.goto('https://splinterlands.com/');
+      page = await farming.startFarming(username, password);
     } catch(e) {
-      returnResult = `failure : ${e} + ${username}, ${password}`
+      returnResult = `failure : ${e}`
     }
     
     response.json({'data':returnResult});
@@ -129,3 +118,11 @@ app.get('/', (request, response) => {
 
 
 app.listen(8080);
+
+// important for puppeteer and app engine
+
+/*
+  must set instance_class: F4 in the yaml file.
+  https://stackoverflow.com/questions/62891633/puppeteer-error-navigation-failed-because-browser-has-disconnected
+  problem is with app engines memory capacity.
+  */

@@ -5,7 +5,7 @@ const pickSummoner = require('./picksummoner');
 
 async function startFarming(username, password) {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
@@ -14,10 +14,12 @@ async function startFarming(username, password) {
   const page = await browser.newPage();
 
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
+  await page.setViewport({ height: 800, width: 800 }); // make sure this works, login btn not defined for tiny viewport error cause
 
   await page.goto('https://splinterlands.com/');
 
-  // activate login dialog
+  await page.waitForTimeout(4000);
+
   await page.evaluate(() => {
     const loginDialogBtn = document.getElementById('log_in_button').firstElementChild;
     loginDialogBtn.click();
@@ -26,12 +28,12 @@ async function startFarming(username, password) {
   await page.waitForSelector('#login_dialog_v2');
   await page.waitForSelector('#email');
 
-  await page.screenshot({ path: './screenshots/1.png' });
+  // await page.screenshot({ path: './screenshots/1.png' });
 
   // enter credentials
   await page.type('#email', username);
   await page.type('#password', password);
-  await page.screenshot({ path: './screenshots/2.png' });
+  // await page.screenshot({ path: './screenshots/2.png' });
 
   // click submit
   await page.evaluate(() => {
@@ -47,7 +49,7 @@ async function startFarming(username, password) {
   })
   await page.waitForTimeout(1000);
 
-  await page.screenshot({ path: './screenshots/3.png' });
+  // await page.screenshot({ path: './screenshots/3.png' });
 
   // go to home screen
   await page.evaluate(() => {
@@ -56,7 +58,7 @@ async function startFarming(username, password) {
   });
 
   await page.waitForTimeout(3000); // change later
-  await page.screenshot({ path: './screenshots/4.png' });
+  // await page.screenshot({ path: './screenshots/4.png' });
 
   return page;
 
@@ -284,11 +286,11 @@ async function battle(page, splinterChoice) {
     await page.click('#battle_category_btn');
 
     await page.waitForTimeout(3000); // change later
-    await page.screenshot({ path: './screenshots/5.png' });
+    // await page.screenshot({ path: './screenshots/5.png' });
 
     // accept the battle with the create team button
     await page.waitForSelector('.btn.btn--create-team', { timeout: 250000 });
-    await page.screenshot({ path: './screenshots/6.png' });
+    // await page.screenshot({ path: './screenshots/6.png' });
 
 
     const battleRule = await getBattleRule(page);
@@ -298,19 +300,19 @@ async function battle(page, splinterChoice) {
     await page.click('.btn.btn--create-team');
 
     await page.waitForTimeout(1000);
-    await page.screenshot({ path: './screenshots/7.png' });
+    // await page.screenshot({ path: './screenshots/7.png' });
 
     // choose a summoner
 
     const summoner = await pickSummoner(page, splinterChoice);
     console.log('chosen summoner : ' + summoner.name);
     await page.waitForTimeout(1000);
-    await page.screenshot({ path: './screenshots/8.png' });
+    // await page.screenshot({ path: './screenshots/8.png' });
 
     // pick cards
 
     const manaRemaining = await pickCards(page, summoner.mana);
-    await page.screenshot({ path: './screenshots/cards.png' });
+    // await page.screenshot({ path: './screenshots/cards.png' });
 
     // click battle
 
@@ -320,16 +322,16 @@ async function battle(page, splinterChoice) {
     });
 
     await page.waitForSelector('#btnRumble', { timeout: 300000 }); // instead wait for the match to actually load (this takes you to the animation)
-    await page.screenshot({ path: './screenshots/9.png' });
+    // await page.screenshot({ path: './screenshots/9.png' });
 
     await clickRumbleButton(page);
-    await page.screenshot({ path: './screenshots/10.png' });
+    // await page.screenshot({ path: './screenshots/10.png' });
 
     const cardsFromBattle = await getCardsUsed(page);
     const splinters = await getSplinters(page);
 
     await clickSkipButton(page);
-    await page.screenshot({ path: './screenshots/11.png' });
+    // await page.screenshot({ path: './screenshots/11.png' });
 
     // click on close button
     await page.waitForSelector('.btn.btn--done', { timeout: 250000 });
@@ -338,7 +340,7 @@ async function battle(page, splinterChoice) {
 
     await page.waitForTimeout(2000);
     await clickCloseBattleButton(page);
-    await page.screenshot({ path: './screenshots/12.png' });
+    // await page.screenshot({ path: './screenshots/12.png' });
 
     await page.waitForTimeout(2000);
 
@@ -362,7 +364,7 @@ async function battle(page, splinterChoice) {
 
 async function performRestart(page) {
   // first take a screenshot
-  await page.screenshot({ path: './screenshots/battle-err.png' });
+  // await page.screenshot({ path: './screenshots/battle-err.png' });
   await page.goto('https://splinterlands.com/?p=battle_history');
   await page.waitForTimeout(5000);
   await page.evaluate(async () => {
