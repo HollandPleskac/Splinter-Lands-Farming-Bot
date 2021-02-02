@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 
 const express = require('express');
 const bodyparser = require('body-parser');
+const puppeteer = require('puppeteer');
 
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
@@ -30,16 +31,36 @@ app.use(function (req, res, next) {
   next();
 });
 
-(async function openSplinterLands() {
-  const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
-    if (err) throw err;
-    return data
-  });
-  const credentials = fileData.split(',');
-  const username = credentials[0];
-  const password = credentials[1];
-  page = await farming.startFarming(username, password);
-})();
+// (async function openSplinterLands() {})();
+
+app.post('/open-splinterlands', async (request,response) => {
+    const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
+      if (err) throw err;
+      return data
+    });
+    const credentials = fileData.split(',');
+    const username = credentials[0];
+    const password = credentials[1];
+    let returnResult = "success";
+    try {
+      const browser = await puppeteer.launch({
+        headless: true,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+        ],
+      });
+      page = await browser.newPage();
+
+      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
+
+      await page.goto('https://splinterlands.com/');
+    } catch(e) {
+      returnResult = `failure : ${e} + ${username}, ${password}`
+    }
+    
+    response.json({'data':returnResult});
+});
 
 app.post('/battle', async (request, response) => {
 
@@ -51,7 +72,7 @@ app.post('/battle', async (request, response) => {
   }
 
   isInMatch = true;
-  while (shouldBattle()) {
+  // while (shouldBattle()) {
     try {
       const battleResults = await farming.battle(page, splinterChoice);
       await firestore.logBattle(db, battleResults);
@@ -66,7 +87,7 @@ app.post('/battle', async (request, response) => {
       }
     }
 
-  }
+  // }
   isInMatch = false;
 
   response.json({ result: battleResponse });
