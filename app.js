@@ -68,10 +68,13 @@ app.post('/battle', async (request, response) => {
       battleResponse = 'stopped battling - success';
     } catch (err) {
       console.log(`error battling ${err}, failed count ${restartFailedCount}`);
+
+      // might want to try catch this
       await farming.performRestart(page);
+
       restartFailedCount++;
       if (restartFailedCount >= 3) {
-        battleResponse = 'failed while battling - manual restart required';
+        battleResponse = `failed while battling - manual restart required + ${err}`;
         battleSwitch = false;
       }
     }
@@ -118,18 +121,3 @@ app.get('/', (request, response) => {
 
 
 app.listen(8080);
-
-// important for puppeteer and app engine
-
-/*
-  must set instance_class: F4 in the yaml file.
-  https://stackoverflow.com/questions/62891633/puppeteer-error-navigation-failed-because-browser-has-disconnected
-  problem is with app engines memory capacity.
-  */
-
-  // browser failed to launch can't start X process
-
-/*
-https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
-bug with nodejs 14 set the engine in package.json to "node": "14.x.x"
-*/
