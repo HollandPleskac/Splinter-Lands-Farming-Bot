@@ -14,7 +14,7 @@ async function startFarming(username, password) {
   await page.goto('https://splinterlands.com/');
 
   await page.waitForTimeout(3000);
-  await page.evaluate(() => { // login button seems not to be definined
+  await page.evaluate(() => {
     document.querySelector('.new-button').click();
   });
 
@@ -164,12 +164,16 @@ async function battle(page, splinterChoice) {
       function getCardNamesFromDOM(team) {
         let teamCards = document.querySelectorAll(`.cardContainer.${team}`);
         teamCards = [...teamCards].map((card) => {
-          let cardName = card.querySelector('img').src;
+          const cardUrl = card.querySelector('img').src;
+          let cardName = cardUrl;
           cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_beta/', '');
           cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_untamed/', '');
-          cardName = cardName.replace('%20', ' ');
+          cardName = cardName.replaceAll('%20', ' ');
           cardName = cardName.replace('.png', '');
-          return cardName;
+          return {
+            cardName: cardName,
+            cardUrl: cardUrl
+          };
         });
         return teamCards;
       }
