@@ -137,7 +137,7 @@ async function battle(page, splinterChoice) {
           dec = parseFloat(document.querySelector('.player.winner').querySelector('.dec-reward').querySelector('span').textContent.trim());
         }
       } catch (e) {
-        winner = 'unknown'
+        winner = 'unknown';
       }
 
       console.log('results from inside inner function', {
@@ -156,161 +156,6 @@ async function battle(page, splinterChoice) {
     console.log('results', resultsData);
 
     return resultsData;
-  }
-
-  // async function getCardsUsed(page) {
-
-  //   let cardData = await page.evaluate(async () => {
-  //     function getCardNamesFromDOM(team) {
-  //       let teamCards = document.querySelectorAll(`.cardContainer.${team}`);
-  //       teamCards = [...teamCards].map((card) => {
-  //         const cardUrl = card.querySelector('img').src;
-  //         let cardName = cardUrl;
-  //         cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_beta/', '');
-  //         cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_untamed/', '');
-  //         cardName = cardName.replaceAll('%20', ' ');
-  //         cardName = cardName.replace('.png', '');
-  //         return {
-  //           cardName: cardName,
-  //           cardUrl: cardUrl
-  //         };
-  //       });
-  //       return teamCards;
-  //     }
-
-  //     function getMyTeam() {
-  //       const team1Player = document.getElementById('t1_portrait').querySelector('.bio__name__display').textContent;
-  //       const team2Player = document.getElementById('t2_portrait').querySelector('.bio__name__display').textContent;
-  //       let hvcMinerTeam;
-  //       if (team1Player === 'hvcminer') {
-  //         hvcMinerTeam = 'team1';
-  //       } else {
-  //         hvcMinerTeam = 'team2';
-  //       }
-  //       return hvcMinerTeam;
-  //     }
-
-  //     const team1 = getCardNamesFromDOM('team1');
-  //     const team2 = getCardNamesFromDOM('team2');
-  //     let hvcMinerTeam;
-  //     let opponentTeam;
-  //     if (getMyTeam() === 'team1') {
-  //       hvcMinerTeam = team1;
-  //       opponentTeam = team2;
-  //     } else {
-  //       hvcMinerTeam = team2;
-  //       opponentTeam = team1;
-  //     }
-
-  //     return {
-  //       hvcvminerTeam: hvcMinerTeam,
-  //       opponentTeam: opponentTeam
-  //     }
-  //   });
-
-  //   return cardData;
-  // }
-
-  // async function getSplinters(page) {
-
-  //   const splinters = await page.evaluate(async () => {
-  //     function getMyTeam() {
-  //       const team1Player = document.getElementById('t1_portrait').querySelector('.bio__name__display').textContent;
-  //       const team2Player = document.getElementById('t2_portrait').querySelector('.bio__name__display').textContent;
-  //       let hvcMinerTeam;
-  //       if (team1Player === 'hvcminer') {
-  //         hvcMinerTeam = 'team1';
-  //       } else {
-  //         hvcMinerTeam = 'team2';
-  //       }
-  //       return hvcMinerTeam;
-  //     }
-
-  async function getCardsUsed(page) {
-
-    let battleLogEntryDiv = document.querySelector('.battle-log-entry');
-
-    let winningTeamName = battleLogEntry.querySelector('.battle-log-entry__team.win').querySelector('.bio__name__display').textContent.trim();
-    let winningTeamCards = battleLogEntry.querySelector('.battle-log-entry__team.win').querySelectorAll('.team__monster'); // list of <li> which contain info card name and card image url
-    
-    function getFormattedCardUrl(cardUrl) {
-      cardUrl = cardUrl.replace('url(','');
-      cardUrl = cardUrl.replace(')','');
-      cardUrl = cardUrl.slice(0,-1); // remove last letter (starting pt, # of removes)
-      cardUrl = cardUrl.substring(1); // returns the second letter to end (remove first letter)
-      return cardUrl;
-    }
-    
-    winningTeamCards = [...winningTeamCards].map(card => {
-      let cardName;
-      let cardUrl;
-      try {
-        cardName = card.querySelector('.team__monster__name').textContent.trim();
-        cardUrl = getFormattedCardUrl(card.querySelector('.team__monster__name').style.backgroundImage);
-      } catch (e) {
-        cardName = "";
-        cardUrl = "";
-      }
-      return { cardName: cardName, cardUrl: cardUrl };
-
-
-      // have the get card names from dom function to have 1 function for getting winners and losers
-      // get my team function to determine if hvc miner is the winner or the loser
-    });
-
-
-    let cardData = await page.evaluate(async () => {
-
-
-
-      function getCardNamesFromDOM(team) {
-        let teamCards = document.querySelectorAll(`.cardContainer.${team}`);
-        teamCards = [...teamCards].map((card) => {
-          const cardUrl = card.querySelector('img').src;
-          let cardName = cardUrl;
-          cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_beta/', '');
-          cardName = cardName.replace('https://d36mxiodymuqjm.cloudfront.net/cards_battle_untamed/', '');
-          cardName = cardName.replaceAll('%20', ' ');
-          cardName = cardName.replace('.png', '');
-          return {
-            cardName: cardName,
-            cardUrl: cardUrl
-          };
-        });
-        return teamCards;
-      }
-
-      function getMyTeam() {
-        const team1Player = document.getElementById('t1_portrait').querySelector('.bio__name__display').textContent;
-        const team2Player = document.getElementById('t2_portrait').querySelector('.bio__name__display').textContent;
-        let hvcMinerTeam;
-        if (team1Player === 'hvcminer') {
-          hvcMinerTeam = 'team1';
-        } else {
-          hvcMinerTeam = 'team2';
-        }
-        return hvcMinerTeam;
-      }
-
-      const team1 = getCardNamesFromDOM('team1');
-      const team2 = getCardNamesFromDOM('team2');
-      let hvcMinerTeam;
-      let opponentTeam;
-      if (getMyTeam() === 'team1') {
-        hvcMinerTeam = team1;
-        opponentTeam = team2;
-      } else {
-        hvcMinerTeam = team2;
-        opponentTeam = team1;
-      }
-
-      return {
-        hvcvminerTeam: hvcMinerTeam,
-        opponentTeam: opponentTeam
-      }
-    });
-
-    return cardData;
   }
 
   async function getSplinters(page) {
@@ -381,7 +226,68 @@ async function battle(page, splinterChoice) {
     });
   }
 
+  async function getCardsUsed(page) {
 
+    let cardData = await page.evaluate(async () => {
+
+      function getCardNamesFromDOM(team) {
+
+        function getFormattedCardUrl(cardUrl) {
+          cardUrl = cardUrl.replace('url(', '');
+          cardUrl = cardUrl.replace(')', '');
+          cardUrl = cardUrl.slice(0, -1); // remove last letter (starting pt, # of removes)
+          cardUrl = cardUrl.substring(1); // returns the second letter to end (remove first letter)
+          return cardUrl;
+        }
+
+        let teamCards = document.querySelector(`.battle-log-entry__team.${team}`).querySelectorAll('.team__monster'); // list of <li> which contain info card name and card image url
+        teamCards = [...teamCards].map(card => {
+          let cardName;
+          let cardUrl;
+          try {
+            cardName = card.querySelector('.team__monster__name').textContent.trim();
+            cardUrl = getFormattedCardUrl(card.querySelector('.team__monster__name').style.backgroundImage);
+          } catch (e) {
+            cardName = "";
+            cardUrl = "";
+          }
+          return { cardName: cardName, cardUrl: cardUrl };
+        });
+        return teamCards;
+      }
+
+      function getMyTeam() {
+        const winningTeamName = document.querySelector('.battle-log-entry__team.win').querySelector('.bio__name__display').textContent.trim();
+        let hvcminerTeam;
+        if (winningTeamName === 'hvcminer') {
+          hvcminerTeam = 'win';
+        } else {
+          hvcminerTeam = 'loss';
+        }
+        return hvcminerTeam;
+      }
+
+      const winningTeamCards = getCardNamesFromDOM('win');
+      const losingTeamCards = getCardNamesFromDOM('loss');
+      let hvcminerTeam;
+      let opponentTeam;
+
+      if (getMyTeam() === 'win') {
+        hvcminerTeam = winningTeamCards;
+        opponentTeam = losingTeamCards;
+      } else {
+        hvcminerTeam = losingTeamCards;
+        opponentTeam = winningTeamCards;
+      }
+      
+      return {
+        hvcvminerTeam: hvcminerTeam,
+        opponentTeam: opponentTeam
+      }
+    });
+
+    return cardData;
+  }
 
   async function playBattle(page, splinterChoice) {
 
@@ -447,7 +353,7 @@ async function battle(page, splinterChoice) {
 
     await page.waitForTimeout(2000);
 
-    // get cards used
+    const cardsFromBattle = await getCardsUsed(page);
 
     await page.waitForTimeout(1000);
 
