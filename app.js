@@ -48,6 +48,7 @@ app.post('/open-splinterlands', async (request, response) => {
     returnResult = `failure : ${e}`
   }
 
+  console.log('successfully opened splinterlands');
   response.json({ 'data': returnResult });
 });
 
@@ -120,4 +121,4 @@ app.get('/', (request, response) => {
 
 
 
-app.listen(8080);
+app.listen(5000);

@@ -6,7 +6,10 @@ const pickSummoner = require('./picksummoner');
 async function startFarming(username, password) {
   const browser = await puppeteer.launch({
     headless: false,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: '/usr/bin/chromium-browser'
   });
+  // args and executablePath are required to run on linux
   const page = await browser.newPage();
 
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
@@ -291,6 +294,8 @@ async function battle(page, splinterChoice) {
 
   async function playBattle(page, splinterChoice) {
 
+    console.log('starting a battle');
+
     await page.click('#battle_category_btn');
 
     await page.waitForTimeout(3000);
@@ -333,6 +338,7 @@ async function battle(page, splinterChoice) {
     await page.waitForSelector('#btnRumble', { timeout: 300000 }); // instead wait for the match to actually load (this takes you to the animation)
     await page.screenshot({ path: './screenshots/9.png' });
 
+    await page.waitForTimeout(10000);
     await clickRumbleButton(page);
     await page.screenshot({ path: './screenshots/10.png' });
 
