@@ -56,6 +56,7 @@ app.post('/battle', async (request, response) => {
 
   let battleResponse = 'stopped battling - success';
   let restartFailedCount = 0;
+  let failedWhileRestarting = false;
 
   function shouldBattle() {
     return battleSwitch;
@@ -70,11 +71,17 @@ app.post('/battle', async (request, response) => {
     } catch (err) {
       console.log(`error battling ${err}, failed count ${restartFailedCount}`);
 
-      // might want to try catch this
-      await farming.performRestart(page);
+      try {
+        await farming.performRestart(page);
+      } catch(e) {
+        battleResponse = `failed while performing restart - check on server + ${e}`;
+        failedWhileRestarting = true;
+        battleSwitch = false;
+      }
+      
 
       restartFailedCount++;
-      if (restartFailedCount >= 3) {
+      if (restartFailedCount >= 6 && failedWhileRestarting === false) {
         battleResponse = `failed while battling - manual restart required + ${err}`;
         battleSwitch = false;
       }
