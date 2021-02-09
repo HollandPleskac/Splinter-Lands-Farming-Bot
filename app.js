@@ -1,8 +1,8 @@
 const fs = require('fs').promises;
 
 const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
 const bodyparser = require('body-parser');
-const puppeteer = require('puppeteer');
 
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
@@ -31,7 +31,18 @@ app.use(function (req, res, next) {
   next();
 });
 
-// (async function openSplinterLands() {})();
+app.use(express.static('public'));
+app.use('/css', express.static(__dirname + 'public/css'));
+app.use('/css', express.static(__dirname + 'public/js'));
+
+app.use(expressLayouts);
+app.set('view engine', 'ejs');
+
+app.get('/', (request, response) => {
+  response.render('index', {});
+});
+
+
 
 app.post('/open-splinterlands', async (request, response) => {
   const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
