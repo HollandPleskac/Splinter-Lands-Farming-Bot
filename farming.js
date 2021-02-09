@@ -83,13 +83,18 @@ async function battle(page, splinterChoice) {
     }
   }
 
-  async function clickSkipButton(page) {
-    try {
-      await page.waitForTimeout(3000);
-      await page.click('#btnSkip');
-    } catch (e) {
-      console.log('skip button not availiable yet, trying again');
-      await clickSkipButton(page);
+  async function clickSkipButton(page, failCount) {
+    if (failCount < 5) {
+      console.log(failCount);
+      try {
+        await page.waitForTimeout(3000);
+        await page.click('#btnSkip');
+      } catch (e) {
+        console.log('skip button not availiable yet, trying again');
+        await clickSkipButton(page, failCount+1);
+      }
+    } else {
+      throw 'error there was a draw';
     }
   }
 
@@ -140,18 +145,18 @@ async function battle(page, splinterChoice) {
           dec = parseFloat(document.querySelector('.player.winner').querySelector('.dec-reward').querySelector('span').textContent.trim());
         }
       } catch (e) {
-        winner = 'unknown';
+        winner = 'draw';
       }
 
-      console.log('results from inside inner function', {
+      console.log('results from get battle results', {
         opponent: opponent,
-        isWinner: winner === 'hvcminer' ? true : false,
+        winner: winner,
         dec: dec
       });
 
       return {
         opponent: opponent,
-        isWinner: winner === 'hvcminer' ? true : false,
+        winner: winner,
         dec: dec
       }
     });
@@ -345,7 +350,7 @@ async function battle(page, splinterChoice) {
     // const cardsFromBattle = await getCardsUsed(page);
     const splinters = await getSplinters(page);
 
-    await clickSkipButton(page);
+    await clickSkipButton(page, 0);
     await page.screenshot({ path: './screenshots/11.png' });
 
     // click on close button
