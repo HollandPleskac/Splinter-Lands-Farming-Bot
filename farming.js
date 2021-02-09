@@ -248,7 +248,7 @@ async function battle(page, splinterChoice) {
           return cardUrl;
         }
 
-        let teamCards = document.querySelector(`.battle-log-entry__team.${team}`).querySelectorAll('.team__monster'); // list of <li> which contain info card name and card image url
+        let teamCards = document.querySelectorAll('.battle-log-entry__team')[team].querySelectorAll('.team__monster'); // list of <li> which contain info card name and card image url
         teamCards = [...teamCards].map(card => {
           let cardName;
           let cardUrl;
@@ -265,27 +265,27 @@ async function battle(page, splinterChoice) {
       }
 
       function getMyTeam() {
-        const winningTeamName = document.querySelector('.battle-log-entry__team.win').querySelector('.bio__name__display').textContent.trim();
+        const teamOneName = document.querySelector('.battle-log-entry__team').querySelector('.bio__name__display').textContent.trim();
         let hvcminerTeam;
-        if (winningTeamName === 'hvcminer') {
-          hvcminerTeam = 'win';
+        if (teamOneName === 'hvcminer') {
+          hvcminerTeam = 'one';
         } else {
-          hvcminerTeam = 'loss';
+          hvcminerTeam = 'two';
         }
         return hvcminerTeam;
       }
 
-      const winningTeamCards = getCardNamesFromDOM('win');
-      const losingTeamCards = getCardNamesFromDOM('loss');
+      const teamOneCards = getCardNamesFromDOM(0);
+      const teamTwoCards = getCardNamesFromDOM(1);
       let hvcminerTeam;
       let opponentTeam;
 
-      if (getMyTeam() === 'win') {
-        hvcminerTeam = winningTeamCards;
-        opponentTeam = losingTeamCards;
+      if (getMyTeam() === 'one') {
+        hvcminerTeam = teamOneCards;
+        opponentTeam = teamTwoCards;
       } else {
-        hvcminerTeam = losingTeamCards;
-        opponentTeam = winningTeamCards;
+        hvcminerTeam = teamTwoCards;
+        opponentTeam = teamOneCards;
       }
       
       return {
