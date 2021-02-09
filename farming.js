@@ -353,7 +353,7 @@ async function battle(page, splinterChoice) {
 
     const battleResults = await getBattleResults(page);
 
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(6000);
     await clickCloseBattleButton(page);
     await page.screenshot({ path: './screenshots/12.png' });
 
