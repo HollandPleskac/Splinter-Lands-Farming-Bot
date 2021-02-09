@@ -1,4 +1,106 @@
-h2 {
-  color: gold;
-  font-size: 300%;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Main Content */
+
+.main-content {
+  height: 100vh;
+  background-color: rgba(0, 117, 219, 0.445);
+  display: grid;
+  grid-template-rows: 55% 45%;
+}
+
+/*---------------------  Battle Menu (Top half of page)  ---------------------*/
+.battle-menu {
+  background-color: aqua;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Splinter Buttons Row */
+
+.splinter-btns {
+  margin-bottom: 50px;
+}
+
+.splinter-btns img {
+  height: 50px;
+  margin: 0 15px;
+}
+
+.splinter-btns img:hover {
+  cursor: pointer;
+}
+
+/* Toggle Server Button */
+
+.toggle-server-btn {
+  padding: 12px 100px;
+  margin-bottom: 50px;
+}
+
+.toggle-server-btn:hover {
+  cursor: pointer;
+}
+
+/* Absolutely Positioned Total Stats Section */
+
+.total-statistics {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  display: flex;
+  padding: 10px 30px;
+}
+
+.total-statistics img {
+  height: 20px;
+  display: block;
+  margin: 15px auto;
+}
+
+#win-ratio {
+  margin: 16px auto;
+  margin-left: 10px;
+}
+
+#dec-count {
+  margin: 19px auto;
+  margin-left: 10px;
+}
+
+/*---------------------  Battle Results (bottom half of page)  ---------------------*/
+
+.battle-results {
+  background-color: aquamarine;
+  display: flex;
+  justify-content: center;
+}
+
+.battle-results-content {
+  height: 100%;
+  width: 50%;
+  background-color: rgba(23, 163, 206, 0.459);
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+/* Individual Battle Result */
+/* https://www.youtube.com/watch?v=vQAvjof1oe4&t=794s even columns */
+.battle-result-even-columns {
+  display: flex;
+}
+
+/* the > means all direct children - not selecting anything deeper in the tree */
+.battle-result-even-columns > * {
+  flex-basis: 100%;
+  text-align: center;
+  padding: 20px 0;
 }
