@@ -25,16 +25,21 @@ db.collection('Battle Log').onSnapshot(querySnapshot => {
 function displayCardImages(player, docSnap) {
   const playerCardsDiv = document.getElementById(docSnap.id + player);
   docSnap.data()[player + 'Team'].forEach(card => {
-    playerCardsDiv.insertAdjacentHTML('beforeend', `
-       <img class="card" src="${card.cardUrl}" alt="${card.cardName}">
+    if (card.cardUrl === "") {
+      playerCardsDiv.insertAdjacentHTML('beforeend', '<div class="empty-card"></div>');
+    } else {
+      playerCardsDiv.insertAdjacentHTML('beforeend', `
+        <div class="card" style="background-image: url(${card.cardUrl})"></div>
        `);
+    }
+
   });
 }
 
 db.collection('Battle Log').orderBy('timestamp', 'desc').limit(40).onSnapshot(querySnapshot => {
   querySnapshot.forEach(documentSnapshot => {
     previousBattlesElement.insertAdjacentHTML('beforeend', `
-      <div class="battle-result-even-columns">
+      <div class="battle-result-columns">
         <div>
          <div>HVCMiner</div>
           <div class="cards-used" id="${documentSnapshot.id}hvcminer">
