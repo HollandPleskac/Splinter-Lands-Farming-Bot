@@ -11,7 +11,7 @@ db.collection('Battle Log').onSnapshot(querySnapshot => {
   let losses = 0;
   querySnapshot.forEach(documentSnapshot => {
     decCount += documentSnapshot.data().dec;
-    if (documentSnapshot.data().winner === hvcMiner) {
+    if (documentSnapshot.data().winner === 'hvcMiner') {
       wins += 1;
     } else {
       losses += 1;
@@ -22,23 +22,35 @@ db.collection('Battle Log').onSnapshot(querySnapshot => {
   winRatioElement.textContent = `W ${wins} / L ${losses}`;
 });
 
+function displayCardImages(player, docSnap) {
+  const playerCardsDiv = document.getElementById(docSnap.id + player);
+  docSnap.data()[player + 'Team'].forEach(card => {
+    playerCardsDiv.insertAdjacentHTML('beforeend', `
+       <img class="card" src="${card.cardUrl}" alt="${card.cardName}">
+       `);
+  });
+}
+
 db.collection('Battle Log').orderBy('timestamp', 'desc').limit(40).onSnapshot(querySnapshot => {
   querySnapshot.forEach(documentSnapshot => {
     previousBattlesElement.insertAdjacentHTML('beforeend', `
       <div class="battle-result-even-columns">
         <div>
          <div>HVCMiner</div>
-          <div class="cards-used">
-            <img class="card" src="https://d36mxiodymuqjm.cloudfront.net/cards_beta/Torhilo%20the%20Frozen.png" alt="Torhilo">
+          <div class="cards-used" id="${documentSnapshot.id}hvcminer">
+            
           </div>
         </div>
        <div>VS</div>
        <div class="opponent">
           <div>${documentSnapshot.data().opponent}</div>
-          <div class="cards-used">
+          <div class="cards-used" id="${documentSnapshot.id}opponent">
+
           </div>
         </div>
       </div>
      `);
+    displayCardImages('hvcminer', documentSnapshot);
+    displayCardImages('opponent', documentSnapshot);
   });
 });

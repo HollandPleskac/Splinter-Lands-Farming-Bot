@@ -289,7 +289,7 @@ async function battle(page, splinterChoice) {
       }
       
       return {
-        hvcvminerTeam: hvcminerTeam,
+        hvcminerTeam: hvcminerTeam,
         opponentTeam: opponentTeam
       }
     });
