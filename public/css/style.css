@@ -85,7 +85,7 @@
 
 .battle-results-content {
   height: 100%;
-  width: 50%;
+  width: 60%;
   background-color: rgba(23, 163, 206, 0.459);
   display: flex;
   flex-direction: column;
@@ -99,8 +99,19 @@
 }
 
 /* the > means all direct children - not selecting anything deeper in the tree */
+/* creates even columns */
 .battle-result-even-columns > * {
   flex-basis: 100%;
   text-align: center;
-  padding: 20px 0;
+  padding-top: 20px;
+}
+
+.cards-used {
+  width: 100%;
+  text-align: center;
+  padding: 15px 30px 0 30px;
+}
+
+.card {
+  width: 30px;
 }
