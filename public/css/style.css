@@ -16,7 +16,7 @@
 /*---------------------  Battle Menu (Top half of page)  ---------------------*/
 
 .battle-menu {
-  background-color: aqua;
+  background-color: rgba(37, 37, 37, 0.829);
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -67,19 +67,29 @@
 }
 
 #win-ratio {
-  margin: 16px auto;
+  margin: 16px auto 0 auto;
   margin-left: 10px;
+  display: inline-block;
+}
+
+#loss-ratio {
+  margin: 16px auto 0 auto;
+  display: inline-block;
+}
+
+.slash {
+  display: inline-block;
 }
 
 #dec-count {
-  margin: 19px auto;
+  margin: 20px auto;
   margin-left: 10px;
 }
 
 /*---------------------  Battle Results (bottom half of page)  ---------------------*/
 
 .battle-results {
-  background-color: aquamarine;
+  background-color: rgb(216, 216, 216);
   display: flex;
   justify-content: center;
 }
@@ -87,7 +97,7 @@
 .battle-results-content {
   height: 100%;
   width: 60%;
-  background-color: rgba(23, 163, 206, 0.459);
+  background-color: rgb(128, 128, 128);
   display: flex;
   flex-direction: column;
   overflow-y: scroll;

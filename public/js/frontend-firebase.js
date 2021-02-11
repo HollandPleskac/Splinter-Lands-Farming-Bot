@@ -2,6 +2,7 @@ const db = firebase.firestore();
 
 const decCountElement = document.getElementById('dec-count');
 const winRatioElement = document.getElementById('win-ratio');
+const lossRatioElement = document.getElementById('loss-ratio');
 const previousBattlesElement = document.querySelector('.battle-results-content');
 
 
@@ -19,7 +20,8 @@ db.collection('Battle Log').onSnapshot(querySnapshot => {
 
   });
   decCountElement.textContent = decCount.toFixed(2);
-  winRatioElement.textContent = `W ${wins} / L ${losses}`;
+  winRatioElement.textContent = `W ${wins}`;
+  lossRatioElement.textContent = `L ${losses}`;
 });
 
 function insertCardImages(player, docSnap) {
