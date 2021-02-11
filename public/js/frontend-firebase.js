@@ -29,7 +29,7 @@ function displayCardImages(player, docSnap) {
       playerCardsDiv.insertAdjacentHTML('beforeend', '<div class="empty-card"></div>');
     } else {
       playerCardsDiv.insertAdjacentHTML('beforeend', `
-        <div class="card" style="background-image: url(${card.cardUrl})"></div>
+        <div class="card tooltip" style="background-image: url(${card.cardUrl})" data-text="${card.cardName}"></div>
        `);
     }
 
