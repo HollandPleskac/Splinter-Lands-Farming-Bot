@@ -46,7 +46,7 @@ db.collection('Battle Log').orderBy('timestamp', 'desc').limit(40).onSnapshot(qu
             
           </div>
         </div>
-       <div>VS</div>
+       <div class="vs"><p>VS</p></div>
        <div class="opponent">
           <div>${documentSnapshot.data().opponent}</div>
           <div class="cards-used" id="${documentSnapshot.id}opponent">

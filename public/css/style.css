@@ -104,8 +104,6 @@
 
 /* the > means all direct children - not selecting anything deeper in the tree */
 
-/* creates even columns */
-
 .battle-result-columns>* {
   text-align: center;
   padding-top: 20px;
@@ -168,4 +166,20 @@
 
 .tooltip:hover::before {
   display: block;
+}
+
+/* styling the vs */
+
+.vs {
+  /* positioning */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vs p {
+  border: 2px solid #333;
+  border-radius: 100%;
+  padding: 15px;
+  font-size: 80%;
 }
