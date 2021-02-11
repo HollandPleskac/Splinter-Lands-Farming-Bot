@@ -152,7 +152,7 @@
   position: absolute;
   /* move to bottom */
   top: 120%;
-  /* horizontally center */
+  /* horizontally center great source on how this works here : https://stackoverflow.com/questions/46184458/transform-translate-50-50/46184660#:~:text=The%20reason%20why%20transform%3A%20translate,along%20the%20x%2Daxis%2C%20and  -  basically when you move the element 50% from the left, it moves the left edge of the element 50% from the left.  In order to make the element be centered in the middle, you need to move the element left by 50% of it's (elements) width which horizontally centers it */
   left: 50%;
   transform: translateX(-50%);
   /* basic styles */
