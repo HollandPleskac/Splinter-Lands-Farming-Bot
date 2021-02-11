@@ -97,14 +97,14 @@
 
 /* https://www.youtube.com/watch?v=vQAvjof1oe4&t=794s even columns */
 
-.battle-result-columns {
+.battle-result {
   display: grid;
   grid-template-columns: 4fr 1fr 4fr;
 }
 
 /* the > means all direct children - not selecting anything deeper in the tree */
 
-.battle-result-columns>* {
+.battle-result>* {
   text-align: center;
   padding-top: 20px;
 }
@@ -182,4 +182,14 @@
   border-radius: 100%;
   padding: 15px;
   font-size: 80%;
+}
+
+/* color classes */
+
+.winner {
+  color: #b5ff88;
+}
+
+.loser {
+  color: #f88;
 }

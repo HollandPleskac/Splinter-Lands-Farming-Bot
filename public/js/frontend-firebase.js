@@ -22,7 +22,7 @@ db.collection('Battle Log').onSnapshot(querySnapshot => {
   winRatioElement.textContent = `W ${wins} / L ${losses}`;
 });
 
-function displayCardImages(player, docSnap) {
+function insertCardImages(player, docSnap) {
   const playerCardsDiv = document.getElementById(docSnap.id + player);
   docSnap.data()[player + 'Team'].forEach(card => {
     if (card.cardUrl === "") {
@@ -32,14 +32,33 @@ function displayCardImages(player, docSnap) {
         <div class="card tooltip" style="background-image: url(${card.cardUrl})" data-text="${card.cardName}"></div>
        `);
     }
-
   });
+}
+
+function setColorClasses(docSnap) {
+  const hvcminerName = document.getElementById(docSnap.id + 'hvcminer').previousElementSibling;
+  const opponentName = document.getElementById(docSnap.id + 'opponent').previousElementSibling;
+  const vsElement = document.getElementById(docSnap.id).querySelector('.vs').firstElementChild;
+
+  if (docSnap.winner === 'hvcMiner') {
+    vsElement.classList.add('winner');
+    vsElement.style.borderColor = "#b5ff88";
+    hvcminerName.classList.add('winner');
+    opponentName.classList.add('loser');
+  } else {
+    vsElement.classList.add('loser');
+    vsElement.style.borderColor = "#f88";
+    hvcminerName.classList.add('loser');
+    opponentName.classList.add('winner');
+  }
+  
 }
 
 db.collection('Battle Log').orderBy('timestamp', 'desc').limit(40).onSnapshot(querySnapshot => {
   querySnapshot.forEach(documentSnapshot => {
+
     previousBattlesElement.insertAdjacentHTML('beforeend', `
-      <div class="battle-result-columns">
+      <div class="battle-result" id="${documentSnapshot.id}">
         <div>
          <div>HVCMiner</div>
           <div class="cards-used" id="${documentSnapshot.id}hvcminer">
@@ -55,7 +74,8 @@ db.collection('Battle Log').orderBy('timestamp', 'desc').limit(40).onSnapshot(qu
         </div>
       </div>
      `);
-    displayCardImages('hvcminer', documentSnapshot);
-    displayCardImages('opponent', documentSnapshot);
+    insertCardImages('hvcminer', documentSnapshot);
+    insertCardImages('opponent', documentSnapshot);
+    setColorClasses( documentSnapshot);
   });
 });
