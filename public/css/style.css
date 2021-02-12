@@ -1,3 +1,5 @@
+/* wet asphalt color : #394857 */
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -16,7 +18,7 @@
 /*---------------------  Battle Menu (Top half of page)  ---------------------*/
 
 .battle-menu {
-  background-color: rgba(37, 37, 37, 0.829);
+  background-color: #394857;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -89,7 +91,7 @@
 /*---------------------  Battle Results (bottom half of page)  ---------------------*/
 
 .battle-results {
-  background-color: rgb(216, 216, 216);
+  background-color: #394857;
   display: flex;
   justify-content: center;
 }
@@ -97,7 +99,7 @@
 .battle-results-content {
   height: 100%;
   width: 60%;
-  background-color: rgb(128, 128, 128);
+  background-color: #556a80;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
@@ -166,7 +168,7 @@
   /* basic styles */
   padding: 10px;
   border-radius: 10px;
-  background: #000;
+  background-color: #000;
   color: #fff;
   text-align: center;
   font-size: 80%;
