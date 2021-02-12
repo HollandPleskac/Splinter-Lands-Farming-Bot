@@ -6,8 +6,8 @@ const pickSummoner = require('./picksummoner');
 async function startFarming(username, password) {
   const browser = await puppeteer.launch({
     headless: false,
-    // args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    // executablePath: '/usr/bin/chromium-browser'
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: '/usr/bin/chromium-browser'
   });
   // args and executablePath are required to run on linux
   const page = await browser.newPage();
