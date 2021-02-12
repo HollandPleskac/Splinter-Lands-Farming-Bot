@@ -41,7 +41,6 @@ function setColorClasses(doc) {
   const hvcminerName = document.getElementById(doc.id + 'hvcminer').previousElementSibling;
   const opponentName = document.getElementById(doc.id + 'opponent').previousElementSibling;
   const vsElement = document.getElementById(doc.id).querySelector('.vs').firstElementChild;
-  console.log(doc.data().winner);
   if (doc.data().winner === 'hvcminer') {
     vsElement.classList.add('winner');
     vsElement.style.borderColor = "#b5ff88";
@@ -58,8 +57,9 @@ function setColorClasses(doc) {
 
 // listen for new documents
 
-db.collection('Battle Log').orderBy('timestamp', 'desc').onSnapshot(querySnapshot => {
+db.collection('Battle Log').orderBy('timestamp').onSnapshot(querySnapshot => {
   querySnapshot.docChanges().forEach(change => {
+    console.log('change');
     previousBattlesElement.insertAdjacentHTML('afterbegin', `
       <div class="battle-result" id="${change.doc.id}">
         <div>
@@ -80,35 +80,5 @@ db.collection('Battle Log').orderBy('timestamp', 'desc').onSnapshot(querySnapsho
     insertCardImages('hvcminer', change.doc);
     insertCardImages('opponent', change.doc);
     setColorClasses(change.doc);
-  });
-});
-
-
-
-// set the initial data
-
-
-db.collection('Battle Log').orderBy('timestamp', 'desc').limit(40).get(querySnapshot => {
-  querySnapshot.forEach(docSnap => {
-    previousBattlesElement.insertAdjacentHTML('beforeend', `
-      <div class="battle-result" id="${docSnap.id}">
-        <div>
-         <div>HVCMiner</div>
-          <div class="cards-used" id="${docSnap.id}hvcminer">
-            
-          </div>
-        </div>
-       <div class="vs"><p>VS</p></div>
-       <div class="opponent">
-          <div>${docSnap.data().opponent}</div>
-          <div class="cards-used" id="${docSnap.id}opponent">
-
-          </div>
-        </div>
-      </div>
-     `);
-    insertCardImages('hvcminer', docSnap);
-    insertCardImages('opponent', docSnap);
-    setColorClasses(docSnap);
   });
 });
