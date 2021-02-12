@@ -94,7 +94,7 @@ async function battle(page, splinterChoice) {
         await clickSkipButton(page, failCount+1);
       }
     } else {
-      throw 'error there was a draw';
+      throw 'error might have been a draw';
     }
   }
 

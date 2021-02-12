@@ -59,7 +59,6 @@ function setColorClasses(doc) {
 
 db.collection('Battle Log').orderBy('timestamp').onSnapshot(querySnapshot => {
   querySnapshot.docChanges().forEach(change => {
-    console.log('change');
     previousBattlesElement.insertAdjacentHTML('afterbegin', `
       <div class="battle-result" id="${change.doc.id}">
         <div>
