@@ -1,4 +1,4 @@
-const serverUrl = 'http://localhost:5000';
+const serverUrl = 'http://aaccee.ddns.net';
 let battleSplinter = 'none';
 
 async function getServerStatus() {
