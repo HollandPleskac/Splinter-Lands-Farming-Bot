@@ -7,13 +7,13 @@ const bodyparser = require('body-parser');
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
 
-const farming = require('./farming');
-const firestore = require('./firestore');
-const app = express();
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
+
+const farming = require('./farming');
+const firestore = require('./firestore');
+const app = express();
 
 const db = admin.firestore();
 
@@ -77,7 +77,7 @@ app.post('/battle', async (request, response) => {
   while (shouldBattle()) {
     try {
       const battleResults = await farming.battle(page, splinterChoice);
-      await firestore.logBattle(db, battleResults);
+      await firestore.logBattle(battleResults);
       battleResponse = 'stopped battling - success';
     } catch (err) {
       console.log(`error battling ${err}, failed count ${restartFailedCount}`);
