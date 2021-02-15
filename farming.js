@@ -200,18 +200,18 @@ async function battle(page, splinterChoice) {
       }
 
       let hvcMinerSplinter;
-      let opponenentSplinter;
+      let opponentSplinter;
       if (getMyTeam() === 'team1') {
         hvcMinerSplinter = getSplinterOfTeam(0);
-        opponenentSplinter = getSplinterOfTeam(1);
+        opponentSplinter = getSplinterOfTeam(1);
       } else {
         hvcMinerSplinter = getSplinterOfTeam(1);
-        opponenentSplinter = getSplinterOfTeam(0);
+        opponentSplinter = getSplinterOfTeam(0);
       }
 
       return ({
         hvcminerSplinter: hvcMinerSplinter,
-        opponenentSplinter: opponenentSplinter
+        opponentSplinter: opponentSplinter
       });
 
     });

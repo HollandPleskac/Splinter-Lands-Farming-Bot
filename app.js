@@ -84,12 +84,12 @@ app.post('/battle', async (request, response) => {
 
       try {
         await farming.performRestart(page);
-      } catch(e) {
+      } catch (e) {
         battleResponse = `failed while performing restart - check on server + ${e}`;
         failedWhileRestarting = true;
         battleSwitch = false;
       }
-      
+
 
       restartFailedCount++;
       if (restartFailedCount >= 6 && failedWhileRestarting === false) {
@@ -109,6 +109,7 @@ app.post('/start-farming', async (request, response) => {
   battleSwitch = true;
   response.json({ switch: 'true' });
 });
+
 
 app.post('/stop-farming', async (request, response) => {
   battleSwitch = false;
@@ -140,3 +141,24 @@ app.get('/', (request, response) => {
 
 
 app.listen(5000);
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+      get availiable summoners
+      get conversion rates (all splinters vs opponentSummoner)
+      pass 0 if less than 6 summoners availiable (substitute zeroes for missing splinter at index)
+      try catch for numbers outside of 0 and 1, null, not all values
+      return the conversion rates
+
+      list index = splinter
+    */

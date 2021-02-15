@@ -1,3 +1,7 @@
+const admin = require('firebase-admin');
+
+const db = admin.firestore();
+
 async function pickSummoner(page, splinter) {
   return await page.evaluate((splinter) => {
 
@@ -51,10 +55,54 @@ async function pickSummoner(page, splinter) {
       } else {
         return summonerChoices[0];
       }
-      
+
+    }
+
+    async function getConversionRates(summoners) {
+
+      function getAvailiableSplinters() {
+        let splinters = [];
+        summoners.forEach((summoner) => {
+          if (!splinters.includes(summoner.splinter)) {
+            splinter.push(summoner.splinter);
+          }
+        });
+        return splinters;
+      }
+
+      const availiableSplinters = getAvailiableSplinters();
+      const conversionRates = [];
+
+      // 0 fire, 1 water, 2 earth, 3 death, 4 life
+      // highest number in conversionRates is the splinter that wins the most against what the opponent picked last
+
+      for (let i = 0; i < availiableSplinters.length; i++) {
+
+        let splinterConversionRate;
+        const snapshot = await db.collection("Battle Log").where("opponenentSplinter", "==", availiableSplinters[i]).get();
+
+        if (!snapshot.empty) {
+          let hvcminerWins = 0;
+          snapshot.forEach(doc => {
+            if (doc.data().winner === 'hvcminer') {
+              hvcminerWins++;
+            }
+          });
+          splinterConversionRate = hvcminerWins / snapshot.size;
+        } else {
+          splinterConversionRate = 0;
+        }
+        conversionRates.push(splinterConversionRate);
+
+      }
+
+      return conversionRates;
     }
 
     const summoners = getAvailiableSummoners();
+
+    const conversionRates = await getConversionRates(summoners);
+    console.log('Conversion Rates ',conversionRates);
 
     const chosenSummoner = getSummonerBySplinter(splinter, summoners);
 
@@ -63,19 +111,6 @@ async function pickSummoner(page, splinter) {
 
     return chosenSummoner;
   }, splinter);
-}
-
-async function getSummonerData(page, opponentSummoner, db) {
-  /*
-
-    get availiable summoners
-    get conversion rates (all splinters vs opponentSummoner)
-    pass 0 if less than 6 summoners availiable (substitute zeroes for missing splinter at index)
-    try catch for numbers outside of 0 and 1, null, not all values
-    return the conversion rates
-
-    list index = splinter
-  */
 }
 
 function getSummonerThompsonSampling(conversionRates) {
