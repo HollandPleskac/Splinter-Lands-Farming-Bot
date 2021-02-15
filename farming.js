@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const pickCards = require('./pickcards');
-const pickSummoner = require('./picksummoner');
+const summonerFunctions = require('./picksummoner');
 
 
 async function startFarming(username, password) {
@@ -323,7 +323,7 @@ async function battle(page, splinterChoice) {
 
     // choose a summoner
 
-    const summoner = await pickSummoner(page, splinterChoice);
+    const summoner = await summonerFunctions.pickSummoner(page, splinterChoice);
     console.log('chosen summoner : ' + summoner.name);
     await page.waitForTimeout(1000);
     await page.screenshot({ path: './screenshots/8.png' });

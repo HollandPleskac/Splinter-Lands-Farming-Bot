@@ -1,10 +1,8 @@
-const admin = require('firebase-admin');
-
-const db = admin.firestore();
+const firestore = require('./firestore');
 
 async function pickSummoner(page, splinter) {
-  return await page.evaluate((splinter) => {
-
+  
+  return await page.evaluate(async (splinter) => {
     function getAvailiableSummoners() {
       function getSplinter(name) {
         if (name === 'Pyre') {
@@ -55,54 +53,9 @@ async function pickSummoner(page, splinter) {
       } else {
         return summonerChoices[0];
       }
-
-    }
-
-    async function getConversionRates(summoners) {
-
-      function getAvailiableSplinters() {
-        let splinters = [];
-        summoners.forEach((summoner) => {
-          if (!splinters.includes(summoner.splinter)) {
-            splinter.push(summoner.splinter);
-          }
-        });
-        return splinters;
-      }
-
-      const availiableSplinters = getAvailiableSplinters();
-      const conversionRates = [];
-
-      // 0 fire, 1 water, 2 earth, 3 death, 4 life
-      // highest number in conversionRates is the splinter that wins the most against what the opponent picked last
-
-      for (let i = 0; i < availiableSplinters.length; i++) {
-
-        let splinterConversionRate;
-        const snapshot = await db.collection("Battle Log").where("opponenentSplinter", "==", availiableSplinters[i]).get();
-
-        if (!snapshot.empty) {
-          let hvcminerWins = 0;
-          snapshot.forEach(doc => {
-            if (doc.data().winner === 'hvcminer') {
-              hvcminerWins++;
-            }
-          });
-          splinterConversionRate = hvcminerWins / snapshot.size;
-        } else {
-          splinterConversionRate = 0;
-        }
-        conversionRates.push(splinterConversionRate);
-
-      }
-
-      return conversionRates;
     }
 
     const summoners = getAvailiableSummoners();
-
-    const conversionRates = await getConversionRates(summoners);
-    console.log('Conversion Rates ',conversionRates);
 
     const chosenSummoner = getSummonerBySplinter(splinter, summoners);
 
@@ -113,13 +66,7 @@ async function pickSummoner(page, splinter) {
   }, splinter);
 }
 
-function getSummonerThompsonSampling(conversionRates) {
-  /*
+// 1 function for getting the splinters
+// should pass data to another function to choose the splinter
 
-    python server call to get chosen splinter
-    return the splinter
-
-  */
-}
-
-module.exports = pickSummoner;
+module.exports = { pickSummoner };
