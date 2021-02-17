@@ -37,12 +37,12 @@ async function getConversionRates(opponentSplinter) {
     }
   });
 
-  // add the data to conversion rates
-  conversionRates.push(fireWins / snapshot.size);
-  conversionRates.push(waterWins / snapshot.size);
-  conversionRates.push(earthWins / snapshot.size);
-  conversionRates.push(deathWins / snapshot.size);
-  conversionRates.push(lifeWins / snapshot.size);
+  // add the data to conversion rates (if there is no snapshot.size, 0 is added)
+  conversionRates.push(fireWins / snapshot.size || 0);
+  conversionRates.push(waterWins / snapshot.size || 0);
+  conversionRates.push(earthWins / snapshot.size || 0);
+  conversionRates.push(deathWins / snapshot.size || 0);
+  conversionRates.push(lifeWins / snapshot.size || 0);
 
   return conversionRates;
 }

@@ -323,7 +323,7 @@ async function battle(page, splinterChoice) {
 
     // choose a summoner
 
-    const summoner = await summonerFunctions.pickSummoner(page, splinterChoice);
+    const summoner = await summonerFunctions.pickSummoner(page, splinterChoice, enemyPreviousMatchData[enemyPreviousMatchData.length-1].splinter);
     console.log('chosen summoner : ' + summoner.name);
     await page.waitForTimeout(1000);
     await page.screenshot({ path: './screenshots/8.png' });

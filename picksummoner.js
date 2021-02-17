@@ -1,9 +1,11 @@
 const firestore = require('./firestore');
 
-async function pickSummoner(page, splinter) {
-  
-  return await page.evaluate(async (splinter) => {
-    function getAvailiableSummoners() {
+async function pickSummoner(page, splinter, lastOpponentSplinter) {
+
+  console.log('last splinter the opponent played:',lastOpponentSplinter);
+
+  async function getAvailiableSummoners() {
+    return await page.evaluate(() => {
       function getSplinter(name) {
         if (name === 'Pyre') {
           return 'fire';
@@ -37,36 +39,47 @@ async function pickSummoner(page, splinter) {
       }
 
       return summoners;
-    }
+    });
+  }
 
-    function getSummonerElementByName(summonerName, summoners) {
-      const position = summoners.filter(summoner => summoner.name === summonerName)[0].position;
-      const summonerElement = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[position].querySelector('img');
-      return summonerElement;
-    }
+  async function chooseSummoner(summoners, splinter, lastOppSplinter) {
+    const conversionRates = await firestore.getConversionRates(lastOppSplinter);
+    console.log(`Conversion Rates for ${lastOppSplinter} ${conversionRates}`);
+    // get highest conversion rate
+    // send that as the splinter if the user wants to pick the highest conversion rate
+    return await page.evaluate((splinter, summoners) => {
 
-    function getSummonerBySplinter(splinter, summoners) {
-      const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
-      if (summonerChoices.length === 0) {
-        console.log(`splinter type ${splinter} not availiable`);
-        return summoners[0];
-      } else {
-        return summonerChoices[0];
+      function getSummonerElementByName(summonerName, summoners) {
+        const position = summoners.filter(summoner => summoner.name === summonerName)[0].position;
+        const summonerElement = document.querySelector('.deck-builder-page2__cards').querySelectorAll('div > .card.beta')[position].querySelector('img');
+        return summonerElement;
       }
-    }
 
-    const summoners = getAvailiableSummoners();
+      function getSummonerBySplinter(splinter, summoners) {
+        const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
+        if (summonerChoices.length === 0) {
+          console.log(`splinter type ${splinter} not availiable`);
+          return summoners[0];
+        } else {
+          return summonerChoices[0];
+        }
+      }
 
-    const chosenSummoner = getSummonerBySplinter(splinter, summoners);
+      const chosenSummoner = getSummonerBySplinter(splinter, summoners);
 
-    const summonerElement = getSummonerElementByName(chosenSummoner.name, summoners);
-    summonerElement.click();
+      const summonerElement = getSummonerElementByName(chosenSummoner.name, summoners);
+      summonerElement.click();
 
-    return chosenSummoner;
-  }, splinter);
+      return chosenSummoner;
+    }, splinter, summoners);
+  };
+
+
+  const summoners = await getAvailiableSummoners();
+
+  const chosenSummoner = await chooseSummoner(summoners, splinter, lastOpponentSplinter);
+
+  return chosenSummoner;
 }
-
-// 1 function for getting the splinters
-// should pass data to another function to choose the splinter
 
 module.exports = { pickSummoner };
