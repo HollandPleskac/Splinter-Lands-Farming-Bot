@@ -390,7 +390,7 @@ async function performRestart(page) {
   // first take a screenshot
   await page.screenshot({ path: './screenshots/battle-err.png' });
   await page.goto('https://splinterlands.com/?p=battle_history');
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(7000);
   await page.evaluate(async () => {
     try {
       document.querySelector('.modal-close-new').click();

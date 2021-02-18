@@ -10,7 +10,7 @@ async function logBattle(battleResults) {
 
 async function getConversionRates(opponentSplinter) {
 
-  const conversionRates = [];
+  const conversionRates = {};
 
   // get total wins
   let fireWins = 0;
@@ -38,11 +38,11 @@ async function getConversionRates(opponentSplinter) {
   });
 
   // add the data to conversion rates (if there is no snapshot.size, 0 is added)
-  conversionRates.push(fireWins / snapshot.size || 0);
-  conversionRates.push(waterWins / snapshot.size || 0);
-  conversionRates.push(earthWins / snapshot.size || 0);
-  conversionRates.push(deathWins / snapshot.size || 0);
-  conversionRates.push(lifeWins / snapshot.size || 0);
+  conversionRates.fire = fireWins / snapshot.size || 0;
+  conversionRates.water = waterWins / snapshot.size || 0;
+  conversionRates.earth = earthWins / snapshot.size || 0;
+  conversionRates.death = deathWins / snapshot.size || 0;
+  conversionRates.life = lifeWins / snapshot.size || 0;
 
   return conversionRates;
 }

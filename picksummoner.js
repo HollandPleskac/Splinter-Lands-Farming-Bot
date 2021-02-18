@@ -1,6 +1,7 @@
+const { battle } = require('./farming');
 const firestore = require('./firestore');
 
-async function pickSummoner(page, splinter, lastOpponentSplinter) {
+async function pickSummoner(page, splinterChoice, lastOpponentSplinter) {
 
   console.log('last splinter the opponent played:',lastOpponentSplinter);
 
@@ -42,11 +43,27 @@ async function pickSummoner(page, splinter, lastOpponentSplinter) {
     });
   }
 
-  async function chooseSummoner(summoners, splinter, lastOppSplinter) {
+  async function chooseSummoner(summoners, splinterChoice, lastOppSplinter) {
+
+    // get conversion rates
     const conversionRates = await firestore.getConversionRates(lastOppSplinter);
-    console.log(`Conversion Rates for ${lastOppSplinter} ${conversionRates}`);
-    // get highest conversion rate
-    // send that as the splinter if the user wants to pick the highest conversion rate
+    console.log('Conversion Rates for ${lastOppSplinter}', conversionRates);
+
+    let pickedSplinter;
+
+    // choose a splinter
+    if (splinterChoice === 'BEST') {
+      pickedSplinter = conversionRates['fire'];
+      for (const splinter in conversionRates) {
+        if (conversionRates[splinter] > conversionRates[pickedSplinter] ) {
+          pickedSplinter = splinter;
+        }
+      }
+    } else {
+      pickedSplinter = splinterChoice;
+    }
+
+    // click on the summoner
     return await page.evaluate((splinter, summoners) => {
 
       function getSummonerElementByName(summonerName, summoners) {
@@ -71,13 +88,13 @@ async function pickSummoner(page, splinter, lastOpponentSplinter) {
       summonerElement.click();
 
       return chosenSummoner;
-    }, splinter, summoners);
+    }, pickedSplinter, summoners);
   };
 
 
   const summoners = await getAvailiableSummoners();
 
-  const chosenSummoner = await chooseSummoner(summoners, splinter, lastOpponentSplinter);
+  const chosenSummoner = await chooseSummoner(summoners, splinterChoice, lastOpponentSplinter);
 
   return chosenSummoner;
 }
