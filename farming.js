@@ -91,11 +91,30 @@ async function battle(page, splinterChoice) {
         await page.click('#btnSkip');
       } catch (e) {
         console.log('skip button not availiable yet, trying again');
-        await clickSkipButton(page, failCount+1);
+        await clickSkipButton(page, failCount + 1);
       }
     } else {
       throw 'error might have been a draw';
     }
+  }
+
+  async function getAvailiableSplinters(page) {
+    return await page.evaluate(() => {
+      const imgEls = document.querySelector('.combat__splinters').querySelectorAll('img');
+
+      const titles = [...imgEls].map(img => {
+        const title = img.dataset.originalTitle.split(": ")[0].toLowerCase();
+        const status = img.dataset.originalTitle.split(": ")[1];
+        if (status === 'Active') {
+          return title;
+        } else {
+          return 'inactive';
+        }
+      });
+
+      const availiableSplinters = titles.filter(t => t !== 'inactive');
+      return availiableSplinters;
+    });
   }
 
   async function getEnemyPreviousMatchData(page) {
@@ -165,6 +184,8 @@ async function battle(page, splinterChoice) {
 
     return resultsData;
   }
+
+
 
   async function getSplinters(page) {
 
@@ -287,7 +308,7 @@ async function battle(page, splinterChoice) {
         hvcminerTeam = teamTwoCards;
         opponentTeam = teamOneCards;
       }
-      
+
       return {
         hvcminerTeam: hvcminerTeam,
         opponentTeam: opponentTeam
@@ -315,6 +336,7 @@ async function battle(page, splinterChoice) {
     const battleRule = await getBattleRule(page);
     const manaCap = await getManaCap(page);
     const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
+    const availiableSplinters = await getAvailiableSplinters(page);
 
     await page.click('.btn.btn--create-team');
 
@@ -323,7 +345,7 @@ async function battle(page, splinterChoice) {
 
     // choose a summoner
 
-    const summoner = await summonerFunctions.pickSummoner(page, splinterChoice, enemyPreviousMatchData[enemyPreviousMatchData.length-1].splinter);
+    const summoner = await summonerFunctions.pickSummoner(page, availiableSplinters, splinterChoice, enemyPreviousMatchData[enemyPreviousMatchData.length - 1].splinter);
     console.log('chosen summoner : ' + summoner.name);
     await page.waitForTimeout(1000);
     await page.screenshot({ path: './screenshots/8.png' });

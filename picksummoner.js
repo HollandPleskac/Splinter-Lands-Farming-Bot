@@ -1,7 +1,7 @@
 const { battle } = require('./farming');
 const firestore = require('./firestore');
 
-async function pickSummoner(page, splinterChoice, lastOpponentSplinter) {
+async function pickSummoner(page, availiableSplinters, splinterChoice, lastOpponentSplinter) {
 
   console.log('last splinter the opponent played:',lastOpponentSplinter);
 
@@ -43,25 +43,35 @@ async function pickSummoner(page, splinterChoice, lastOpponentSplinter) {
     });
   }
 
-  async function chooseSummoner(summoners, splinterChoice, lastOppSplinter) {
+  async function chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOppSplinter) {
+
+    function getDefaultFirstSplinter(availiableSplinters) {
+      for (const s in conversionRates) {
+        if (availiableSplinters.includes(s)) {
+          return s;
+        }
+      }
+    }
 
     // get conversion rates
     const conversionRates = await firestore.getConversionRates(lastOppSplinter);
-    console.log('Conversion Rates for ${lastOppSplinter}', conversionRates);
-
+    console.log(`Conversion Rates for ${lastOppSplinter}`, conversionRates);
+  
     let pickedSplinter;
 
     // choose a splinter
     if (splinterChoice === 'BEST') {
-      pickedSplinter = conversionRates['fire'];
+      pickedSplinter = getDefaultFirstSplinter(availiableSplinters);
       for (const splinter in conversionRates) {
-        if (conversionRates[splinter] > conversionRates[pickedSplinter] ) {
+        if (conversionRates[splinter] > conversionRates[pickedSplinter] && availiableSplinters.includes(splinter)) {
           pickedSplinter = splinter;
         }
       }
+      console.log('going with',pickedSplinter);
     } else {
       pickedSplinter = splinterChoice;
     }
+
 
     // click on the summoner
     return await page.evaluate((splinter, summoners) => {
@@ -94,7 +104,7 @@ async function pickSummoner(page, splinterChoice, lastOpponentSplinter) {
 
   const summoners = await getAvailiableSummoners();
 
-  const chosenSummoner = await chooseSummoner(summoners, splinterChoice, lastOpponentSplinter);
+  const chosenSummoner = await chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOpponentSplinter);
 
   return chosenSummoner;
 }
