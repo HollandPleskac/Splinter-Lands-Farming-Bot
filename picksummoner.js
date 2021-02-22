@@ -3,7 +3,7 @@ const firestore = require('./firestore');
 
 async function pickSummoner(page, availiableSplinters, splinterChoice, lastOpponentSplinter) {
 
-  console.log('last splinter the opponent played:',lastOpponentSplinter);
+  console.log('last splinter the opponent played:', lastOpponentSplinter);
 
   async function getAvailiableSummoners() {
     return await page.evaluate(() => {
@@ -45,36 +45,55 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
   async function chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOppSplinter) {
 
-    function getDefaultFirstSplinter(availiableSplinters) {
-      for (const s in conversionRates) {
-        if (availiableSplinters.includes(s)) {
-          return s;
+    async function getSplinterBasedOnConversionRates() {
+
+      const conversionRates = await firestore.getConversionRates(lastOppSplinter);
+      console.log(`Conversion Rates for ${lastOppSplinter}`, conversionRates);
+
+      function getDefaultFirstSplinter(availiableSplinters) {
+        for (const s in conversionRates) {
+          if (availiableSplinters.includes(s)) {
+            return s;
+          }
         }
+      }
+
+      let pickedSplinter;
+
+      if (splinterChoice === 'BEST') {
+        pickedSplinter = getDefaultFirstSplinter(availiableSplinters);
+        for (const splinter in conversionRates) {
+          if (conversionRates[splinter] > conversionRates[pickedSplinter] && availiableSplinters.includes(splinter)) {
+            pickedSplinter = splinter;
+          }
+        }
+        console.log('going with', pickedSplinter);
+      } else {
+        pickedSplinter = splinterChoice;
+      }
+
+      return pickedSplinter;
+    }
+
+    function getSummonerBySplinter(splinter, summoners) {
+      const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
+      if (summonerChoices.length === 0) {
+        console.log(`splinter type ${splinter} not availiable`);
+        return summoners[0];
+      } else {
+        return summonerChoices[0];
       }
     }
 
-    // get conversion rates
-    const conversionRates = await firestore.getConversionRates(lastOppSplinter);
-    console.log(`Conversion Rates for ${lastOppSplinter}`, conversionRates);
-  
-    let pickedSplinter;
+    const chosenSplinter = await getSplinterBasedOnConversionRates();
+    const chosenSummoner = getSummonerBySplinter(chosenSplinter, summoners);
 
-    // choose a splinter
-    if (splinterChoice === 'BEST') {
-      pickedSplinter = getDefaultFirstSplinter(availiableSplinters);
-      for (const splinter in conversionRates) {
-        if (conversionRates[splinter] > conversionRates[pickedSplinter] && availiableSplinters.includes(splinter)) {
-          pickedSplinter = splinter;
-        }
-      }
-      console.log('going with',pickedSplinter);
-    } else {
-      pickedSplinter = splinterChoice;
-    }
+    return chosenSummoner;
 
+  };
 
-    // click on the summoner
-    return await page.evaluate((splinter, summoners) => {
+  async function clickOnSummoner(chosenSummoner, summoners) {
+    await page.evaluate((chosenSummoner, summoners) => {
 
       function getSummonerElementByName(summonerName, summoners) {
         const position = summoners.filter(summoner => summoner.name === summonerName)[0].position;
@@ -82,29 +101,30 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
         return summonerElement;
       }
 
-      function getSummonerBySplinter(splinter, summoners) {
-        const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
-        if (summonerChoices.length === 0) {
-          console.log(`splinter type ${splinter} not availiable`);
-          return summoners[0];
-        } else {
-          return summonerChoices[0];
-        }
-      }
-
-      const chosenSummoner = getSummonerBySplinter(splinter, summoners);
-
       const summonerElement = getSummonerElementByName(chosenSummoner.name, summoners);
       summonerElement.click();
 
-      return chosenSummoner;
-    }, pickedSplinter, summoners);
-  };
+      if (chosenSummoner.splinter === 'dragon') {
+        // do some clicking for dragon
+        let labels = [...document.querySelectorAll('.modal-body .filter-option-button > label')];
+        for (let i = labels.length - 1; i >= 0; i--) {
+          if (labels[i].className.trim() === 'disabled') {
+            labels.splice(i, 1);
+          }
+          console.log(labels[i].className);
+        }
+      }
+    }, chosenSummoner, summoners);
+
+
+  }
 
 
   const summoners = await getAvailiableSummoners();
 
   const chosenSummoner = await chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOpponentSplinter);
+
+  await clickOnSummoner(chosenSummoner, summoners);
 
   return chosenSummoner;
 }
