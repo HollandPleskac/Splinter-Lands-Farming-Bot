@@ -83,7 +83,7 @@ app.post('/battle', async (request, response) => {
       console.log(`error battling ${err}, failed count ${restartFailedCount}`);
 
       try {
-        await farming.performRestart(page);
+        // await farming.performRestart(page);
       } catch (e) {
         battleResponse = `failed while performing restart - check on server + ${e}`;
         failedWhileRestarting = true;

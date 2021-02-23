@@ -59,7 +59,8 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
       }
 
       let pickedSplinter;
-
+      
+      if (lastOppSplinter)
       if (splinterChoice === 'BEST') {
         pickedSplinter = getDefaultFirstSplinter(availiableSplinters);
         for (const splinter in conversionRates) {
@@ -104,16 +105,29 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
       const summonerElement = getSummonerElementByName(chosenSummoner.name, summoners);
       summonerElement.click();
 
-      if (chosenSummoner.splinter === 'dragon') {
-        // do some clicking for dragon
-        let labels = [...document.querySelectorAll('.modal-body .filter-option-button > label')];
-        for (let i = labels.length - 1; i >= 0; i--) {
-          if (labels[i].className.trim() === 'disabled') {
-            labels.splice(i, 1);
-          }
-          console.log(labels[i].className);
-        }
+      function getDragonSplinterElementByName(splinterName, dragonSplinters) {
+        const position = dragonSplinters.filter(dragonSplinter => dragonSplinter.splinterName === splinterName)[0].position;
+        const dragonSplinterElement = document.querySelectorAll('.modal-body .filter-option-button > label')[position];
+        return dragonSplinterElement;
       }
+
+      if (chosenSummoner.splinter === 'dragon') {
+
+        let labels = [...document.querySelectorAll('.modal-body .filter-option-button > label')];
+        let dragonSplinters = [];
+
+        for (let i = 0; i < labels.length; i++) {
+          if (labels[i].className.trim() !== 'disabled') {
+            dragonSplinters.push({
+              splinterName: labels[i].textContent.toLowerCase().trim(),
+              position: i,
+            });
+          }
+        }
+
+        getDragonSplinterElementByName(dragonSplinters[0].splinterName, dragonSplinters).click();
+      }
+
     }, chosenSummoner, summoners);
 
 
