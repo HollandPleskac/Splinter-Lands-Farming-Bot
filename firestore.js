@@ -8,6 +8,18 @@ async function logBattle(battleResults) {
   console.log(res.id);
 }
 
+
+/*
+
+Modify this function to be universal (getSplinterFromConversionRates)
+should have an availiable splinters and only get conversion rates based on that
+
+should return the picked splinter
+abstract all logic from picking the splinter
+
+*/
+
+
 async function getConversionRates(opponentSplinter) {
 
   const conversionRates = {};

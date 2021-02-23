@@ -1,8 +1,6 @@
-const { battle } = require('./farming');
 const firestore = require('./firestore');
 
 async function pickSummoner(page, availiableSplinters, splinterChoice, lastOpponentSplinter) {
-
   console.log('last splinter the opponent played:', lastOpponentSplinter);
 
   async function getAvailiableSummoners() {
@@ -60,7 +58,6 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
       let pickedSplinter;
       
-      if (lastOppSplinter)
       if (splinterChoice === 'BEST') {
         pickedSplinter = getDefaultFirstSplinter(availiableSplinters);
         for (const splinter in conversionRates) {
