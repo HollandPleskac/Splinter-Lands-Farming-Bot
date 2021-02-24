@@ -43,36 +43,6 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
   async function chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOppSplinter) {
 
-    async function getSplinterBasedOnConversionRates() {
-
-      const conversionRates = await firestore.getConversionRates(lastOppSplinter);
-      console.log(`Conversion Rates for ${lastOppSplinter}`, conversionRates);
-
-      function getDefaultFirstSplinter(availiableSplinters) {
-        for (const s in conversionRates) {
-          if (availiableSplinters.includes(s)) {
-            return s;
-          }
-        }
-      }
-
-      let pickedSplinter;
-      
-      if (splinterChoice === 'BEST') {
-        pickedSplinter = getDefaultFirstSplinter(availiableSplinters);
-        for (const splinter in conversionRates) {
-          if (conversionRates[splinter] > conversionRates[pickedSplinter] && availiableSplinters.includes(splinter)) {
-            pickedSplinter = splinter;
-          }
-        }
-        console.log('going with', pickedSplinter);
-      } else {
-        pickedSplinter = splinterChoice;
-      }
-
-      return pickedSplinter;
-    }
-
     function getSummonerBySplinter(splinter, summoners) {
       const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
       if (summonerChoices.length === 0) {
@@ -83,14 +53,21 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
       }
     }
 
-    const chosenSplinter = await getSplinterBasedOnConversionRates();
+    let chosenSplinter;
+    if (splinterChoice === 'BEST') {
+      chosenSplinter = await firestore.getSplinterFromConversionRates(lastOppSplinter, availiableSplinters);
+    } else {
+      chosenSplinter = splinterChoice;
+    }
+
     const chosenSummoner = getSummonerBySplinter(chosenSplinter, summoners);
 
     return chosenSummoner;
 
   };
 
-  async function clickOnSummoner(chosenSummoner, summoners) {
+  async function clickOnSummoner(chosenSummoner, summoners, lastOpponentSplinter) {
+
     await page.evaluate((chosenSummoner, summoners) => {
 
       function getSummonerElementByName(summonerName, summoners) {
@@ -102,30 +79,47 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
       const summonerElement = getSummonerElementByName(chosenSummoner.name, summoners);
       summonerElement.click();
 
-      function getDragonSplinterElementByName(splinterName, dragonSplinters) {
-        const position = dragonSplinters.filter(dragonSplinter => dragonSplinter.splinterName === splinterName)[0].position;
-        const dragonSplinterElement = document.querySelectorAll('.modal-body .filter-option-button > label')[position];
-        return dragonSplinterElement;
-      }
+    }, chosenSummoner, summoners);
 
-      if (chosenSummoner.splinter === 'dragon') {
 
-        let labels = [...document.querySelectorAll('.modal-body .filter-option-button > label')];
+    // extra step for dragon
+    if (chosenSummoner.splinter === 'dragon') {
+
+      const dragonSplinters = await page.evaluate(() => {
+        const labelEls = [...document.querySelectorAll('.modal-body .filter-option-button > label')];
         let dragonSplinters = [];
 
-        for (let i = 0; i < labels.length; i++) {
-          if (labels[i].className.trim() !== 'disabled') {
+        for (let i = 0; i < labelEls.length; i++) {
+          if (labelEls[i].className.trim() !== 'disabled') {
             dragonSplinters.push({
-              splinterName: labels[i].textContent.toLowerCase().trim(),
+              splinterName: labelEls[i].textContent.toLowerCase().trim(),
               position: i,
             });
           }
         }
+        return dragonSplinters;
+      });
 
-        getDragonSplinterElementByName(dragonSplinters[0].splinterName, dragonSplinters).click();
-      }
+      console.log('Dragon splinters : ', dragonSplinters);
+      const dragonSplinterNames = dragonSplinters.map(dragonSplinter => dragonSplinter.splinterName);
+      const bestDragonSplinter = await firestore.getSplinterFromConversionRates(lastOpponentSplinter, dragonSplinterNames);
 
-    }, chosenSummoner, summoners);
+      console.log('Chosen splinter based on conversion rates : ', bestDragonSplinter);
+
+      await page.evaluate((bestDragonSplinter, dragonSplinters) => {
+
+        function getDragonSplinterBtnByName(splinterName, dragonSplinters) {
+          const position = dragonSplinters.filter(dragonSplinter => dragonSplinter.splinterName === splinterName)[0].position;
+          const dragonSplinterElement = document.querySelectorAll('.modal-body .filter-option-button > label')[position];
+          return dragonSplinterElement;
+        }
+
+        const dragonSplinterEl = getDragonSplinterBtnByName(bestDragonSplinter, dragonSplinters);
+        dragonSplinterEl.click();
+
+      }, bestDragonSplinter, dragonSplinters);
+    }
+
 
 
   }
@@ -135,7 +129,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
   const chosenSummoner = await chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOpponentSplinter);
 
-  await clickOnSummoner(chosenSummoner, summoners);
+  await clickOnSummoner(chosenSummoner, summoners, lastOpponentSplinter);
 
   return chosenSummoner;
 }

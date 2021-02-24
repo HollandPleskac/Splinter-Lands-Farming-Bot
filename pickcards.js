@@ -33,26 +33,29 @@ async function pickCards(page, summonerMana) {
     }
 
     function getSplinter(cardDivElement) {
-      const isNeutral = cardDivElement.querySelector('.card-name.gray');
-      const isFire = cardDivElement.querySelector('.card-name.red');
-      const isWater = cardDivElement.querySelector('.card-name.blue');
-      const isEarth = cardDivElement.querySelector('.card-name.green');
-      const isDark = cardDivElement.querySelector('.card-name.black');
-      const isLight = cardDivElement.querySelector('.card-name.white');
+      const isNeutral = cardDivElement.getAttribute('card_color') === 'Gray' ? true : false;
+      const isFire = cardDivElement.getAttribute('card_color') === 'Red' ? true : false;
+      const isWater = cardDivElement.getAttribute('card_color') === 'Blue' ? true : false;
+      const isEarth = cardDivElement.getAttribute('card_color') === 'Green' ? true : false;
+      const isDeath = cardDivElement.getAttribute('card_color') === 'Black' ? true : false;
+      const isLife = cardDivElement.getAttribute('card_color') === 'White' ? true : false;
+      const isDragon = cardDivElement.getAttribute('card_color') === 'Gold' ? true : false;
 
       let splinter;
-      if (isNeutral != null) {
+      if (isNeutral === true) {
         splinter = 'neutral';
-      } else if (isFire != null) {
+      } else if (isFire === true) {
         splinter = 'fire';
-      } else if (isWater != null) {
+      } else if (isWater === true) {
         splinter = 'water';
-      } else if (isEarth != null) {
+      } else if (isEarth === true) {
         splinter = 'earth';
-      } else if (isDark != null) {
+      } else if (isDeath === true) {
         splinter = 'dark';
-      } else if (isLight != null) {
+      } else if (isLife === true) {
         splinter = 'light';
+      } else if (isDragon === true) {
+        splinter = 'dragon';
       } else {
         splinter = 'unknown';
       }

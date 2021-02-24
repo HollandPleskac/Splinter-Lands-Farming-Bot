@@ -8,19 +8,7 @@ async function logBattle(battleResults) {
   console.log(res.id);
 }
 
-
-/*
-
-Modify this function to be universal (getSplinterFromConversionRates)
-should have an availiable splinters and only get conversion rates based on that
-
-should return the picked splinter
-abstract all logic from picking the splinter
-
-*/
-
-
-async function getConversionRates(opponentSplinter) {
+async function getSplinterFromConversionRates(opponentSplinter, availiableSplinters) {
 
   const conversionRates = {};
 
@@ -30,6 +18,7 @@ async function getConversionRates(opponentSplinter) {
   let earthWins = 0;
   let deathWins = 0;
   let lifeWins = 0;
+  let dragonWins = 0;
 
   const snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).get();
   snapshot.forEach(doc => {
@@ -43,8 +32,10 @@ async function getConversionRates(opponentSplinter) {
         earthWins++;
       } else if (hvcminerSplinter === 'death') {
         deathWins++;
-      } else {
+      } else if (hvcminerSplinter === 'life') {
         lifeWins++;
+      } else {
+        dragonWins++;
       }
     }
   });
@@ -55,8 +46,28 @@ async function getConversionRates(opponentSplinter) {
   conversionRates.earth = earthWins / snapshot.size || 0;
   conversionRates.death = deathWins / snapshot.size || 0;
   conversionRates.life = lifeWins / snapshot.size || 0;
+  conversionRates.dragon = dragonWins / snapshot.size || 0;
 
-  return conversionRates;
+  // remove unused conversion rates
+
+  for (const splinter in conversionRates) {
+    if (!availiableSplinters.includes(splinter)) {
+      delete conversionRates[splinter];
+    }
+  }
+
+  // loop through and get highest conversion rate
+
+  let highestConversionRateSplinter = Object.keys(conversionRates)[0];
+  for (const splinter in conversionRates) {
+    if (conversionRates[splinter] > conversionRates[highestConversionRateSplinter]) {
+      highestConversionRateSplinter = splinter;
+    }
+  }
+
+  // return the value
+
+  return highestConversionRateSplinter;
 }
 
 function getSummonerThompsonSampling(conversionRates) {
@@ -68,4 +79,4 @@ function getSummonerThompsonSampling(conversionRates) {
   */
 }
 
-module.exports = { logBattle, getConversionRates };
+module.exports = { logBattle, getSplinterFromConversionRates };
