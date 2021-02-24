@@ -20,7 +20,15 @@ async function getSplinterFromConversionRates(opponentSplinter, availiableSplint
   let lifeWins = 0;
   let dragonWins = 0;
 
-  const snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).get();
+  let snapshot;
+  if (opponentSplinter !== null) {
+    // best against a specific splinter
+    snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).get();
+  } else {
+    // best aginst all splinters
+    snapshot = await db.collection("Battle Log").get();
+  }
+
   snapshot.forEach(doc => {
     let hvcminerSplinter = doc.data().hvcminerSplinter;
     if (doc.data().winner === 'hvcminer') {

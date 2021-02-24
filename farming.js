@@ -349,8 +349,8 @@ async function battle(page, splinterChoice) {
     if (enemyPreviousMatchData.length !== 0) {
       summoner = await summonerFunctions.pickSummoner(page, availiableSplinters, splinterChoice, enemyPreviousMatchData[enemyPreviousMatchData.length - 1].splinter);
     } else {
-      summoner = await summonerFunctions.pickSummoner(page, availiableSplinters, 'fire', 'fire');
-      // default to fire
+      summoner = await summonerFunctions.pickSummoner(page, availiableSplinters, splinterChoice, null);
+      // default to best
     }
      
     
