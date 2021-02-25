@@ -6,8 +6,8 @@ const summonerFunctions = require('./picksummoner');
 async function startFarming(username, password) {
   const browser = await puppeteer.launch({
     headless: false,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    executablePath: '/usr/bin/chromium-browser'
+    // args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    // executablePath: '/usr/bin/chromium-browser'
   });
   // args and executablePath are required to run on linux
   const page = await browser.newPage();
@@ -347,14 +347,12 @@ async function battle(page, splinterChoice) {
 
     let summoner;
     if (enemyPreviousMatchData.length !== 0) {
-      summoner = await summonerFunctions.pickSummoner(page, availiableSplinters, splinterChoice, enemyPreviousMatchData[enemyPreviousMatchData.length - 1].splinter);
+      summoner = await summonerFunctions.pickSummoner(page, availiableSplinters, splinterChoice, enemyPreviousMatchData[enemyPreviousMatchData.length - 1].splinter, manaCap);
     } else {
-      summoner = await summonerFunctions.pickSummoner(page, availiableSplinters, splinterChoice, null);
+      summoner = await summonerFunctions.pickSummoner(page, availiableSplinters, splinterChoice, null, manaCap);
       // default to best
     }
      
-    
-    
     console.log('chosen summoner : ' + summoner.name);
     await page.waitForTimeout(1000);
     await page.screenshot({ path: './screenshots/8.png' });

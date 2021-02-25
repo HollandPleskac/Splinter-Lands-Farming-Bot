@@ -171,8 +171,9 @@ async function pickCards(page, summonerMana) {
         secondPosCard = { name: "" }; // dummy value of name so that secondPosCard.name will still work
       }
 
+      // calculate mana remaining
       const possibleLeftOvers = cards.filter(card => card.mana <= totalMana && card.name !== tank.name && card.name !== secondPosCard.name && archerNamesList.includes(card.name) === false && card.name !== 'Furious Chicken');
-    
+
       possibleLeftOvers.forEach(leftOver => {
         if (leftOver.mana <= totalMana) {
           leftOverCards.push(leftOver);
@@ -183,20 +184,40 @@ async function pickCards(page, summonerMana) {
       return leftOverCards;
     }
 
+    function getLastSlot(totalManaRemaining, pickedCards, cards) {
+      const remainingCards = cards.filter(card => {
+        return !pickedCards.includes(card.name) && card.mana <= totalManaRemaining;
+      });
+      console.log('cards that are remaining to be picked', remainingCards);
+      let lastCard = remainingCards[0];
+      for (let i = 0; i < remainingCards.length; i++) {
+        if (remainingCards[i].mana > lastCard.mana) {
+          lastCard = remainingCards[i];
+        }
+      }
+      console.log('out of those cards, picked', lastCard);
+      return lastCard;
+    }
+
     const cards = getAvailiableCards();
     let availiableMana = getAvailiableMana(summonerMana);
+    let position = 1;
 
-    try {
-      const chickenElement = getCardElementByName('Furious Chicken', cards);
-      chickenElement.click();
-    } catch (e) {
-      console.log('chicken is not availiable');
+    if (availiableMana <= 30) {
+      try {
+        const chickenElement = getCardElementByName('Furious Chicken', cards);
+        chickenElement.click();
+        position++;
+      } catch (e) {
+        console.log('chicken is not availiable');
+      }
     }
 
     const tank = getTank(cards, availiableMana);
     const tankElement = getCardElementByName(tank.name, cards);
     tankElement.click();
     availiableMana -= tank.mana;
+    position++;
 
     let secondPositionCard;
     try {
@@ -204,6 +225,7 @@ async function pickCards(page, summonerMana) {
       const secondPositionElement = getCardElementByName(secondPositionCard.name, cards);
       secondPositionElement.click();
       availiableMana -= secondPositionCard.mana;
+      position++;
     } catch (e) {
       console.log('second position cards not availiable');
     }
@@ -211,26 +233,48 @@ async function pickCards(page, summonerMana) {
     let chosenArchers = [];
     const archers = getArchers(availiableMana, secondPositionCard, cards);
     archers.forEach(archer => {
-      if (archer.mana <= availiableMana) {
+      if (archer.mana <= availiableMana && position < 6) {
         const archerElement = getCardElementByName(archer.name, cards);
         archerElement.click();
         availiableMana -= archer.mana;
         chosenArchers.push(archer);
+        position++;
       }
     });
 
+    let chosenLeftOvers = [];
     try {
       const leftovers = getLeftOvers(availiableMana, tank, secondPositionCard, chosenArchers, cards);
       leftovers.forEach(leftOverCard => {
-        if (leftOverCard.mana <= availiableMana) {
+        if (leftOverCard.mana <= availiableMana && position < 6) {
           const leftOverCardElement = getCardElementByName(leftOverCard.name, cards);
           leftOverCardElement.click();
           availiableMana -= leftOverCard.mana;
+          chosenLeftOvers.push(leftOverCard);
+          position++;
         }
       });
     } catch (e) {
-      console.log('could not get leftover cards',e);
+      console.log('could not get leftover cards', e);
     }
+    console.log('availiable mana after picking everything', availiableMana);
+
+    let lastCard;
+    try {
+      lastCard = getLastSlot(availiableMana, ['Furious Chicken', tank.name, secondPositionCard.name, ...chosenArchers.map(a => a.name), ...chosenLeftOvers.map(l => l.name)], cards)
+      const lastCardEl = getCardElementByName(lastCard.name, cards);
+      lastCardEl.click();
+      availiableMana -= lastCard.mana;
+    } catch (e) {
+      console.log('could not get last slot card', e);
+    }
+
+    try {
+      console.log('Team Chosen : ', ['Furious Chicken', tank.name, secondPositionCard.name, ...chosenArchers.map(a => a.name), ...chosenLeftOvers.map(l => l.name), lastCard.name]);
+    } catch(e) {
+      console.log('print didnt work');
+    }
+    
 
     return availiableMana;
   }, summonerMana);

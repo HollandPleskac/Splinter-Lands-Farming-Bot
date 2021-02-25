@@ -1,6 +1,6 @@
 const firestore = require('./firestore');
 
-async function pickSummoner(page, availiableSplinters, splinterChoice, lastOpponentSplinter) {
+async function pickSummoner(page, availiableSplinters, splinterChoice, lastOpponentSplinter, manaCap) {
   console.log('last splinter the opponent played:', lastOpponentSplinter);
 
   async function getAvailiableSummoners() {
@@ -41,15 +41,39 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
     });
   }
 
-  async function chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOppSplinter) {
+  async function chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOppSplinter, manaCap) {
+
+    function getHighestSummoner(summonerChoices) {
+      let highestSummoner = summonerChoices[0];
+      for (let i = 0; i < summonerChoices.length; i++) {
+        if (summonerChoices[i].mana > highestSummoner.mana) {
+          highestSummoner = summonerChoices[i];
+        }
+      }
+      return highestSummoner;
+    }
+
+    function getLowestSummoner(summonerChoices) {
+      let lowestSummoner = summonerChoices[0];
+      for (let i = 0; i < summonerChoices.length; i++) {
+        if (summonerChoices[i].mana < lowestSummoner.mana) {
+          lowestSummoner = summonerChoices[i];
+        }
+      }
+      return lowestSummoner;
+    }
 
     function getSummonerBySplinter(splinter, summoners) {
       const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
-      if (summonerChoices.length === 0) {
+      if (summonerChoices.length !== 0) {
+        if (manaCap >= 30) {
+          return getHighestSummoner(summonerChoices);
+        } else {
+          return getLowestSummoner(summonerChoices);
+        }
+      } else {
         console.log(`splinter type ${splinter} not availiable`);
         return summoners[0];
-      } else {
-        return summonerChoices[0];
       }
     }
 
@@ -127,7 +151,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
   const summoners = await getAvailiableSummoners();
 
-  const chosenSummoner = await chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOpponentSplinter);
+  const chosenSummoner = await chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOpponentSplinter, manaCap);
 
   await clickOnSummoner(chosenSummoner, summoners, lastOpponentSplinter);
 
