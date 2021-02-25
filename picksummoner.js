@@ -65,6 +65,8 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
     function getSummonerBySplinter(splinter, summoners) {
       const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
+      console.log('mana count total:', manaCap);
+      console.log('summoners availiable:', summonerChoices);
       if (summonerChoices.length !== 0) {
         if (manaCap >= 30) {
           return getHighestSummoner(summonerChoices);

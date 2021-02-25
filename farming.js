@@ -251,7 +251,7 @@ async function battle(page, splinterChoice) {
 
   async function getManaCap(page) {
     return await page.evaluate(() => {
-      return parseInt(document.querySelector('.mana-cap__icon').querySelector('div').firstElementChild.textContent.trim());
+      return parseInt(document.querySelector('.modal-dialog.modal-lg').querySelector('.mana-cap__icon').querySelector('div').firstElementChild.textContent.trim());
     });
   }
 
@@ -337,6 +337,7 @@ async function battle(page, splinterChoice) {
     const manaCap = await getManaCap(page);
     const enemyPreviousMatchData = await getEnemyPreviousMatchData(page);
     const availiableSplinters = await getAvailiableSplinters(page);
+    console.log('Mana cap recieved at start of battle', manaCap);
 
     await page.click('.btn.btn--create-team');
 

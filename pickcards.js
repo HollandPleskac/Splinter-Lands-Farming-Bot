@@ -131,12 +131,19 @@ async function pickCards(page, summonerMana) {
       return highestManaCard;
     };
 
+    function getRandomNumber(max, min) {
+      const randomNumber = Math.floor(Math.random() * (max + min) + min);
+      return randomNumber;
+    }
+
     function getSecondPositionCard(cards, availiableMana) {
+      // get random second pos card
       let secondPositionCards = cards.filter(
         card => card.mana <= availiableMana && card.attackType === 'melee' && (card.abilities.includes('Opportunity') || card.abilities.includes('Reach'))
       );
 
-      return secondPositionCards[0];
+      const randomNumber = getRandomNumber(secondPositionCards.length, 0);
+      return secondPositionCards[randomNumber];
     }
 
     function getArchers(totalMana, secondPosCard, cards) {
@@ -271,10 +278,10 @@ async function pickCards(page, summonerMana) {
 
     try {
       console.log('Team Chosen : ', ['Furious Chicken', tank.name, secondPositionCard.name, ...chosenArchers.map(a => a.name), ...chosenLeftOvers.map(l => l.name), lastCard.name]);
-    } catch(e) {
+    } catch (e) {
       console.log('print didnt work');
     }
-    
+
 
     return availiableMana;
   }, summonerMana);
