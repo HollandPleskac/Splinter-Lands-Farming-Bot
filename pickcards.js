@@ -131,7 +131,7 @@ async function pickCards(page, summonerMana) {
       return highestManaCard;
     };
 
-    function getRandomNumber(max, min) {
+    function getRandomNumber(min, max) {
       const randomNumber = Math.floor(Math.random() * (max + min) + min);
       return randomNumber;
     }
@@ -142,7 +142,7 @@ async function pickCards(page, summonerMana) {
         card => card.mana <= availiableMana && card.attackType === 'melee' && (card.abilities.includes('Opportunity') || card.abilities.includes('Reach'))
       );
 
-      const randomNumber = getRandomNumber(secondPositionCards.length, 0);
+      const randomNumber = getRandomNumber(0, secondPositionCards.length);
       return secondPositionCards[randomNumber];
     }
 
@@ -158,9 +158,11 @@ async function pickCards(page, summonerMana) {
       );
 
       for (let i = 0; i < rangedCards.length; i++) {
-        const rangedCard = rangedCards[i];
+        const randomNum = getRandomNumber(0, rangedCards.length);
+        const rangedCard = rangedCards[randomNum];
         if (rangedCard.mana < totalMana) {
           archers.push(rangedCard);
+          rangedCards.splice(i, 1); // remove from archers
           totalMana -= rangedCard.mana;
         }
       }
