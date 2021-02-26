@@ -63,12 +63,19 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
       return lowestSummoner;
     }
 
+    function getRandomSplinter(availiableSplinters) {
+      const max = availiableSplinters.length;
+      const min = 0;
+      const randomNum = Math.floor(Math.random() * (max - min) + min);
+      return availiableSplinters[randomNum];
+    }
+
     function getSummonerBySplinter(splinter, summoners) {
       const summonerChoices = summoners.filter(summoner => summoner.splinter === splinter);
       console.log('mana count total:', manaCap);
       console.log('summoners availiable:', summonerChoices);
       if (summonerChoices.length !== 0) {
-        if (manaCap >= 30) {
+        if (manaCap >= 29) {
           return getHighestSummoner(summonerChoices);
         } else {
           return getLowestSummoner(summonerChoices);
@@ -82,6 +89,8 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
     let chosenSplinter;
     if (splinterChoice === 'BEST') {
       chosenSplinter = await firestore.getSplinterFromConversionRates(lastOppSplinter, availiableSplinters);
+    } else if (splinterChoice === 'RANDOM') {
+      chosenSplinter = getRandomSplinter(availiableSplinters);
     } else {
       chosenSplinter = splinterChoice;
     }

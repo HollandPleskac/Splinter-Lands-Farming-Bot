@@ -132,7 +132,7 @@ async function pickCards(page, summonerMana) {
     };
 
     function getRandomNumber(min, max) {
-      const randomNumber = Math.floor(Math.random() * (max + min) + min);
+      const randomNumber = Math.floor(Math.random() * (max - min) + min);
       return randomNumber;
     }
 
@@ -212,7 +212,7 @@ async function pickCards(page, summonerMana) {
     let availiableMana = getAvailiableMana(summonerMana);
     let position = 1;
 
-    if (availiableMana <= 30) {
+    if (availiableMana <= 29) {
       try {
         const chickenElement = getCardElementByName('Furious Chicken', cards);
         chickenElement.click();
