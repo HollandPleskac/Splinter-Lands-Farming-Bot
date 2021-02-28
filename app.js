@@ -1,8 +1,8 @@
 const fs = require('fs').promises;
 
 const express = require('express');
-const expressLayouts = require('express-ejs-layouts');
 const bodyparser = require('body-parser');
+const path = require('path');
 
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
@@ -14,8 +14,6 @@ admin.initializeApp({
 const farming = require('./farming');
 const firestore = require('./firestore');
 const app = express();
-
-const db = admin.firestore();
 
 let page;
 let battleSwitch = false;
@@ -31,18 +29,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.static('public'));
-app.use('/css', express.static(__dirname + 'public/css'));
-app.use('/js', express.static(__dirname + 'public/js'));
-
-app.use(expressLayouts);
-app.set('view engine', 'ejs');
+app.use('/css', express.static(__dirname + '/public/css'));
+app.use('/js', express.static(__dirname + '/public/js'));
 
 app.get('/', (request, response) => {
-  response.render('index', {});
+  response.sendFile('index.html', {root: path.join(__dirname,'./views')});
 });
-
-
 
 app.post('/open-splinterlands', async (request, response) => {
   const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
