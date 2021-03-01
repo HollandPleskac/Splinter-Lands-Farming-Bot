@@ -184,6 +184,10 @@
   transform: translate(-50%, -50%);
 }
 
+.splinter-btn:hover {
+  cursor: pointer;
+}
+
 .fire-btn {
   top: -125px;
   left: -125px;
