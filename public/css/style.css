@@ -30,7 +30,46 @@
 /* Sidebar */
 
 .sidebar {
+  display: grid;
+  grid-template-rows: 1fr 5fr;
+}
 
+.sidebar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-header img {
+  width: 60px;
+  height: 60px;
+}
+
+.sidebar-content {
+  padding-top: 20px;
+}
+
+/* Sidebar Links */
+
+.sidebar-link {
+  background-color: #fff;
+  transition: background-color 0.2s;
+}
+
+.sidebar-link:hover {
+  background-color: #74b9ff;
+  cursor: pointer;
+}
+
+.sidebar-link i {
+  margin: 15px 10px 15px 20px;
+  font-size: 80%;
+}
+
+.sidebar-link h4 {
+  display: inline-block;
+  font-size: 80%;
+  font-weight: 400;
 }
 
 /* Top Bar */
