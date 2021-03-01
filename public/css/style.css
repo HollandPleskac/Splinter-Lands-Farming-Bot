@@ -79,6 +79,7 @@
 }
 
 /* on hover of the sidebar-link, change styling on sidebar-color */
+
 .sidebar-link:hover .sidebar-color {
   background-color: var(--main-color);
 }
@@ -136,4 +137,79 @@
 
 .content {
   background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.interaction-content {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  /* background-color: green; */
+}
+
+.start-server-btn {
+  /* positioning */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* styles */
+  height: 200px;
+  width: 200px;
+  border-radius: 100%;
+  background-color: var(--background-color);
+  border: 4px solid var(--main-color);
+  color: var(--main-color);
+  font-size: 120%;
+  font-weight: 400;
+  outline: none;
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
+
+.start-server-btn:hover {
+  background-color: var(--main-color);
+  color: #fff;
+  cursor: pointer;
+}
+
+.start-server-btn:active {
+  background-color: #60b0ff;
+}
+
+.splinter-btn {
+  position: absolute;
+  width: 50px;
+  transform: translate(-50%, -50%);
+}
+
+.fire-btn {
+  top: -125px;
+  left: -125px;
+}
+
+.water-btn {
+  top: -150px;
+  left: 50px;
+}
+
+.earth-btn {
+  top: -125px;
+  left: 225px;
+}
+
+.life-btn {
+  top: 225px;
+  left: -125px;
+}
+
+.death-btn {
+  top: 275px;
+  left: 50px;
+}
+
+.dragon-btn {
+  top: 225px;
+  left: 225px;
 }
