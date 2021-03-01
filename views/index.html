@@ -16,47 +16,31 @@
 
 <body>
   <div class="page">
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <img src="../public/img/logo.png" alt="logo">
-        <h2>Farming Bot</h2>
-      </div>
-      <div class="sidebar-content">
-        <div class="sidebar-link">
-          <div class="sidebar-color"></div>
-          <i class="fas fa-fingerprint"></i>
-          <h4>Interact</h4>
-        </div>
-        <div class="sidebar-link">
-          <div class="sidebar-color"></div>
-          <i class="far fa-chart-bar"></i>
-          <h4>Statistics</h4>
-        </div>
-        <div class="sidebar-link">
-          <div class="sidebar-color"></div>
-          <i class="far fa-clock"></i>
-          <h4>Live View</h4>
-        </div>
-        <div class="sidebar-link">
-          <div class="sidebar-color"></div>
-          <i class="far fa-user"></i>
-          <h4>Account</h4>
-        </div>
-      </div>
-    </div>
+    <!-- sidebar inserted here with js -->
     <div class="page-content">
-      <div class="top-bar">
-        <h2>Interact</h2>
-        <div class="profile-content">
-          <h2>holland_pleskac</h2>
-          <div class="profile-picture"></div>
-        </div>
-      </div>
+      <!-- top bar inserted here with js -->
       <div class="content"></div>
     </div>
   </div>
 
-  
+  <script>
+    fetch('templates.html').then(function (response) {
+      return response.text(); // text string of html
+    }).then(function (html) {
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      // Insert the top bar
+      const topBarHeaderHTML = doc.getElementById('top-bar-template').innerHTML;
+      document.querySelector('.page-content').insertAdjacentHTML('afterbegin', topBarHeaderHTML);
+      // Insert the side bar
+      const sideBarHTML = doc.getElementById('sidebar-template').innerHTML;
+      document.querySelector('.page').insertAdjacentHTML('afterbegin', sideBarHTML);
+
+    }).catch(function (err) {
+      console.log('Something went wrong.', err);
+    })
+  </script>
 </body>
 
 </html>
