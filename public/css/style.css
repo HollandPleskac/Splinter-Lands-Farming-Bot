@@ -220,3 +220,21 @@
 
 /* ----------------------------------- Page Content Statistics ----------------------------------- */
 
+.wins-container,
+.wins-over-time-container {
+  
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 3px 3px rgb(240, 240, 240);
+}
+
+.wins-container {
+  margin-right: 40px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  width: 550px;
+}
+
+.wins-over-time-container {
+  width: 600px;
+}
