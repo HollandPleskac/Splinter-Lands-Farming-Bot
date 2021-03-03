@@ -220,9 +220,7 @@
 
 /* ----------------------------------- Page Content Statistics ----------------------------------- */
 
-.wins-container,
-.wins-over-time-container {
-  
+.wins-container, .wins-over-time-container {
   background-color: #fff;
   padding: 20px;
   box-shadow: 3px 3px rgb(240, 240, 240);
@@ -237,4 +235,57 @@
 
 .wins-over-time-container {
   width: 600px;
+}
+
+/* ----------------------------------- Page Content Live View ----------------------------------- */
+
+.live-view-content {
+  width: 850px;
+  height: 500px;
+  background-color: #eeeeee;
+  border-radius: 10px;
+  padding: 0 20px;
+}
+
+.battle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.battle>div {
+  text-align: center;
+  margin: 10px 0;
+  border-radius: 10px;
+  background-color: rgba(255, 99, 132, 0.2);
+}
+
+.battle>div:first-child {
+  background-color: rgba(54, 162, 235, 0.2);
+  margin-right: 20px;
+}
+
+.battle h3 {
+  font-size: 80%;
+  margin: 20px 0;
+}
+
+.fighters {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.fighter-img-div {
+  width: 40px;
+  height: 40px;
+  margin: 0 7px;
+  border: 2px solid #777;
+  border-radius: 100%;
+}
+
+.fighter-img-div img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 100%;
 }

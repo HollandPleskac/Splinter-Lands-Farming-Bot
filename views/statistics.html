@@ -42,6 +42,7 @@
       // Insert the top bar
       const topBarHeaderHTML = doc.getElementById('top-bar-template').innerHTML;
       document.querySelector('.page-content').insertAdjacentHTML('afterbegin', topBarHeaderHTML);
+      document.querySelector('.top-bar').querySelector('h2').textContent = 'Statistics';
       // Insert the side bar
       const sideBarHTML = doc.getElementById('sidebar-template').innerHTML;
       document.querySelector('.page').insertAdjacentHTML('afterbegin', sideBarHTML);
