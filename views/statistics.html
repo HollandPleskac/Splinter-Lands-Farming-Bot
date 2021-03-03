@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../public/css/style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="page">
+    <!-- sidebar inserted here with js -->
+    <div class="page-content">
+      <!-- top bar inserted here with js -->
+      <div class="content">
+        <div class="statistics-content">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    fetch('templates.html').then(function (response) {
+      return response.text(); // text string of html
+    }).then(function (html) {
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      // Insert the top bar
+      const topBarHeaderHTML = doc.getElementById('top-bar-template').innerHTML;
+      document.querySelector('.page-content').insertAdjacentHTML('afterbegin', topBarHeaderHTML);
+      // Insert the side bar
+      const sideBarHTML = doc.getElementById('sidebar-template').innerHTML;
+      document.querySelector('.page').insertAdjacentHTML('afterbegin', sideBarHTML);
+
+    }).catch(function (err) {
+      console.log('Something went wrong.', err);
+    })
+  </script>
+</body>
+
+</html>
