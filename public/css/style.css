@@ -242,9 +242,10 @@
 .live-view-content {
   width: 850px;
   height: 500px;
-  background-color: #eeeeee;
+  background-color: #ffffff;
   border-radius: 10px;
   padding: 0 20px;
+  box-shadow: 2px 2px #e6e6e6;
 }
 
 .battle {
@@ -256,6 +257,7 @@
   text-align: center;
   margin: 10px 0;
   border-radius: 10px;
+  border: 2px solid rgb(216, 216, 216);
   background-color: rgba(255, 99, 132, 0.2);
 }
 
