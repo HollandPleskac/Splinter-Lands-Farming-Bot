@@ -17,10 +17,50 @@
 
 <body>
   <div class="page">
-    <!-- sidebar inserted here with js -->
-
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img src="../public/img/logo.png" alt="logo">
+        <h2>Splinter Bot</h2>
+      </div>
+      <div class="sidebar-content">
+        <a href="index.html">
+          <div class="sidebar-link">
+            <div class="sidebar-color"></div>
+            <i class="fas fa-fingerprint"></i>
+            <h4>Interact</h4>
+          </div>
+        </a>
+        <a href="statistics.html">
+          <div class="sidebar-link">
+            <div class="sidebar-color"></div>
+            <i class="far fa-chart-bar"></i>
+            <h4>Statistics</h4>
+          </div>
+        </a>
+        <a href="live-view.html">
+          <div class="sidebar-link">
+            <div class="sidebar-color"></div>
+            <i class="far fa-clock"></i>
+            <h4>Live View</h4>
+          </div>
+        </a>
+        <a href="">
+          <div class="sidebar-link">
+            <div class="sidebar-color"></div>
+            <i class="far fa-user"></i>
+            <h4>Account</h4>
+          </div>
+        </a>
+      </div>
+    </div>
     <div class="page-content">
-      <!-- top bar inserted here with js -->
+      <div class="top-bar">
+        <h2></h2>
+        <div class="profile-content">
+          <h2>holland_pleskac</h2>
+          <div class="profile-picture"></div>
+        </div>
+      </div>
       <div class="content">
         <div class="wins-container">
           <canvas id="winsChart"></canvas>
@@ -31,26 +71,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    fetch('templates.html').then(function (response) {
-      return response.text(); // text string of html
-    }).then(function (html) {
-
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      // Insert the top bar
-      const topBarHeaderHTML = doc.getElementById('top-bar-template').innerHTML;
-      document.querySelector('.page-content').insertAdjacentHTML('afterbegin', topBarHeaderHTML);
-      document.querySelector('.top-bar').querySelector('h2').textContent = 'Statistics';
-      // Insert the side bar
-      const sideBarHTML = doc.getElementById('sidebar-template').innerHTML;
-      document.querySelector('.page').insertAdjacentHTML('afterbegin', sideBarHTML);
-
-    }).catch(function (err) {
-      console.log('Something went wrong.', err);
-    })
-  </script>
 
   <script>
     let ctx = document.getElementById('winsChart').getContext('2d');
