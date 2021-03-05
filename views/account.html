@@ -10,6 +10,7 @@
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="../public/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/9ac427a36e.js" crossorigin="anonymous"></script>
   <title>Document</title>
 </head>
@@ -61,19 +62,35 @@
         </div>
       </div>
       <div class="content">
-        <div class="interaction-content">
-          <button class="start-server-btn">Start</button>
-          <img src="../public/img/icon_splinter_fire.svg" alt="Fire" class="fire-btn splinter-btn">
-          <img src="../public/img/icon_splinter_water.svg" alt="Water" class="water-btn splinter-btn">
-          <img src="../public/img/icon_splinter_earth.svg" alt="Earth" class="earth-btn splinter-btn">
-          <img src="../public/img/icon_splinter_death.svg" alt="Death" class="death-btn splinter-btn">
-          <img src="../public/img/icon_splinter_life.svg" alt="Life" class="life-btn splinter-btn">
-          <img src="../public/img/icon_splinter_dragon.svg" alt="Dragon" class="dragon-btn splinter-btn">
+        <div class="account-content">
+          <div class="account-prof-pic">
+            <div class="edit-background">
+              <i class="fas fa-pen"></i>
+            </div>
+          </div>
+          <div class="account-section account-name-section">
+            <div>
+              <label for="user-first-name">First Name</label>
+              <input type="text" id="user-first-name">
+            </div>
+            <div>
+              <label for="user-last-name">Last Name</label>
+              <input type="text" id="user-last-name">
+            </div>
+          </div>
+          <div class="account-section">
+            <label for="user-email" >Email</label>
+            <input type="email" class="big-input" id="user-email">
+          </div>
+          <div class="account-section">
+            <label for="user-password">Password</label>
+            <input type="password" class="big-input" id="user-password">
+          </div>
         </div>
       </div>
     </div>
   </div>
-  
+
 </body>
 
 </html>
