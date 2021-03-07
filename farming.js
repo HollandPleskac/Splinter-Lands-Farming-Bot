@@ -244,7 +244,7 @@ async function battle(page, splinterChoice) {
       let rule = document.querySelector('.combat__conflict').querySelector('img').src;
       rule = rule.replace('https://d36mxiodymuqjm.cloudfront.net/website/icons/rulesets/new/img_combat-rule_', '');
       rule = rule.replace('_150.png', '');
-      rule = rule.replace('-', ' ');
+      rule = rule.replaceAll('-', ' ');
       return rule;
     });
   }
@@ -370,7 +370,7 @@ async function battle(page, splinterChoice) {
       startBattleBtn.click();
     });
 
-    await page.waitForSelector('#btnRumble', { timeout: 300000 }); // instead wait for the match to actually load (this takes you to the animation)
+    await page.waitForSelector('#btnRumble', { timeout: 210000 }); // instead wait for the match to actually load (this takes you to the animation)
     await page.screenshot({ path: './screenshots/9.png' });
 
     await page.waitForTimeout(10000);
@@ -407,7 +407,8 @@ async function battle(page, splinterChoice) {
       manaCap: manaCap,
       manaRemaining: manaRemaining,
       hvcMinerSummoner: summoner,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      mode: splinterChoice,
     }
 
   }
