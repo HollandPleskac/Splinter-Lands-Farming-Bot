@@ -1,6 +1,6 @@
 const firestore = require('./firestore');
 
-async function pickSummoner(page, availiableSplinters, splinterChoice, lastOpponentSplinter, manaCap) {
+async function pickSummoner(page, availiableSplinters, splinterChoice, lastOpponentSplinter, manaCap, battleRule) {
   console.log('last splinter the opponent played:', lastOpponentSplinter);
 
   async function getAvailiableSummoners() {
@@ -41,7 +41,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
     });
   }
 
-  async function chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOppSplinter, manaCap) {
+  async function chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOppSplinter, manaCap, battleRule) {
 
     function getHighestSummoner(summonerChoices) {
       let highestSummoner = summonerChoices[0];
@@ -88,7 +88,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
     let chosenSplinter;
     if (splinterChoice === 'BEST') {
-      chosenSplinter = await firestore.getSplinterFromConversionRates(lastOppSplinter, availiableSplinters);
+      chosenSplinter = await firestore.getSplinterFromConversionRates(lastOppSplinter, availiableSplinters, battleRule);
     } else if (splinterChoice === 'RANDOM') {
       chosenSplinter = getRandomSplinter(availiableSplinters);
     } else {
@@ -101,9 +101,9 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
   };
 
-  async function clickOnSummoner(chosenSummoner, summoners, lastOpponentSplinter) {
+  async function clickOnSummoner(chosenSummoner, summoners, lastOpponentSplinter, battleRule) {
 
-    await page.evaluate((chosenSummoner, summoners) => {
+    await page.evaluate((chosenSummoner, summoners,) => {
 
       function getSummonerElementByName(summonerName, summoners) {
         const position = summoners.filter(summoner => summoner.name === summonerName)[0].position;
@@ -137,7 +137,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
       console.log('Dragon splinters : ', dragonSplinters);
       const dragonSplinterNames = dragonSplinters.map(dragonSplinter => dragonSplinter.splinterName);
-      const bestDragonSplinter = await firestore.getSplinterFromConversionRates(lastOpponentSplinter, dragonSplinterNames);
+      const bestDragonSplinter = await firestore.getSplinterFromConversionRates(lastOpponentSplinter, dragonSplinterNames, battleRule);
 
       console.log('Chosen splinter based on conversion rates : ', bestDragonSplinter);
 
@@ -162,9 +162,9 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
   const summoners = await getAvailiableSummoners();
 
-  const chosenSummoner = await chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOpponentSplinter, manaCap);
+  const chosenSummoner = await chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOpponentSplinter, manaCap, battleRule);
 
-  await clickOnSummoner(chosenSummoner, summoners, lastOpponentSplinter);
+  await clickOnSummoner(chosenSummoner, summoners, lastOpponentSplinter, battleRule);
 
   return chosenSummoner;
 }

@@ -8,7 +8,7 @@ async function logBattle(battleResults) {
   console.log(res.id);
 }
 
-async function getSplinterFromConversionRates(opponentSplinter, availiableSplinters) {
+async function getSplinterFromConversionRates(opponentSplinter, availiableSplinters, battleRule) {
 
   const conversionRates = {};
 
@@ -23,7 +23,11 @@ async function getSplinterFromConversionRates(opponentSplinter, availiableSplint
   let snapshot;
   if (opponentSplinter !== null) {
     // best against a specific splinter
-    snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).get();
+    snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).where('rule', '==', battleRule).get();
+    // pass in the rule to check where for rule too,
+    if (snapshot.size === 0) {
+      snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).get();
+    }
   } else {
     // best aginst all splinters
     snapshot = await db.collection("Battle Log").get();
