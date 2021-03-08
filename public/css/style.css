@@ -194,6 +194,28 @@
   cursor: pointer;
 }
 
+.splinter-mode-btn {
+  width: 80px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  background-color: var(--main-color);
+  font-size: 75%;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  color: #fff;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.splinter-mode-btn:hover{ 
+  background-color: #fff;
+  color: var(--main-color);
+  cursor: pointer;
+}
+
 .fire-btn {
   top: -125px;
   left: -125px;
@@ -207,6 +229,16 @@
 .earth-btn {
   top: -125px;
   left: 225px;
+}
+
+.random-btn {
+  top: 50px;
+  left: -185px;
+}
+
+.best-btn {
+  top: 50px;
+  left: 285px;
 }
 
 .life-btn {

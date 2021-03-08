@@ -6,6 +6,8 @@ const earthBtn = document.querySelector('.earth-btn');
 const lifeBtn = document.querySelector('.life-btn');
 const deathBtn = document.querySelector('.death-btn');
 const dragonBtn = document.querySelector('.dragon-btn');
+const randomBtn = document.querySelector('.random-btn');
+const bestBtn = document.querySelector('.best-btn');
 
 fireBtn.addEventListener('click', async () => {
   await changeMode('fire');
@@ -29,6 +31,14 @@ deathBtn.addEventListener('click', async () => {
 
 dragonBtn.addEventListener('click', async () => {
   await changeMode('dragon');
+});
+
+randomBtn.addEventListener('click', async () => {
+  await changeMode('RANDOM');
+});
+
+bestBtn.addEventListener('click', async () => {
+  await changeMode('BEST');
 });
 
 async function changeMode(mode) {
