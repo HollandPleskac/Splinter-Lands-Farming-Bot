@@ -3,7 +3,6 @@ const fs = require('fs').promises;
 const express = require('express');
 const bodyparser = require('body-parser');
 const path = require('path');
-
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
 
@@ -33,7 +32,7 @@ app.use('/css', express.static(__dirname + '/public/css'));
 app.use('/js', express.static(__dirname + '/public/js'));
 
 app.get('/', (request, response) => {
-  response.sendFile('index.html', {root: path.join(__dirname,'./views')});
+  response.sendFile('index.html', { root: path.join(__dirname, './views') });
 });
 
 app.post('/open-splinterlands', async (request, response) => {
@@ -99,13 +98,13 @@ app.post('/battle', async (request, response) => {
 
 app.post('/start-farming', async (request, response) => {
   battleSwitch = true;
-  response.json({ switch: 'true' });
+  response.json({ switch: true });
 });
 
 
 app.post('/stop-farming', async (request, response) => {
   battleSwitch = false;
-  response.json({ switch: 'false' });
+  response.json({ switch: false });
 });
 
 app.post('/change-splinter-choice', (request, response) => {
@@ -133,8 +132,6 @@ app.get('/', (request, response) => {
 
 
 app.listen(5000);
-
-
 
 
 
