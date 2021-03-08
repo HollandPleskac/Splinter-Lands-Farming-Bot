@@ -72,48 +72,25 @@
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
+
   <script>
-    let ctx = document.getElementById('winsChart').getContext('2d');
+    var firebaseConfig = {
+      apiKey: "AIzaSyAYpyMNoEYkjIg_b_jxOpz4lGS_K5bE8zE",
+      authDomain: "splinter-lands-farming-bot.firebaseapp.com",
+      projectId: "splinter-lands-farming-bot",
+      storageBucket: "splinter-lands-farming-bot.appspot.com",
+      messagingSenderId: "1013134579292",
+      appId: "1:1013134579292:web:5cdb140cc4cc0edd41f899"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
-    Chart.defaults.global.defaultFontFamily = 'Roboto';
-    Chart.defaults.global.defaultFontSize = 15;
-    Chart.defaults.global.defaultFontColor = '#777';
+  <script src="../public/js/stats.js"></script>
 
-    let myChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Fire', 'Water', 'Earth', 'Life', 'Death', 'Dragon'],
-        datasets: [{
-          data: [11, 19, 11, 33, 22, 10],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-          ],
-          borderColor: '#777',
-          borderWidth: 1,
-          hoverBorderWidth: 3,
-          hoverBorderColor: '#000',
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Total Wins By Splinter',
-          fontSize: 25,
-        },
-        legend: {
-          display: true,
-          position: 'top',
-          labels: {
-            fontColor: '#000'
-          }
-
-        }
-      }
-    })
+  <script>
+    
   </script>
 
   <script>
@@ -130,7 +107,7 @@
         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         datasets: [{
           label: 'Wins',
-          data: [11, 19, 10,11,7,15,10],
+          data: [11, 19, 10, 11, 7, 15, 10],
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: '#777',
           borderWidth: 1,

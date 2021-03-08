@@ -214,7 +214,7 @@ async function battle(page, splinterChoice) {
         } else if (color === 'purple') {
           return 'death';
         } else if (color === 'rgb(187,') {
-          return 'light';
+          return 'life';
         } else {
           return 'dragon';
         }

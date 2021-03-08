@@ -53,7 +53,7 @@ async function pickCards(page, summonerMana) {
       } else if (isDeath === true) {
         splinter = 'dark';
       } else if (isLife === true) {
-        splinter = 'light';
+        splinter = 'life';
       } else if (isDragon === true) {
         splinter = 'dragon';
       } else {
