@@ -1,18 +1,19 @@
 const startServerBtn = document.querySelector('.start-server-btn');
 const serverUrl = 'http://localhost:5000';
 
-getCurrentServerStatus().then(result =>  updateBtn(result.status));
+getCurrentServerStatus().then(result => updateBtn(result.status));
 
 startServerBtn.addEventListener('click', async () => {
   await toggleServer();
+  await battle();
+  await updateBtn();
 });
 
+// toggle server
 async function toggleServer() {
   const result = await getCurrentServerStatus();
   const currentStatus = result.status;
-  const switchResult = await switchStatus(currentStatus);
-  const newStatus = switchResult.switch;
-  updateBtn(newStatus);
+  await switchStatus(currentStatus);
 }
 
 async function getCurrentServerStatus() {
@@ -35,9 +36,34 @@ async function switchStatus(status) {
     .catch(err => console.log(err));
 }
 
-function updateBtn(status) {
-  console.log('server status ', status);
-  if (status === true)
+// battle
+async function battle() {
+  const isInMatch = await isInBattle();
+  if (!isInMatch) {
+    await fetch(`${serverUrl}/battle`, {
+      method: 'POST'
+    })
+      .then(res => res.json())
+      .catch(err => console.log(err));
+    
+  } else {
+    return false;
+  }
+
+}
+
+async function isInBattle() {
+  const isInMatchResult = await fetch(`${serverUrl}/get-isInMatch`)
+    .then(res => res.json())
+    .catch(err => console.log(err));
+  console.log('is in match result, ', isInMatchResult.isInMatch);
+  return isInMatchResult.isInMatch;
+}
+
+// update btn
+async function updateBtn() {
+  const result = await getCurrentServerStatus();
+  if (result.status === true)
     startServerBtn.innerHTML = 'Server Running';
   else
     startServerBtn.innerHTML = 'Server Stopped';
