@@ -20,17 +20,20 @@ async function getSplinterFromConversionRates(opponentSplinter, availiableSplint
   let lifeWins = 0;
   let dragonWins = 0;
 
+  // TODO filter out non availiable splinters for snapshots
   let snapshot;
   if (opponentSplinter !== null) {
     // best against a specific splinter
     snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).where('rule', '==', battleRule).get();
-    // pass in the rule to check where for rule too,
+    console.log('first snap', snapshot.size);
     if (snapshot.size === 0) {
       snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).get();
+      console.log('second snap', snapshot.size);
     }
   } else {
     // best aginst all splinters
     snapshot = await db.collection("Battle Log").get();
+    console.log('third snap', snapshot.size);
   }
 
   snapshot.forEach(doc => {
@@ -61,12 +64,14 @@ async function getSplinterFromConversionRates(opponentSplinter, availiableSplint
   conversionRates.dragon = dragonWins / snapshot.size || 0;
 
   // remove unused conversion rates
+  // TODO REMOVE
 
   for (const splinter in conversionRates) {
     if (!availiableSplinters.includes(splinter)) {
       delete conversionRates[splinter];
     }
   }
+  console.log(battleRule, conversionRates);
 
   // loop through and get highest conversion rate
 

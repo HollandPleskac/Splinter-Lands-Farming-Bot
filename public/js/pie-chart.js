@@ -3,7 +3,7 @@ const db = firebase.firestore();
 const winsList = [];
 const wins = { fire: 0, water: 0, earth: 0, life: 0, death: 0, dragon: 0 };
 
-function renderPieChart() {
+function renderPieChart(winsList) {
   let ctx = document.getElementById('winsChart').getContext('2d');
 
   Chart.defaults.global.defaultFontFamily = 'Roboto';
@@ -65,7 +65,7 @@ db.collection("Battle Log").onSnapshot((querySnapshot) => {
     }
   });
   setWinsList();
-  renderPieChart();
+  renderPieChart(winsList);
 });
 
 

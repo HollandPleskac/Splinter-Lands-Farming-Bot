@@ -47,7 +47,7 @@ async function changeMode(mode) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ 'new splinter choice': mode })
+    body: JSON.stringify({ 'newSplinterChoice': mode })
   })
     .then(res => res.json)
     .catch(err => console.log(err));

@@ -87,52 +87,9 @@
     firebase.initializeApp(firebaseConfig);
   </script>
 
-  <script src="../public/js/stats.js"></script>
+  <script src="../public/js/pie-chart.js"></script>
 
-  <script>
-    
-  </script>
-
-  <script>
-
-    let lineChartCtx = document.getElementById('winsOverTimeChart').getContext('2d');
-
-    Chart.defaults.global.defaultFontFamily = 'Roboto';
-    Chart.defaults.global.defaultFontSize = 15;
-    Chart.defaults.global.defaultFontColor = '#777';
-
-    let chart = new Chart(lineChartCtx, {
-      type: 'line',
-      data: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        datasets: [{
-          label: 'Wins',
-          data: [11, 19, 10, 11, 7, 15, 10],
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: '#777',
-          borderWidth: 1,
-          hoverBorderWidth: 3,
-          hoverBorderColor: '#000',
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Total Wins Over Time',
-          fontSize: 25,
-        },
-        legend: {
-          display: true,
-          position: 'right',
-          labels: {
-            fontColor: '#000'
-          }
-
-        }
-      }
-    })
-
-  </script>
+  <script src="../public/js/line-chart.js"></script>
 
 </body>
 
