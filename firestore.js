@@ -20,14 +20,13 @@ async function getSplinterFromConversionRates(opponentSplinter, availiableSplint
   let lifeWins = 0;
   let dragonWins = 0;
 
-  // TODO filter out non availiable splinters for snapshots
   let snapshot;
   if (opponentSplinter !== null) {
     // best against a specific splinter
-    snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).where('rule', '==', battleRule).get();
+    snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).where('rule', '==', battleRule).where('hvcminerSplinter','in',availiableSplinters).get();
     console.log('first snap', snapshot.size);
     if (snapshot.size === 0) {
-      snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).get();
+      snapshot = await db.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).where('hvcminerSplinter','in',availiableSplinters).get();
       console.log('second snap', snapshot.size);
     }
   } else {
@@ -62,9 +61,6 @@ async function getSplinterFromConversionRates(opponentSplinter, availiableSplint
   conversionRates.death = deathWins / snapshot.size || 0;
   conversionRates.life = lifeWins / snapshot.size || 0;
   conversionRates.dragon = dragonWins / snapshot.size || 0;
-
-  // remove unused conversion rates
-  // TODO REMOVE
 
   for (const splinter in conversionRates) {
     if (!availiableSplinters.includes(splinter)) {

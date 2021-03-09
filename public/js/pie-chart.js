@@ -1,7 +1,7 @@
 const db = firebase.firestore();
 
-const winsList = [];
-const wins = { fire: 0, water: 0, earth: 0, life: 0, death: 0, dragon: 0 };
+let winsList = [];
+let wins = { fire: 0, water: 0, earth: 0, life: 0, death: 0, dragon: 0 };
 
 function renderPieChart(winsList) {
   let ctx = document.getElementById('winsChart').getContext('2d');
@@ -58,12 +58,20 @@ function setWinsList() {
   console.log(winsList);
 }
 
+function clearWinsData() {
+  winsList = [];
+  wins = { fire: 0, water: 0, earth: 0, life: 0, death: 0, dragon: 0 };
+}
+
 db.collection("Battle Log").onSnapshot((querySnapshot) => {
+  clearWinsData();
+
   querySnapshot.forEach((doc) => {
     if (doc.data().winner === 'hvcminer') {
       wins[doc.data().hvcminerSplinter]++;
     }
   });
+
   setWinsList();
   renderPieChart(winsList);
 });
