@@ -62,40 +62,28 @@
       </div>
       <div class="content">
         <div class="live-view-content">
-          <div class="battle">
-            <div>
-              <h3>HVC Miner</h3>
-              <div class="fighters">
-                <div class="fighter-img-div"><img
-                    src="https://www.treehugger.com/thmb/W04nFnePn2iAP8VXRb-YzSjWI6Y=/3537x2582/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__mnn__images__2020__03__rhode-island-hen-7f9b1b93dba8401999c52f85096fbe6c.jpg"
-                    alt="colorful wallpaper"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-              </div>
-            </div>
-            <div>
-              <h3>Opponent</h3>
-              <div class="fighters">
-                <div class="fighter-img-div"><img
-                    src="https://i.pinimg.com/originals/03/c6/1a/03c61adb9c6acf289a9b4a06c18cbe36.jpg"
-                    alt="colorful wallpaper"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-                <div class="fighter-img-div"></div>
-              </div>
-            </div>
-          </div>
+          <!-- battles inserted here with js -->
         </div>
       </div>
     </div>
   </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyAYpyMNoEYkjIg_b_jxOpz4lGS_K5bE8zE",
+      authDomain: "splinter-lands-farming-bot.firebaseapp.com",
+      projectId: "splinter-lands-farming-bot",
+      storageBucket: "splinter-lands-farming-bot.appspot.com",
+      messagingSenderId: "1013134579292",
+      appId: "1:1013134579292:web:5cdb140cc4cc0edd41f899"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script src="../public/js/live-view.js"></script>
 </body>
 
 </html>
