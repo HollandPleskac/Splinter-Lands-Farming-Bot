@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../public/css/style.css">
+  <script src="https://kit.fontawesome.com/9ac427a36e.js" crossorigin="anonymous" defer></script>
+
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="page">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img src="../public/img/logo.png" alt="logo">
+        <h2>Splinter Bot</h2>
+      </div>
+      <div class="sidebar-content">
+        <div class="sidebar-link">
+          <div class="sidebar-color"></div>
+          <i class="fas fa-fingerprint"></i>
+          <h4>Interact</h4>
+        </div>
+        <div class="sidebar-link">
+          <div class="sidebar-color"></div>
+          <i class="far fa-chart-bar"></i>
+          <h4>Statistics</h4>
+        </div>
+        <div class="sidebar-link">
+          <div class="sidebar-color"></div>
+          <i class="far fa-clock"></i>
+          <h4>Live View</h4>
+        </div>
+        <div class="sidebar-link">
+          <div class="sidebar-color"></div>
+          <i class="far fa-user"></i>
+          <h4>Account</h4>
+        </div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="top-bar">
+        <h2>Interact</h2>
+        <div class="profile-content">
+          <h2>holland_pleskac</h2>
+          <div class="profile-picture"></div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="interaction-content">
+          <button class="start-server-btn"></button>
+          <img src="../public/img/icon_splinter_fire.svg" alt="Fire" class="fire-btn splinter-btn">
+          <img src="../public/img/icon_splinter_water.svg" alt="Water" class="water-btn splinter-btn">
+          <img src="../public/img/icon_splinter_earth.svg" alt="Earth" class="earth-btn splinter-btn">
+          <img src="../public/img/icon_splinter_death.svg" alt="Death" class="death-btn splinter-btn">
+          <img src="../public/img/icon_splinter_life.svg" alt="Life" class="life-btn splinter-btn">
+          <img src="../public/img/icon_splinter_dragon.svg" alt="Dragon" class="dragon-btn splinter-btn">
+          <div class="random-btn splinter-mode-btn">Random</div>
+          <div class="best-btn splinter-mode-btn">Best</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyAYpyMNoEYkjIg_b_jxOpz4lGS_K5bE8zE",
+      authDomain: "splinter-lands-farming-bot.firebaseapp.com",
+      projectId: "splinter-lands-farming-bot",
+      storageBucket: "splinter-lands-farming-bot.appspot.com",
+      messagingSenderId: "1013134579292",
+      appId: "1:1013134579292:web:5cdb140cc4cc0edd41f899"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script src="../public/js/server-btn.js"></script>
+  <script src="../public/js/mode-btns.js"></script>
+  <script src="../public/js/routing.js"></script>
+
+</body>
+
+</html>

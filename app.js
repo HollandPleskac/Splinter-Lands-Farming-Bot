@@ -35,6 +35,16 @@ app.get('/', (request, response) => {
   response.sendFile('index.html', { root: path.join(__dirname, './views') });
 });
 
+app.get('/interact', (request, response) => {
+  console.log('auth query ',request.headers );
+  response.sendFile('interact.html', { root: path.join(__dirname, './views') });
+});
+
+app.get('/statistics', (request, response) => {
+  console.log(request.headers );
+  response.sendFile('statistics.html', { root: path.join(__dirname, './views') });
+});
+
 app.post('/open-splinterlands', async (request, response) => {
   const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
     if (err) throw err;
@@ -124,11 +134,6 @@ app.get('/get-isInMatch', (request, response) => {
 app.get('/get-splinter-choice', (request, response) => {
   response.json({ 'splinterChoice': splinterChoice });
 });
-
-app.get('/', (request, response) => {
-  response.json({ 'homepage': 'homepage' });
-});
-
 
 
 app.listen(5000);
