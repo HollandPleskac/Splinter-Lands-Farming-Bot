@@ -30,6 +30,7 @@ app.use(function (req, res, next) {
 
 app.use('/css', express.static(__dirname + '/public/css'));
 app.use('/js', express.static(__dirname + '/public/js'));
+app.use('/img', express.static(__dirname + '/public/img'));
 
 app.get('/', (request, response) => {
   response.sendFile('index.html', { root: path.join(__dirname, './views') });
@@ -43,6 +44,16 @@ app.get('/interact', (request, response) => {
 app.get('/statistics', (request, response) => {
   console.log(request.headers );
   response.sendFile('statistics.html', { root: path.join(__dirname, './views') });
+});
+
+app.get('/live-view', (request, response) => {
+  console.log(request.headers );
+  response.sendFile('live-view.html', { root: path.join(__dirname, './views') });
+});
+
+app.get('/account', (request, response) => {
+  console.log(request.headers );
+  response.sendFile('account.html', { root: path.join(__dirname, './views') });
 });
 
 app.post('/open-splinterlands', async (request, response) => {

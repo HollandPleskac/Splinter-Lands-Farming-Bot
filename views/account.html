@@ -9,7 +9,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../public/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/9ac427a36e.js" crossorigin="anonymous" defer></script>
   <title>Document</title>
@@ -19,38 +19,30 @@
   <div class="page">
     <div class="sidebar">
       <div class="sidebar-header">
-        <img src="../public/img/logo.png" alt="logo">
+        <img src="img/logo.png" alt="logo">
         <h2>Splinter Bot</h2>
       </div>
       <div class="sidebar-content">
-        <a href="index.html">
-          <div class="sidebar-link">
-            <div class="sidebar-color"></div>
-            <i class="fas fa-fingerprint"></i>
-            <h4>Interact</h4>
-          </div>
-        </a>
-        <a href="statistics.html">
-          <div class="sidebar-link">
-            <div class="sidebar-color"></div>
-            <i class="far fa-chart-bar"></i>
-            <h4>Statistics</h4>
-          </div>
-        </a>
-        <a href="live-view.html">
-          <div class="sidebar-link">
-            <div class="sidebar-color"></div>
-            <i class="far fa-clock"></i>
-            <h4>Live View</h4>
-          </div>
-        </a>
-        <a href="account.html">
-          <div class="sidebar-link">
-            <div class="sidebar-color"></div>
-            <i class="far fa-user"></i>
-            <h4>Account</h4>
-          </div>
-        </a>
+        <div class="sidebar-link" data-url="interact">
+          <div class="sidebar-color"></div>
+          <i class="fas fa-fingerprint"></i>
+          <h4>Interact</h4>
+        </div>
+        <div class="sidebar-link" data-url="statistics">
+          <div class="sidebar-color"></div>
+          <i class="far fa-chart-bar"></i>
+          <h4>Statistics</h4>
+        </div>
+        <div class="sidebar-link" data-url="live-view">
+          <div class="sidebar-color"></div>
+          <i class="far fa-clock"></i>
+          <h4>Live View</h4>
+        </div>
+        <div class="sidebar-link" data-url="account">
+          <div class="sidebar-color"></div>
+          <i class="far fa-user"></i>
+          <h4>Account</h4>
+        </div>
       </div>
     </div>
     <div class="page-content">
@@ -79,7 +71,7 @@
             </div>
           </div>
           <div class="account-section">
-            <label for="user-email" >Email</label>
+            <label for="user-email">Email</label>
             <input type="email" class="big-input" id="user-email">
           </div>
           <div class="account-section">
@@ -90,6 +82,24 @@
       </div>
     </div>
   </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyAYpyMNoEYkjIg_b_jxOpz4lGS_K5bE8zE",
+      authDomain: "splinter-lands-farming-bot.firebaseapp.com",
+      projectId: "splinter-lands-farming-bot",
+      storageBucket: "splinter-lands-farming-bot.appspot.com",
+      messagingSenderId: "1013134579292",
+      appId: "1:1013134579292:web:5cdb140cc4cc0edd41f899"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script src="js/routing.js"></script>
 
 </body>
 

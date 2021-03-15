@@ -14,9 +14,7 @@ const linkEls = document.querySelectorAll('.sidebar-link');
 
 for (let i = 0; i < linkEls.length; i++) {
   linkEls[i].addEventListener('click', () => {
-    console.log('tapped');
-    // get the data- attribute here and fetch to that url
-    // have the headers
+    window.location.pathname = linkEls[i].dataset.url;
   });
 }
 
