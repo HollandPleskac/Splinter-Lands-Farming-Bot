@@ -6,20 +6,20 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
   async function getAvailiableSummoners() {
     return await page.evaluate(() => {
       function getSplinter(name) {
-        if (name === 'Pyre') {
+        if (name === 'Pyre' || name === 'Malric Inferno') {
           return 'fire';
-        } else if (name === 'Bortus') {
+        } else if (name === 'Bortus' || name === 'Alric Stormbringer') {
           return 'water';
-        } else if (name === 'Wizard of Eastwood') {
+        } else if (name === 'Wizard of Eastwood' || name === 'Lyanna Natura') {
           return 'earth';
-        } else if (name === 'Mother Khala') {
+        } else if (name === 'Mother Khala' || name === 'Tyrus Paladium') {
           return 'life';
-        } else if (name === 'Contessa L\'ament' || name === 'Mimosa Nightshade') {
+        } else if (name === 'Contessa L\'ament' || name === 'Mimosa Nightshade' || name === 'Zintar Mortalis') {
           return 'death';
         } else if (name === 'Drake of Arnak') {
           return 'dragon';
         } else {
-          throw 'error picking splinter';
+          throw `name of summoner ${name} couldn't be matched to a splinter ln22 picksummoner.js`;
         }
       }
 

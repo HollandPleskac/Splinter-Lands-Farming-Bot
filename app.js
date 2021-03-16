@@ -37,7 +37,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/interact', (request, response) => {
-  console.log('auth query ',request.headers );
+  console.log('auth query ',request.params.uid );
   response.sendFile('interact.html', { root: path.join(__dirname, './views') });
 });
 

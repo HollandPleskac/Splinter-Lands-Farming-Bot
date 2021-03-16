@@ -1,21 +1,16 @@
 const auth = firebase.auth();
 
-console.log('imported the auth file');
-async function myFunction(routeName) {
-  // await fetch(`/${routeName}?auth=sometoken`, {
-  //   headers: {
-  //     'Authorization': 'Bearer jfdlkass;jflk;as',
-  //   }
-  // });
-  console.log('tapped')
+async function getUid() {
+  return 'some-uid';
 }
 
 const linkEls = document.querySelectorAll('.sidebar-link');
 
 for (let i = 0; i < linkEls.length; i++) {
-  linkEls[i].addEventListener('click', () => {
-    window.location.pathname = linkEls[i].dataset.url;
+  linkEls[i].addEventListener('click', async () => {
+    location = `http://localhost:5000/${linkEls[i].dataset.url}?auth=${await getUid()}`;
   });
 }
 
 console.log(linkEls);
+myFunction('testing');
