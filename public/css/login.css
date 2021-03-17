@@ -1,0 +1,73 @@
+/* 
+colors E6E6FD
+colors A0A0C5
+*/
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+.login-content {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(to top, #ededfd, #f0f0fd);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 30px;
+  margin-bottom: 40px;
+  color: #13131C;
+  font-weight: 300;
+  letter-spacing: 0.8px;
+}
+
+h5 {
+  font-size: 12px;
+  color: #A0A0C5;
+}
+
+.password-box {
+  margin-top: 20px;
+}
+
+input {
+  width: 300px;
+  height: 35px;
+  padding: 5px 0px;
+  border: none;
+  border-bottom: 2px solid #000;
+  outline: none;
+  background-color: transparent;
+  color: #6F6D93;
+}
+
+/* if the autofill has a weird color */
+/* input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ededfd inset !important;
+  -webkit-text-fill-color: #6F6D93 !important;
+} */
+
+button {
+  margin-top: 25px;
+  width: 300px;
+  height: 40px;
+  border: none;
+  background-color: #6F6D93;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 10px;
+  outline: none;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #5944DF;
+  cursor: pointer;
+}
