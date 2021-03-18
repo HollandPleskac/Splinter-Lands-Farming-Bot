@@ -10,11 +10,14 @@
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="/css/auth.css">
+  <script src="https://kit.fontawesome.com/9ac427a36e.js" crossorigin="anonymous" defer></script>
   <title>Login</title>
 </head>
 
 <body>
+  
   <div class="auth-content">
+    <h5 class="ignore">&nbsp;</h5>
     <h1>Sign Up</h1>
     <div>
       <h5>Email</h5>
@@ -34,7 +37,36 @@
       
     </div>
     <button class="signup-btn">Submit</button>
+    <h5 class="feedback">&nbsp;</h5>
   </div>
+
+  <div class="modal-backdrop">
+    <div class="modal-sheet">
+      <i class="far fa-check-circle success-icon"></i>
+      <h2>Success!</h2>
+      <p>Verify your email to continue.  If you didn't get an email please click on <b>Resend Email Verification</b>.</p>
+      <i class="fas fa-times exit-icon"></i>
+    </div>
+  </div>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAYpyMNoEYkjIg_b_jxOpz4lGS_K5bE8zE",
+    authDomain: "splinter-lands-farming-bot.firebaseapp.com",
+    projectId: "splinter-lands-farming-bot",
+    storageBucket: "splinter-lands-farming-bot.appspot.com",
+    messagingSenderId: "1013134579292",
+    appId: "1:1013134579292:web:5cdb140cc4cc0edd41f899"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script src="js/signup.js"></script>
+
 </body>
 
 </html>

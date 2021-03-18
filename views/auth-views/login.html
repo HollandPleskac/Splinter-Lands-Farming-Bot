@@ -26,6 +26,32 @@
     </div>
     <button class="login-btn">Submit</button>
   </div>
+
+  <script>
+    document.querySelector('button').addEventListener('click', () => {
+      // firebase auth code here
+      location = 'http://localhost:5000/signup';
+    });
+  </script>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAYpyMNoEYkjIg_b_jxOpz4lGS_K5bE8zE",
+    authDomain: "splinter-lands-farming-bot.firebaseapp.com",
+    projectId: "splinter-lands-farming-bot",
+    storageBucket: "splinter-lands-farming-bot.appspot.com",
+    messagingSenderId: "1013134579292",
+    appId: "1:1013134579292:web:5cdb140cc4cc0edd41f899"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script src="js/login.js"></script>
+
 </body>
 
 </html>
