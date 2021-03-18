@@ -61,6 +61,11 @@ app.get('/login', (request, response) => {
   response.sendFile('login.html', { root: path.join(__dirname, './views/auth-views') });
 });
 
+app.get('/signup', (request, response) => {
+  console.log(request.headers );
+  response.sendFile('signup.html', { root: path.join(__dirname, './views/auth-views') });
+});
+
 app.post('/open-splinterlands', async (request, response) => {
   const fileData = await fs.readFile('credentials.txt', 'utf8', function (err, data) {
     if (err) throw err;
