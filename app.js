@@ -19,7 +19,7 @@ let battleSwitch = false;
 let isInMatch = false;
 let splinterChoice = 'fire';
 
-app.use(bodyparser.json());
+app.use(express.json());
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -37,7 +37,6 @@ app.get('/', (request, response) => {
 });
 
 app.get('/interact', (request, response) => {
-  console.log('auth query ',request.params.uid );
   response.sendFile('interact.html', { root: path.join(__dirname, './views') });
 });
 

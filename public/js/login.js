@@ -20,5 +20,5 @@ loginBtnEl.addEventListener('click', async () => {
     return;
   }
 
-  console.log('signed in');
+  location = 'http://localhost:5000/interact';
 });
