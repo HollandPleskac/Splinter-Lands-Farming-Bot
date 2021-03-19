@@ -15,6 +15,7 @@
 
 <body>
   <div class="auth-content">
+    <h5 class="ignore">&nbsp;</h5>
     <h1>Sign In</h1>
     <div>
       <h5>Email</h5>
@@ -25,14 +26,8 @@
       <input type="password" id="password-login">
     </div>
     <button class="login-btn">Submit</button>
+    <h5 class="feedback">&nbsp;</h5>
   </div>
-
-  <script>
-    document.querySelector('button').addEventListener('click', () => {
-      // firebase auth code here
-      location = 'http://localhost:5000/signup';
-    });
-  </script>
 
 <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
