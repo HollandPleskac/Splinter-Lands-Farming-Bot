@@ -54,11 +54,17 @@
 
 .sidebar-content {
   padding-top: 30px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .sidebar-content a {
   text-decoration: none;
+}
+
+.sidebar-content a:last-child {
+  margin-bottom: 20px;
 }
 
 /* Sidebar Links */
