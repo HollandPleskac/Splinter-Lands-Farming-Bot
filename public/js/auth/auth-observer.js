@@ -10,7 +10,3 @@ firebase.auth().onAuthStateChanged(function(user) {
     console.log('user signed out, returning to home page');
   }
 });
-
-// only have this for the main app
-
-// if there is no user or if they aren't email veried (signout the user) and then take them to the homepage

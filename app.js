@@ -41,12 +41,10 @@ app.get('/interact', (request, response) => {
 });
 
 app.get('/statistics', (request, response) => {
-  console.log(request.headers );
   response.sendFile('statistics.html', { root: path.join(__dirname, './views') });
 });
 
 app.get('/live-view', (request, response) => {
-  console.log(request.headers );
   response.sendFile('live-view.html', { root: path.join(__dirname, './views') });
 });
 
@@ -56,12 +54,10 @@ app.get('/account', (request, response) => {
 });
 
 app.get('/login', (request, response) => {
-  console.log(request.headers );
   response.sendFile('login.html', { root: path.join(__dirname, './views/auth-views') });
 });
 
 app.get('/signup', (request, response) => {
-  console.log(request.headers );
   response.sendFile('signup.html', { root: path.join(__dirname, './views/auth-views') });
 });
 
