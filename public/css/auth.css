@@ -59,7 +59,6 @@ button {
   width: 300px;
   height: 40px;
   border: none;
-  background-color: #6F6D93;
   color: #fff;
   font-size: 14px;
   border-radius: 10px;
@@ -67,18 +66,43 @@ button {
   transition: background-color 0.2s;
 }
 
-button:hover {
+.email-btn {
+  background-color: #6F6D93;
+}
+
+.email-btn:hover {
   background-color: #5944DF;
   cursor: pointer;
 }
 
-.login-btn {
+.google-btn {
+  background-color: #db3236;
+}
+
+.google-btn:hover {
+  background-color: #e71c20;
+  cursor: pointer;
+}
+
+.google-btn i {
+  margin-right: 10px;
+}
+
+/* for positioning the buttons */
+
+.login-btn:first-of-type {
   margin-top: 25px;
+}
+
+.login-btn:last-of-type {
+  margin-top: 20px;
 }
 
 .signup-btn {
   margin-top: 15px;
 }
+
+/* sign up stuff below */
 
 .terms-and-conditions-div {
   margin-top: 10px;
@@ -104,6 +128,7 @@ button:hover {
 }
 
 /* used for centering */
+
 .ignore {
   margin-top: 10px;
 }

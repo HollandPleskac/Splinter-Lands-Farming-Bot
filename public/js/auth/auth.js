@@ -59,6 +59,14 @@ async function signUpEmail() {
   modalBackdrop.style.display = 'flex';
 }
 
+async function signInGoogle() {
+  console.log('signing in with google');
+}
+
+async function signUpGoogle() {
+  console.log('signing up with google');
+}
+
 function signOutUser() {
   firebase.auth().signOut()
     .then(() => {
