@@ -36,14 +36,17 @@ async function signUpEmail() {
   const email = emailFieldEl.value;
   const password = passwordFieldEl.value;
   const passwordConfirm = passwordConfirmFieldEl.value;
+
   if (termsCheckBoxEl.checked !== true) {
     errorTextEl.textContent = 'Accept the Terms and Conditions to continue';
     return;
   }
+
   if (password !== passwordConfirm) {
     errorTextEl.textContent = 'Password doesn\'t match confirm password';
     return;
   }
+
   const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(userCredential => userCredential.user)
     .catch(error => {
@@ -51,6 +54,7 @@ async function signUpEmail() {
       var errorMessage = error.message;
       errorTextEl.textContent = errorMessage;
     });
+
   console.log(user);
 
   if (user === undefined) {
@@ -58,6 +62,7 @@ async function signUpEmail() {
   }
 
   modalBackdrop.style.display = 'flex';
+  sendEmailVerification(user);
 }
 
 
@@ -79,21 +84,21 @@ async function signInGoogle() {
         console.log('user is not in the database');
         return;
       }
-        
+
       return user;
     })
     .catch(error => {
-      console.log('an error occurerd',error);
+      console.log('an error occurerd', error);
       errorTextEl.textContent = error.message;
     });
 
-    console.log(user);
+  console.log(user);
 
-    if (user === undefined) {
-      return;
-    }
+  if (user === undefined) {
+    return;
+  }
 
-    location = 'http://localhost:5000/interact';
+  location = 'http://localhost:5000/interact';
 
 }
 
@@ -101,7 +106,37 @@ async function signInGoogle() {
 
 
 async function signUpGoogle() {
-  console.log('signing up with google');
+  const errorTextEl = document.querySelector('.feedback');
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  const user = await firebase.auth()
+    .signInWithPopup(provider)
+    .then(async result => {
+      const user = result.user;
+
+      if (await isUserInDB(user.email)) {
+        signOutUser(false);
+        errorTextEl.textContent = 'Account already exists, use the sign in portal';
+        console.log('account of', user.email, 'already exists');
+        return;
+      }
+
+      return user;
+    })
+    .catch(error => {
+      console.log('an error occurerd', error);
+      errorTextEl.textContent = error.message;
+    });
+
+  console.log(user);
+
+  if (user === undefined) {
+    return;
+  }
+
+  location = 'http://localhost:5000/interact';
+
 }
 
 
@@ -118,6 +153,15 @@ function signOutUser(shouldNavigate) {
       alert('an error occurred during sign out', error);
       console.log('error during sign out', error);
     });
+}
+
+function sendEmailVerification(user) {
+  user.sendEmailVerification().then(function() {
+    // Email sent.
+    console.log('email verification sent');
+  }).catch(function(error) {
+    console.log('email verification failed to send', error);
+  });
 }
 
 async function isUserInDB(email) {
