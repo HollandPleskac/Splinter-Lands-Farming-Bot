@@ -31,6 +31,7 @@ async function signUpEmail() {
   const passwordConfirmFieldEl = document.querySelectorAll('input')[2];
   const termsCheckBoxEl = document.querySelector('input[type=checkbox]');
   const errorTextEl = document.querySelector('.feedback');
+  const modalBackdrop = document.querySelector('.modal-backdrop');
 
   const email = emailFieldEl.value;
   const password = passwordFieldEl.value;
@@ -59,22 +60,71 @@ async function signUpEmail() {
   modalBackdrop.style.display = 'flex';
 }
 
+
+
+
 async function signInGoogle() {
-  console.log('signing in with google');
+  const errorTextEl = document.querySelector('.feedback');
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  const user = await firebase.auth()
+    .signInWithPopup(provider)
+    .then(async result => {
+      const user = result.user;
+
+      if (await isUserInDB(user.email) === false) {
+        signOutUser(false);
+        errorTextEl.textContent = 'No user with that email exists';
+        console.log('user is not in the database');
+        return;
+      }
+        
+      return user;
+    })
+    .catch(error => {
+      console.log('an error occurerd',error);
+      errorTextEl.textContent = error.message;
+    });
+
+    console.log(user);
+
+    if (user === undefined) {
+      return;
+    }
+
+    location = 'http://localhost:5000/interact';
+
 }
+
+
+
 
 async function signUpGoogle() {
   console.log('signing up with google');
 }
 
-function signOutUser() {
+
+
+
+function signOutUser(shouldNavigate) {
   firebase.auth().signOut()
     .then(() => {
       console.log('signed out successfully');
-      location = 'http://localhost:5000/';
+      if (shouldNavigate)
+        location = 'http://localhost:5000/';
     })
     .catch((error) => {
       alert('an error occurred during sign out', error);
       console.log('error during sign out', error);
     });
+}
+
+async function isUserInDB(email) {
+  const doc = await firebase.firestore().collection('Users').doc(email).get().then(doc => doc);
+  console.log(doc);
+  if (doc.exists)
+    return true;
+  else
+    return false;
 }

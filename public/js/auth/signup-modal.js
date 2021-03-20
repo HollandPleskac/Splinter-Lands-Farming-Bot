@@ -1,4 +1,3 @@
-const auth = firebase.auth();
 const modalBackdrop = document.querySelector('.modal-backdrop');
 const modalSheet = document.querySelector('.modal-sheet');
 const closeBtn = document.querySelector('.exit-icon');
