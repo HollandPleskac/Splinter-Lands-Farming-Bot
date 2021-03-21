@@ -74,6 +74,20 @@
   <script src="js/auth/auth.js"></script>
   <script src="js/auth/modal.js"></script>
 
+  <script>
+    const forgotPasswordEl = document.querySelector('.forgot-password');
+
+    // modal backdrop defined from modal.js
+    const modalResetPass = document.querySelector('.modal-forgot-pass');
+    const modalSuccess = document.querySelector('.modal-success');
+
+    forgotPasswordEl.addEventListener('click', () => {
+      modalBackdrop.style.display = 'flex';
+      modalResetPass.classList.remove('invisible');
+      modalSuccess.classList.add('invisible');
+    });
+  </script>
+
 </body>
 
 </html>

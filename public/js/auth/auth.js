@@ -165,7 +165,7 @@ async function isUserInDB(email) {
     return false;
 }
 
-async function resetPassword() {
+function resetPassword() {
   const emailAddress = document.getElementById('password-reset-input').value;
   const resetFeedbackEl = document.querySelector('.reset-feedback');
 
