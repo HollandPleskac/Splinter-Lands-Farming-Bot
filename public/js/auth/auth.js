@@ -66,8 +66,6 @@ async function signUpEmail() {
 }
 
 
-
-
 async function signInGoogle() {
   const errorTextEl = document.querySelector('.feedback');
 
@@ -101,9 +99,6 @@ async function signInGoogle() {
   location = 'http://localhost:5000/interact';
 
 }
-
-
-
 
 async function signUpGoogle() {
   const errorTextEl = document.querySelector('.feedback');
@@ -139,9 +134,6 @@ async function signUpGoogle() {
 
 }
 
-
-
-
 function signOutUser(shouldNavigate) {
   firebase.auth().signOut()
     .then(() => {
@@ -171,4 +163,12 @@ async function isUserInDB(email) {
     return true;
   else
     return false;
+}
+
+async function resetPassword() {
+  console.log('resetting password');
+  // grab email from text field
+  // pass into that firebase function
+  // send an email
+  // display feedback through a feedback text at the bottom of the button
 }

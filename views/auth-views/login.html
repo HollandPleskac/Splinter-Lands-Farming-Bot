@@ -27,8 +27,23 @@
       <input type="password" id="password-login">
     </div>
     <button class="login-btn email-btn" onclick="signInEmail()">Submit</button>
-    <button class="login-btn google-btn" onclick="signInGoogle()"><i class="fab fa-google"></i>Login with Google</button>
+    <button class="login-btn google-btn" onclick="signInGoogle()"><i class="fab fa-google"></i>Login with
+      Google</button>
     <h5 class="feedback">&nbsp;</h5>
+    <h5 class="forgot-password">Forgot Password</h5>
+  </div>
+
+  <div class="modal-backdrop">
+    <div class="modal-sheet modal-login">
+      <h2>Reset Password</h2>
+      <div class="reset-email-div">
+        <input type="email" placeholder="your email">
+        <i class="fas fa-envelope input-icon"></i>
+      </div>
+      <i class="fas fa-times exit-icon"></i>
+
+      <button onclick="resetPassword()">Reset Password</button>
+    </div>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
@@ -48,6 +63,7 @@
   </script>
 
   <script src="js/auth/auth.js"></script>
+  <script src="js/auth/modal.js"></script>
 
 </body>
 
