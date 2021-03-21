@@ -34,16 +34,25 @@
   </div>
 
   <div class="modal-backdrop">
-    <div class="modal-sheet modal-login">
+
+    <div class="modal-sheet modal-forgot-pass">
+      <i class="fas fa-times exit-icon"></i>
       <h2>Reset Password</h2>
       <div class="reset-email-div">
-        <input type="email" placeholder="your email">
+        <input type="email" placeholder="your email" id="password-reset-input">
         <i class="fas fa-envelope input-icon"></i>
       </div>
-      <i class="fas fa-times exit-icon"></i>
-
       <button onclick="resetPassword()">Reset Password</button>
+      <h5 class="feedback reset-feedback">&nbsp;</h5>
     </div>
+
+    <div class="modal-sheet modal-success invisible">
+      <i class="far fa-check-circle success-icon"></i>
+      <h2>Success!</h2>
+      <p>Password reset email sent.  If you didn't get an email please click on <b>Forgot Password</b> again.</p>
+      <i class="fas fa-times exit-icon"></i>
+    </div>
+
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>

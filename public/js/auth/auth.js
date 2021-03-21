@@ -166,9 +166,18 @@ async function isUserInDB(email) {
 }
 
 async function resetPassword() {
-  console.log('resetting password');
-  // grab email from text field
-  // pass into that firebase function
-  // send an email
-  // display feedback through a feedback text at the bottom of the button
+  const emailAddress = document.getElementById('password-reset-input').value;
+  const resetFeedbackEl = document.querySelector('.reset-feedback');
+
+  const resetModal = document.querySelector('.modal-forgot-pass');
+  const successModal = document.querySelector('.modal-success');
+
+  auth.sendPasswordResetEmail(emailAddress).then(function() {
+    console.log('password reset email sent to', emailAddress);
+    resetModal.classList.toggle("invisible");
+    successModal.classList.toggle("invisible");
+  }).catch(function(error) {
+    console.log('an error occurred while sending password reset email',error);
+    resetFeedbackEl.textContent = error.message;
+  });
 }

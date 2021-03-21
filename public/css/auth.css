@@ -141,6 +141,10 @@ button {
   margin-top: 10px;
 }
 
+.reset-feedback {
+  margin-top: 6px;
+}
+
 /* used for centering */
 
 .ignore {
@@ -191,15 +195,15 @@ button {
   cursor: pointer;
 }
 
-/* sign up success modal sheet */
+/*success modal sheet */
 
-.modal-sheet.modal-signup .success-icon {
+.modal-success .success-icon {
   font-size: 45px;
   color: rgb(0, 165, 0);
   margin-bottom: 5px;
 }
 
-.modal-sheet.modal-signup h2 {
+.modal-success h2 {
   font-size: 20px;
   color: #13131C;
   font-weight: 400;
@@ -207,7 +211,7 @@ button {
   text-align: center;
 }
 
-.modal-sheet.modal-signup p {
+.modal-success p {
   font-size: 13px;
   color: #13131C;
   font-weight: 400;
@@ -216,10 +220,9 @@ button {
   line-height: 150%;
 }
 
-/* login forgot password modal sheet */
-/* styles taken from default input and button above */
+/* forgot password modal sheet */
 
-.modal-sheet.modal-login h2 {
+.modal-forgot-pass h2 {
   font-size: 20px;
   color: #13131C;
   font-weight: 400;
@@ -234,7 +237,7 @@ button {
   align-items: center;
 }
 
-.modal-sheet.modal-login input {
+.modal-sheet.modal-forgot-pass input {
   color: #3d3d3d;
   border: 2px solid #7a7a7c;
   border-radius: 4px;
@@ -243,7 +246,7 @@ button {
   transition: border 0.2s;
 }
 
-.modal-sheet.modal-login input:focus {
+.modal-forgot-pass input:focus {
   border: 2px solid #9292c7;
 }
 
@@ -255,18 +258,22 @@ button {
   transition: color 0.2s;
 }
 
-.modal-sheet.modal-login input:focus + i {
+.modal-forgot-pass input:focus + i {
   color: #5944DF;
 }
 
-.modal-sheet.modal-login button {
+.modal-forgot-pass button {
   background-color: #5944DF;
   border-radius: 4px;
   margin-top: 10px;
   transition: background-color 0.3s;
 }
 
-.modal-sheet.modal-login button:hover {
+.modal-forgot-pass button:hover {
   background-color: #4f3dc0;
   cursor: pointer;
+}
+
+.invisible {
+  display: none;
 }
