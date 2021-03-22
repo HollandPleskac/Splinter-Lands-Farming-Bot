@@ -1,0 +1,137 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+:root {
+  --main-color: #464fcf;
+  --accent-color: #171EC1;
+  --text-color-dark: #3d3d3d;
+  --text-color-light: #A7AFF9;
+  --button-color: #E43E12;
+}
+
+/* reusable components */
+
+.btn-full {
+  background-color: var(--button-color);
+  padding: 8px 30px;
+  color: #fff !important;
+  border: 2px solid #E43E12;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.btn-full:hover {
+  background-color: #e23302;
+}
+
+.btn-ghost {
+  background-color: var(--main-color);
+  padding: 8px 30px;
+  color: #A7AFF9 !important;
+  border: 2px solid #A7AFF9;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: background-color 0.2s, border 0.2s, color 0.2s;
+}
+
+.btn-ghost:hover {
+  background-color: #e23302;
+  border: 2px solid #e23302;
+  color: #fff !important;
+}
+
+h1 {
+  font-size: 30px;
+  color: #fff;
+}
+
+p {
+  color: var(--text-color-light);
+}
+
+/* header */
+
+header {
+  padding: 50px 150px 0 100px;
+  background-color: var(--main-color);
+  height: 100vh;
+  position: relative;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* background-color: rgba(255, 0, 0, 0.116); */
+}
+
+.header-nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.header-nav ul a {
+  margin: 20px;
+  text-decoration: none;
+  color: var(--text-color-light);
+  font-size: 14px;
+}
+
+.header-content {
+  position: absolute;
+  bottom: 46%;
+  transform: translateY(50%);
+}
+
+.header-content h1 {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.header-content p {
+  margin-bottom: 30px;
+  font-size: 15px;
+  line-height: 150%;
+}
+
+.header-content a:first-of-type {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.header-splinter-bot-img {
+  position: absolute;
+  width: 600px;
+  bottom: 46%;
+  right: 10%;
+  transform: translateY(50%);
+}
+
+.hover-up-down {
+  -webkit-animation: action 2s infinite alternate;
+  animation: action 2s infinite alternate;
+}
+
+@-webkit-keyframes action {
+  0% {
+    transform: translateY(48%);
+  }
+  100% {
+    transform: translateY(52%);
+  }
+}
+
+@keyframes action {
+  0% {
+    transform: translateY(48%);
+  }
+  100% {
+    transform: translateY(52%);
+  }
+}
