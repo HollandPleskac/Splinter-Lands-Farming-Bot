@@ -231,7 +231,7 @@ header {
 
 .swiper-container {
   width: 100%;
-  height: 400px;
+  height: 380px;
 }
 
 .swipe-btn {
@@ -242,8 +242,7 @@ header {
   margin: 40px;
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
+.swiper-button-next::after, .swiper-button-prev::after {
   color: var(--main-color);
   font-size: 15px !important;
 }
@@ -269,7 +268,7 @@ header {
   border: 4px solid var(--text-color-dark);
 }
 
-.swiper-slide > div {
+.swiper-slide>div {
   height: 150px;
   width: 200px;
 }
@@ -282,4 +281,43 @@ header {
 .swiper-slide p {
   font-size: 14px;
   color: var(--text-color-light);
+}
+
+/* dec payout section */
+
+.dec-payout-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dec-payout-section>div {
+  width: 50%;
+}
+
+.dec-payout-img-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dec-trading-img {
+  width: 50%;
+  margin-left: 2.5%;
+}
+
+.dec-payout-content-div {
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dec-payout-section h2 {
+  color: var(--text-color-dark);
+  margin-bottom: 40px;
+}
+
+.dec-payout-section p {
+  line-height: 180%;
+  font-size: 16px;
 }
