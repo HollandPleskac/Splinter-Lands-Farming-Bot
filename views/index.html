@@ -6,8 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="landing.css">
-  <link rel="stylesheet" href="hover.css">
   <script src="https://kit.fontawesome.com/9ac427a36e.js" crossorigin="anonymous" defer></script>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <title>Splinter Bot</title>
 </head>
 
@@ -48,7 +49,8 @@
   <section class="about-section">
     <div class="about-content">
       <h2>What makes<br>splinter bot<br>the best</h2>
-      <p>We have farmed over 1000 dark energy<br>crystals far in over a period 1 month.<br>You can learn more about<br>the bot by scrolling down.</p>
+      <p>We have farmed over 1000 dark energy<br>crystals far in over a period 1 month.<br>You can learn more
+        about<br>the bot by scrolling down.</p>
       <a href="#" class="btn-full"><i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="about-cards">
@@ -59,15 +61,66 @@
 
       <div class="about-card card-down">
         <img src="data_undraw.svg" alt="data feature">
-        <h3>Uses data<br>to get<br>better</h3>
+        <h3>Uses data<br>to get better<br>results</h3>
       </div>
 
       <div class="about-card card-up">
         <img src="currency_undaw.svg" alt="dec feature">
-        <h3>We have<br>won tons of<br>dec already</h3>
+        <h3>1000 dec<br>won by the<br>bot already</h3>
       </div>
     </div>
   </section>
+  <section class="works-section">
+    <h2>How it Works</h2>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="farming_undraw.svg" alt="img">
+          <div>
+            <h4>Click the Button</h4>
+            <p>Start and stop the server by clicking a button.</p>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <img src="farming_undraw.svg" alt="img">
+          <div>
+            <h4>Choose a Farming Method</h4>
+            <p>Change your method at any time.</p>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <img src="farming_undraw.svg" alt="img">
+          <div>
+            <h4>See it live</h4>
+            <p>Watch the bot live from the live tab.</p>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <img src="farming_undraw.svg" alt="img">
+          <div>
+            <h4>Get real data</h4>
+            <p>See how the bot performed with real data.</p>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <img src="farming_undraw.svg" alt="img">
+          <div>
+            <h4>Locked Down</h4>
+            <p>Access to your account is locked down by authentication.</p>
+          </div>
+        </div>
+      </div>
+      <!-- If we need pagination -->
+      <div class="swiper-pagination"></div>
+
+      <!-- If we need navigation buttons -->
+      <div class="swiper-button-prev swipe-btn"></div>
+      <div class="swiper-button-next swipe-btn"></div>
+    </div>
+  </section>
+
+  <script src="swiper.js"></script>
+
 </body>
 
 </html>
