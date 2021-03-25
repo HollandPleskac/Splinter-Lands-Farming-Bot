@@ -3,13 +3,13 @@ const swiper = new Swiper('.swiper-container', {
   grabCursor: true,
   centeredSlides: true,
   slidesPerView: '2',
-  initialSlide: 1,
+  initialSlide: 0,
   coverflowEffect: {
     rotate: 50,
     stretch: 0,
     depth: 100,
     modifier: 1,
-    slideShadows: false,
+    slideShadows: true,
   },
   navigation: {
     nextEl: '.swiper-button-next',
