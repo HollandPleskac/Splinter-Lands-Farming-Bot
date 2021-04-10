@@ -16,7 +16,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
           return 'life';
         } else if (name === 'Contessa L\'ament' || name === 'Mimosa Nightshade' || name === 'Zintar Mortalis') {
           return 'death';
-        } else if (name === 'Drake of Arnak') {
+        } else if (name === 'Drake of Arnak' || name === 'Kretch Tallevor') {
           return 'dragon';
         } else {
           throw `name of summoner ${name} couldn't be matched to a splinter ln22 picksummoner.js`;
