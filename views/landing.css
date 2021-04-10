@@ -216,8 +216,8 @@ header {
   transform: translateY(20%);
 }
 
-/* How it works section */
-
+/* How it works section - v1 s/ swiper js*/
+/* 
 .works-section {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -291,6 +291,38 @@ header {
 
 .swiper-pagination-bullet {
   background-color: var(--main-color) !important;
+} */
+
+/* How it Works Section V2 */
+
+
+.works-section {
+
+}
+
+.works-section>div {
+  margin-top: 60px;
+  font-size: 16px;
+}
+
+.works-section img {
+  width: 400px;
+}
+
+.works-circle {
+  background-color: var(--main-color);
+  color: #fff;
+  border-radius: 100px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.works-section h3 {
+  width: 270px;
+  font-size: 18px;
 }
 
 /* dec payout section */
@@ -354,7 +386,7 @@ header {
 }
 
 .join-beta-section img {
-  height: 240px;
+  height: 270px;
 }
 
 .join-beta-section h2 {
@@ -389,9 +421,8 @@ header {
   background-color: #da3507;
 }
 
-/* 
+/* Footer Section */
 
-.col-3,
-.col {
-  outline: 2px solid red;
-} */
+footer {
+  margin: 30px 0; 
+}
