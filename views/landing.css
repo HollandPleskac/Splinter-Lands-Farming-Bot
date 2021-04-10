@@ -5,6 +5,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --main-color: #464fcf;
   --accent-color: #171EC1;
@@ -321,7 +325,7 @@ header {
 }
 
 .works-section h3 {
-  width: 270px;
+  width: 280px;
   font-size: 18px;
 }
 
