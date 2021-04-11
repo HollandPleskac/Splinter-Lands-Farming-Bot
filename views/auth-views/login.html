@@ -27,6 +27,7 @@
       </div>
       <div class="col auth-content d-flex flex-column justify-content-center">
         <h2 class="text-center">SIGN IN</h2>
+        <button type="button" class="btn btn-danger google-button" onclick="signInGoogle()">Login with Google</button>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">
@@ -45,9 +46,9 @@
           <input type="password" class="form-control" placeholder="Password" aria-label="Password"
             aria-describedby="basic-addon1">
         </div>
-        <p class="text-center">Forgot Password</p>
-        <button type="button" class="btn btn-primary email-button mb-3">Login</button>
-        <button type="button" class="btn btn-danger google-button">Login with Google</button>
+        <p class="text-center" onclick="resetPassword()">Forgot Password</p>
+        <button type="button" onclick="signInEmail()" class="btn btn-primary email-button mb-3">Login</button>
+        
       </div>
     </div>
   </div>

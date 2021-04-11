@@ -16,7 +16,6 @@
 
 .auth-filler {
   background-color: var(--text-color-light);
-  width: 100%;
   height: 100vh;
 }
 
@@ -49,7 +48,7 @@ h2 {
 }
 
 .input-group:last-of-type input {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .input-group-text {
@@ -64,11 +63,13 @@ button {
 
 p {
   font-size: 14px;
+  cursor: pointer;
 }
 
 .google-button {
   background-color: #DB4437 !important;
   border-color: #DB4437;
+  margin-bottom: 20px;
 }
 
 .google-button:hover,

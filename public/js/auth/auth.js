@@ -1,8 +1,8 @@
 const auth = firebase.auth();
 
 async function signInEmail() {
-  const emailTextFieldEl = document.getElementById('email-login');
-  const passwordTextFieldEl = document.getElementById('password-login');
+  const emailTextFieldEl = document.querySelectorAll('input')[0];
+  const passwordTextFieldEl = document.querySelectorAll('input')[1];
   const errorTextEl = document.querySelector('.feedback');
 
   const email = emailTextFieldEl.value;
@@ -25,7 +25,6 @@ async function signInEmail() {
 
 async function signUpEmail() {
 
-  const signUpWithEmailBtn = document.querySelector('button');
   const emailFieldEl = document.querySelectorAll('input')[0];
   const passwordFieldEl = document.querySelectorAll('input')[1];
   const passwordConfirmFieldEl = document.querySelectorAll('input')[2];
