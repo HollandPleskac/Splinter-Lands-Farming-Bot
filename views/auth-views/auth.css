@@ -1,279 +1,78 @@
-/* 
-colors E6E6FD
-colors A0A0C5
-*/
-
 * {
-  padding: 0;
   margin: 0;
+  padding: 0; 
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
 }
 
-.auth-content {
-  height: 100vh;
+:root {
+  --main-color: #464fcf;
+  --accent-color: #171EC1;
+  --text-color-dark: #3d3d3d;
+  --text-color-light: #A7AFF9;
+  --text-color-grey: #B2AEB2;
+  --button-color: #E43E12;
+}
+
+.auth-filler {
+  background-color: var(--text-color-light);
   width: 100%;
-  background: linear-gradient(to top, #ededfd, #f0f0fd);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  height: 100vh;
 }
 
 h1 {
-  font-size: 30px;
-  margin-bottom: 40px;
-  color: #13131C;
-  font-weight: 300;
-  letter-spacing: 0.8px;
+  margin: auto;
+  font-size: 35px;
+  color: var(--main-color);
 }
 
-h5 {
-  font-size: 12px;
-  color: #A0A0C5;
+.auth-filler img {
+  height: 70%;
 }
 
-.password-box {
-  margin-top: 20px;
-}
-
-input {
-  width: 300px;
-  height: 35px;
-  padding: 5px 0px;
-  border: none;
-  border-bottom: 2px solid #000;
-  outline: none;
-  background-color: transparent;
-  color: #6F6D93;
-}
-
-/* if the autofill has a weird color */
-
-/* input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px #ededfd inset !important;
-  -webkit-text-fill-color: #6F6D93 !important;
+/* .auth-content {
+  background-color: #B2AEB2;
 } */
 
-button {
-  width: 300px;
-  height: 40px;
-  border: none;
-  color: #fff;
-  font-size: 14px;
-  border-radius: 10px;
-  outline: none;
-  transition: background-color 0.2s;
+
+
+h2 {
+  font-size: 30px;
+  color: var(--main-color);
+  margin-bottom: 50px;
 }
 
-.email-btn {
-  background-color: #6F6D93;
+/* inputs */
+.input-group {
+  width: 50%;
+  margin-left: 25%;
 }
 
-.email-btn:hover {
-  background-color: #5944DF;
-  cursor: pointer;
+.input-group:last-of-type input {
+  margin-bottom: 20px;
 }
 
-.google-btn {
-  background-color: #db3236;
-}
-
-.google-btn:hover {
-  background-color: #e71c20;
-  cursor: pointer;
-}
-
-.google-btn i {
-  margin-right: 10px;
-}
-
-/* for positioning the buttons */
-
-.login-btn:first-of-type {
-  margin-top: 25px;
-}
-
-.login-btn:last-of-type {
-  margin-top: 15px;
-}
-
-.signup-btn {
-  margin-top: 15px;
-}
-
-.forgot-password {
-  border-bottom: 1px solid #ededfd;
-  padding-bottom: 1px;
-  font-weight: 500;
-  color: #3d3d3d;
-  transition: border-bottom 0.2s;
-}
-
-.forgot-password:hover {
-  border-bottom: 1px solid #3d3d3d;
-  cursor: pointer;
-}
-
-
-/* sign up stuff below */
-
-.terms-and-conditions-div {
-  margin-top: 10px;
-  width: 300px;
-  display: flex;
-  align-items: center;
-}
-
-.terms-conditions-text {
-  text-align: center;
-  margin-left: 10px;
-}
-
-#terms-conditions-checkbox {
-  width: 15px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.feedback {
-  color: #5944DF;
-  margin-top: 10px;
-}
-
-.reset-feedback {
-  margin-top: 6px;
-}
-
-/* used for centering */
-
-.ignore {
-  margin-top: 10px;
-}
-
-/* modal popups */
-
-.modal-backdrop {
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.562);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  display: none;
-}
-
-.modal-backdrop:hover {
-  cursor: pointer;
-}
-
-.modal-sheet {
-  width: 400px;
-  height: 240px;
+.input-group-text {
   background-color: #fff;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
-.modal-sheet:hover {
-  cursor: default;
+button {
+  width: 50%;
+  margin-left: 25%;
+  background-color: var(--main-color) !important;
 }
 
-.modal-sheet .exit-icon {
-  position: absolute;
-  top: 10px;
-  right: 15px;
+p {
+  font-size: 14px;
 }
 
-.modal-sheet .exit-icon:hover {
-  cursor: pointer;
+.google-button {
+  background-color: #DB4437 !important;
+  border-color: #DB4437;
 }
 
-/*success modal sheet */
-
-.modal-success .success-icon {
-  font-size: 45px;
-  color: rgb(0, 165, 0);
-  margin-bottom: 5px;
-}
-
-.modal-success h2 {
-  font-size: 20px;
-  color: #13131C;
-  font-weight: 400;
-  letter-spacing: 0.8px;
-  text-align: center;
-}
-
-.modal-success p {
-  font-size: 13px;
-  color: #13131C;
-  font-weight: 400;
-  margin: 10px 50px 0 50px;
-  text-align: center;
-  line-height: 150%;
-}
-
-/* forgot password modal sheet */
-
-.modal-forgot-pass h2 {
-  font-size: 20px;
-  color: #13131C;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.reset-email-div {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.modal-sheet.modal-forgot-pass input {
-  color: #3d3d3d;
-  border: 2px solid #7a7a7c;
-  border-radius: 4px;
-  height: 40px;
-  padding-left: 27px;
-  transition: border 0.2s;
-}
-
-.modal-forgot-pass input:focus {
-  border: 2px solid #9292c7;
-}
-
-.input-icon {
-  position: absolute;
-  margin-left: 10px;
-  font-size: 13px;
-  color: #A0A0C5;
-  transition: color 0.2s;
-}
-
-.modal-forgot-pass input:focus + i {
-  color: #5944DF;
-}
-
-.modal-forgot-pass button {
-  background-color: #5944DF;
-  border-radius: 4px;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-}
-
-.modal-forgot-pass button:hover {
-  background-color: #4f3dc0;
-  cursor: pointer;
-}
-
-.invisible {
-  display: none;
+.google-button:hover,
+.google-button:focus {
+  background-color: #DB4437 !important;
+  border-color: #DB4437;
 }
