@@ -1,79 +1,166 @@
 * {
   margin: 0;
-  padding: 0; 
+  padding: 0;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
 }
 
 :root {
   --main-color: #464fcf;
-  --accent-color: #171EC1;
-  --text-color-dark: #3d3d3d;
   --text-color-light: #A7AFF9;
-  --text-color-grey: #B2AEB2;
-  --button-color: #E43E12;
+  --border-grey: #CCC;
+  --text-color-grey: #888;
 }
 
-.auth-filler {
-  background-color: var(--text-color-light);
+/* box-shadow: 0 0 0 0.25rem rgb(49 132 253 / 50%);   default boostrap box shadow */
+
+.full-height {
   height: 100vh;
 }
 
-h1 {
-  margin: auto;
-  font-size: 35px;
-  color: var(--main-color);
+/* left side */
+
+.centered-white-container {
+  width:  65%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  position: relative;
 }
 
-.auth-filler img {
-  height: 70%;
+.white-subheading {
+  text-transform: uppercase;
+  color: var(--text-color-grey);
+  font-size: 16px;
+  letter-spacing: 140%;
+  margin-bottom: 10px;
 }
 
-/* .auth-content {
-  background-color: #B2AEB2;
-} */
-
-
-
-h2 {
+.white-heading {
+  font-weight: 500;
   font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.button-nav {
+  width: 100px;
+  border: 2px solid var(--border-grey);
+  font-size: 15px;
+  font-weight: 500;
   color: var(--main-color);
-  margin-bottom: 50px;
+  height: 40px;
+  position: absolute;
+  top: 40px;
+  right: 0;
 }
 
-/* inputs */
-.input-group {
-  width: 50%;
-  margin-left: 25%;
+.button-nav:hover {
+  background-color: var(--main-color);
+  border-color: var(--main-color);
 }
 
-.input-group:last-of-type input {
-  margin-bottom: 1.5rem;
+.button-nav:focus {
+  box-shadow: none !important;
 }
 
-.input-group-text {
-  background-color: #fff;
+input, button {
+  height: 50px;
+  font-weight: 500;
+  font-size: 14px !important;
 }
 
-button {
-  width: 50%;
-  margin-left: 25%;
-  background-color: var(--main-color) !important;
+input {
+  box-shadow: none !important;
+  border: 2.5px solid var(--border-grey) !important;
+}
+
+.input::placeholder {
+  color: var(--text-color-grey);
+}
+
+.input:focus {
+  border-color: var(--border-grey);
+}
+
+.login-btn {
+  background-color: var(--main-color);
+}
+
+.login-btn:hover {
+  background-color: #3c46d3;
+}
+
+.login-btn:focus {
+  background-color: #3c46d3;
+  /* box-shadow: 0 0 0 0.25rem rgb(70, 79, 207 / 50%) !important;   for a custom box shadow*/
+  box-shadow: none !important;
+}
+
+.signup-btn {
+  border: 2.5px solid var(--border-grey);
+  color: var(--main-color);
+}
+
+.signup-btn:focus {
+  box-shadow: none !important;
+}
+
+.signup-btn img {
+  width: 15px;
+  margin: 0 auto;
+  margin-bottom: 2px;
+  margin-right: 5px;
 }
 
 p {
-  font-size: 14px;
-  cursor: pointer;
+  font-size: 13.5px;
+  color: var(--text-color-grey);
 }
 
-.google-button {
-  background-color: #DB4437 !important;
-  border-color: #DB4437;
+.account-link a {
+  text-decoration: none;
+  color: var(--main-color);
+  font-weight: 500;
+}
+
+.privacy {
+  position: absolute;
+  bottom: 20px;
+}
+
+.privacy a {
+  color: var(--text-color-grey);
+}
+
+/* right side */
+
+.centered-blue-container {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+}
+
+.row>div:last-of-type {
+  background-color: var(--main-color);
+}
+
+img {
+  width: 400px;
+  align-self: center;
   margin-bottom: 20px;
 }
 
-.google-button:hover,
-.google-button:focus {
-  background-color: #DB4437 !important;
-  border-color: #DB4437;
+.blue-subheading {
+  text-transform: uppercase;
+  color: var(--text-color-light);
+  font-size: 14px;
+  letter-spacing: 140%;
+}
+
+.blue-heading {
+  color: #fff;
+  font-weight: 300;
+  font-size: 32px;
+  line-height: 140%;
 }
