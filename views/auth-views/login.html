@@ -25,26 +25,28 @@
       <!-- lg devices and up have 5 columns-->
       <div class="col-12 col-sm-10 col-md-8 col-lg-5 d-flex flex-column justify-content-center align-items-center">
         <div class="centered-white-container">
-          <button type="button" class="btn btn-outline-secondary button-nav">Sign in</button>
+          <button type="button" class="btn btn-outline-secondary button-nav"
+            onclick="location='/views/auth-views/signup.html'">Sign up</button>
 
           <h3 class="white-subheading">WELCOME BACK</h3>
           <h1 class="white-heading">Login to account</h1>
           <div class="mb-3">
-            <!-- <label for="exampleFormControlInput1" class="form-label">Email address</label> -->
             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter your email">
           </div>
           <div class="mb-4">
-            <!-- <label for="exampleFormControlInput1" class="form-label">Email address</label> -->
             <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="Enter your password">
           </div>
           <div class="d-grid col-12 mx-auto">
-            <button class="btn btn-primary login-btn mb-3" type="button">Login</button>
-            <button type="button" class="btn btn-outline-secondary signup-btn"><img src="search.svg" alt=""> Login with google</button>
+            <button class="btn btn-primary login-btn mb-3" type="button" onclick="signInEmail()">Login</button>
+            <button type="button" class="btn btn-outline-secondary signup-btn" onclick="signUpEmail()"><img
+                src="search.svg" alt=""> Login with google</button>
           </div>
-          <p class="account-link mt-3">Don't have an account? <a href="#">Sign up</a></p>
+          <p class="account-link mt-3 mb-2">Don't have an account? <a href="#">Sign up</a></p>
+          <p class="account-link mt-0 forgot-password" data-bs-toggle="modal" data-bs-target="#exampleModal">Forgot your
+            password? <a href="#">Get it</a></p>
           <p class="privacy"><a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a></p>
         </div>
-        
+
       </div>
       <!-- column hidden on all devices < lg-->
       <div class="d-none d-lg-flex col-lg-7 justify-content-center align-items-center">
@@ -54,6 +56,28 @@
           <h1 class="blue-heading">Login to your account and farm<br>
             tons of dark energy crystals in<br>
             one click.</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="resetPassword()">Reset Password</button>
         </div>
       </div>
     </div>

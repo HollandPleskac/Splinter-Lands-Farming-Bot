@@ -79,8 +79,8 @@ input {
   color: var(--text-color-grey);
 }
 
-.input:focus {
-  border-color: var(--border-grey);
+input:focus {
+  border-color: var(--border-grey) !important;
 }
 
 .login-btn {
@@ -124,6 +124,10 @@ p {
   font-weight: 500;
 }
 
+.forgot-password {
+  cursor: pointer;
+}
+
 .privacy {
   position: absolute;
   bottom: 20px;
@@ -163,4 +167,10 @@ img {
   font-weight: 300;
   font-size: 32px;
   line-height: 140%;
+}
+
+/* modal */
+
+.modal-footer button {
+  height: 40px;
 }

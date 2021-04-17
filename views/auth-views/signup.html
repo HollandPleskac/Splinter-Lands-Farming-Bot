@@ -6,68 +6,84 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./auth.css">
   <script src="https://kit.fontawesome.com/9ac427a36e.js" crossorigin="anonymous" defer></script>
-  <title>Login</title>
+  <title>Sign Up</title>
 </head>
 
 <body>
-  
-  <div class="auth-content">
-    <h5 class="ignore">&nbsp;</h5>
-    <h1>Sign Up</h1>
-    <div>
-      <h5>Email</h5>
-      <input type="email" id="email-signup" autofocus>
+  <div class="container-fluid">
+    <div class="row full-height justify-content-center">
+      <!-- lg devices and up have 5 columns-->
+      <div class="col-12 col-sm-10 col-md-8 col-lg-5 d-flex flex-column justify-content-center align-items-center">
+        <div class="centered-white-container">
+          <button type="button" class="btn btn-outline-secondary button-nav" onclick="location='/views/auth-views/login.html'">Sign in</button>
+
+          <h3 class="white-subheading">START FOR FREE</h3>
+          <h1 class="white-heading">Create an account</h1>
+          <div class="mb-3">
+            <!-- <label for="exampleFormControlInput1" class="form-label">Email address</label> -->
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter your email">
+          </div>
+          <div class="mb-3">
+            <!-- <label for="exampleFormControlInput1" class="form-label">Email address</label> -->
+            <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="Enter your password">
+          </div>
+          <div class="mb-4">
+            <!-- <label for="exampleFormControlInput1" class="form-label">Email address</label> -->
+            <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="Confirm your password">
+          </div>
+          <div class="d-grid col-12 mx-auto">
+            <button class="btn btn-primary login-btn mb-3" type="button" onclick="signUpEmail()">Sign up</button>
+            <button type="button" class="btn btn-outline-secondary signup-btn" onclick="signUpGoogle()"><img src="search.svg" alt=""> Sign up with
+              google</button>
+          </div>
+          <p class="account-link mt-3">Don't have an account? <a href="#">Sign up</a></p>
+          <p class="privacy"><a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a></p>
+        </div>
+
+      </div>
+      <!-- column hidden on all devices < lg-->
+      <div class="d-none d-lg-flex col-lg-7 justify-content-center align-items-center">
+        <div class="centered-blue-container">
+          <img src="investing undraw.svg" alt="Investing">
+          <h4 class="blue-subheading">SPLINTER BOT</h4>
+          <h1 class="blue-heading">Create a free account and get<br>
+            started farming dark energy<br>
+            crystals now.
+        </div>
+      </div>
     </div>
-    <div class="password-box">
-      <h5>Password</h5>
-      <input type="password" id="password-signup">
-    </div>
-    <div class="password-box">
-      <h5>Confirm Password</h5>
-      <input type="password" id="password-confirm-signup">
-    </div>
-    <div class="terms-and-conditions-div">
-      <input type="checkbox" id="terms-conditions-checkbox">
-      <h5 class="terms-conditions-text">Accept the Terms and Conditions</h5>
-      
-    </div>
-    <button class="signup-btn email-btn" onclick="signUpEmail()">Submit</button>
-    <button class="signup-btn google-btn" onclick="signUpGoogle()"><i class="fab fa-google"></i>Signup with Google</button>
-    <h5 class="feedback">&nbsp;</h5>
   </div>
 
-  <div class="modal-backdrop">
-    <div class="modal-sheet modal-success">
-      <i class="far fa-check-circle success-icon"></i>
-      <h2>Success!</h2>
-      <p>Verify your email to continue.  If you didn't get an email please click on <b>Resend Email Verification</b>.</p>
-      <i class="fas fa-times exit-icon"></i>
-    </div>
-  </div>
 
-<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
 
-<script>
-  var firebaseConfig = {
-    apiKey: "AIzaSyAYpyMNoEYkjIg_b_jxOpz4lGS_K5bE8zE",
-    authDomain: "splinter-lands-farming-bot.firebaseapp.com",
-    projectId: "splinter-lands-farming-bot",
-    storageBucket: "splinter-lands-farming-bot.appspot.com",
-    messagingSenderId: "1013134579292",
-    appId: "1:1013134579292:web:5cdb140cc4cc0edd41f899"
-  };
-  firebase.initializeApp(firebaseConfig);
-</script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyAYpyMNoEYkjIg_b_jxOpz4lGS_K5bE8zE",
+      authDomain: "splinter-lands-farming-bot.firebaseapp.com",
+      projectId: "splinter-lands-farming-bot",
+      storageBucket: "splinter-lands-farming-bot.appspot.com",
+      messagingSenderId: "1013134579292",
+      appId: "1:1013134579292:web:5cdb140cc4cc0edd41f899"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
-<script src="js/auth/auth.js"></script>
-<script src="js/auth/modal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+    crossorigin="anonymous"></script>
+
+  <script src="js/auth/auth.js"></script>
 
 </body>
 
