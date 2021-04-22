@@ -1,0 +1,47 @@
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+$main-color: #464fcf
+$text-color-light: #A7AFF9
+$border-grey: #CCC
+$text-color-grey: #888
+
+body>div
+  height: 100vh
+  width: 100vw
+
+// Sidebar Navigation
+
+.sidebar
+  background-color: $main-color
+  height: 100%
+
+.header
+  color: #fff
+  text-decoration: none
+  font-size: 22px
+  height: 70px
+  &:hover
+    color: #fff
+
+hr
+  color: $text-color-light
+
+// Pills
+
+.sidebar
+  a
+    color: $text-color-light
+  a
+    .active
+      color: #fff
+    i
+      font-size: 15px
+
+// Top Bar
+
+.topbar
+  height: 70px
+  width: calc(100% - 280px)

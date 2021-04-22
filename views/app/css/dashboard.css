@@ -1,0 +1,49 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body > div {
+  height: 100vh;
+  width: 100vw;
+}
+
+.sidebar {
+  background-color: #464fcf;
+  height: 100%;
+}
+
+.header {
+  color: #fff;
+  text-decoration: none;
+  font-size: 22px;
+  height: 70px;
+}
+
+.header:hover {
+  color: #fff;
+}
+
+hr {
+  color: #A7AFF9;
+}
+
+.sidebar a {
+  color: #A7AFF9;
+}
+
+.sidebar a .active {
+  color: #fff;
+}
+
+.sidebar a i {
+  font-size: 15px;
+}
+
+.topbar {
+  height: 70px;
+  width: calc(100% - 280px);
+}
+/*# sourceMappingURL=dashboard.css.map */
