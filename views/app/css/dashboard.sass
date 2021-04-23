@@ -17,31 +17,42 @@ body>div
 .sidebar
   background-color: $main-color
   height: 100%
+  width: 260px
 
 .header
-  color: #fff
+  color: #fff !important
   text-decoration: none
-  font-size: 22px
-  height: 70px
+  font-size: 17px
+  font-weight: 400
+  height: 75px
   &:hover
     color: #fff
 
 hr
   color: $text-color-light
+  height: 1.2px !important
 
 // Pills
 
 .sidebar
   a
     color: $text-color-light
-  a
-    .active
-      color: #fff
+    font-size: 15px
     i
-      font-size: 15px
+      font-size: 14px
+    &:hover
+      color: #fff
+  .active
+    color: #fff
 
 // Top Bar
 
 .topbar
-  height: 70px
-  width: calc(100% - 280px)
+  height: 75px
+  width: calc(100% - 260px)
+  p
+    color: $text-color-grey
+    font-size: 14px
+
+.prof-img
+  object-fit: cover

@@ -13,13 +13,15 @@ body > div {
 .sidebar {
   background-color: #464fcf;
   height: 100%;
+  width: 260px;
 }
 
 .header {
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
-  font-size: 22px;
-  height: 70px;
+  font-size: 17px;
+  font-weight: 400;
+  height: 75px;
 }
 
 .header:hover {
@@ -28,22 +30,38 @@ body > div {
 
 hr {
   color: #A7AFF9;
+  height: 1.2px !important;
 }
 
 .sidebar a {
   color: #A7AFF9;
-}
-
-.sidebar a .active {
-  color: #fff;
-}
-
-.sidebar a i {
   font-size: 15px;
 }
 
+.sidebar a i {
+  font-size: 14px;
+}
+
+.sidebar a:hover {
+  color: #fff;
+}
+
+.sidebar .active {
+  color: #fff;
+}
+
 .topbar {
-  height: 70px;
-  width: calc(100% - 280px);
+  height: 75px;
+  width: calc(100% - 260px);
+}
+
+.topbar p {
+  color: #888;
+  font-size: 14px;
+}
+
+.prof-img {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 /*# sourceMappingURL=dashboard.css.map */

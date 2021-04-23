@@ -20,22 +20,22 @@
 
 <body>
   <div class="d-flex">
-    <nav class="nav sidebar flex-column p-3 pt-0" role="navigation" style="width: 280px;">
+    <nav class="nav sidebar flex-column p-3 pt-0" role="navigation">
       <a class="header d-flex align-items-center" href="#">
-        <img src="img/logo-white.png" alt="Logo" height="40" width="40" class="me-4">
-        Splinter Bot
+        <img src="img/logo-white.png" class="ms-2 me-3" alt="Logo" height="40" width="40" class="me-4">
+        SPLINTER BOT
       </a>
-      <hr class="mx-2 mt-0" style="height: 1.3px;">
+      <hr class="mx-2 mt-0" style="color: #fff;">
       <a href="#" class="nav-link active px-2">
         <i class="fas fa-tachometer-alt me-2"></i>
         Dashboard
       </a>
       <hr class="mx-2">
-      <a href="#" class="nav-link px-2 pb-2 mb-1">
+      <a href="#" class="nav-link px-2 pb-2 mb-2">
         <i class="fas fa-eye me-2"></i>
         Live View
       </a>
-      <a href="#" class="nav-link px-2 pb-2 mb-1">
+      <a href="#" class="nav-link px-2 pb-2 mb-2">
         <i class="fas fa-signal me-2"></i>
         Statistics
       </a>
@@ -50,7 +50,26 @@
       </a>
     </nav>
     <nav class="nav topbar justify-content-end align-items-center shadow-sm">
-      <a href="#" class="nav-link">test</a>
+      
+      <div class="dropdown">
+        <div class="d-flex align-items-center" type="button" id="dropdownId" data-bs-toggle="dropdown">
+          <p class="mb-0 me-3">Holland Pleskac</p>
+          <img src="img/planets.jpg" class="rounded-circle me-4 prof-img" height="33" width="33" alt="Pic">
+        </div>
+        <ul class="dropdown-menu mt-2">
+          <li>
+            <button class="dropdown-item" type="button">
+              Account
+            </button>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <button class="dropdown-item" type="button">
+              Sign Out
+            </button>
+          </li>
+        </ul>
+      </div>
     </nav>
 
 
