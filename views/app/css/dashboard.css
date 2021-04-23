@@ -19,9 +19,9 @@ body > div {
 .header {
   color: #fff !important;
   text-decoration: none;
-  font-size: 16px !important;
+  font-size: 17px !important;
   font-weight: 400;
-  height: 75px;
+  height: 80px;
 }
 
 .header:hover {
@@ -39,7 +39,7 @@ hr {
 }
 
 .sidebar a i {
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .sidebar a:hover {
@@ -51,7 +51,7 @@ hr {
 }
 
 .topbar {
-  height: 75px;
+  height: 80px;
   width: calc(100% - 260px);
 }
 
